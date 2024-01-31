@@ -1,0 +1,24 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files #
+*.jar
+
+# Maven Target directory
+target
+
+# IDE specific directories
+.idea
+.vscode
+*.iml
+
+
+# MacOS X bs
+.DS_Store
+
+
+outputs
+

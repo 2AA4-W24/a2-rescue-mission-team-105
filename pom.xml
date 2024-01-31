@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+  http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <!-- 
+    Replace the `XXX` with your team identifier, using 2 digits.
+    If you're team 201,  use team201 ;
+    If you're team 542, use team542 . You got the idea!
+  -->
+  
+  <artifactId>teamXXX</artifactId>
+
+  <!-- Don't edit the POM file below this line. Ask instructor if you need to (you should not need it) -->
+
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>jar</packaging>
+
+  <groupId>io.github.ace-lectures.2aa4.island</groupId>
+  
+  <version>1.0</version>
+  <name>McMaster :: SFWRENG :: 2AA4 :: Island :: ${project.artifactId}</name>
+
+  <properties>
+    <mainClass>ca.mcmaster.se2aa4.island.${project.artifactId}.Runner</mainClass>
+    <timeout>2000</timeout>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <!-- To read arguments from command line-->
+    <dependency>
+      <groupId>commons-cli</groupId>
+      <artifactId>commons-cli</artifactId>
+      <version>1.6.0</version>
+    </dependency>
+    <!-- Apache Xerces dependency -->
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>2.12.2</version>
+    </dependency>
+    <!-- To support Logging through Log4J-->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+    </dependency>
+    <!-- Island Framework :: Player part -->
+    <dependency>
+      <groupId>ca.ace-design-lab</groupId>
+      <artifactId>island-player</artifactId>
+      <version>3.0</version>
+    </dependency>
+    <!-- Island Framework :: Runner part -->
+    <dependency>
+      <groupId>ca.ace-design-lab</groupId>
+      <artifactId>island-runner</artifactId>
+      <version>3.0</version>
+    </dependency>
+    <!-- Reading and Writing JSON documents -->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20231013</version>
+    </dependency>
+    <!-- Unit testing with jUnit 5-->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.10.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.11.0</version>
+        <configuration>
+          <compilerArgs>
+            <arg>-proc:full</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>${mainClass}</mainClass>
+          <daemonThreadJoinTimeout>${timeout}</daemonThreadJoinTimeout>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-bom</artifactId>
+        <version>2.22.1</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+</project>
