@@ -1,14 +1,14 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/OY6OZuzi)
-# [A2] Island ca.mcmaster.se2aa4.island.team00.Explorer
+
+# [A2] Island ca.mcmaster.se2aa4.island.team105.Explorer
 
 - Authors:
-  - [Firstname_1, Lastname_1](macid@mcmaster.ca) 
-  - [Firstname_2, Lastname_2](macid@mcmaster.ca)
-  - [Firstname_3, Lastname_3](macid@mcmaster.ca)
+  - [Christina, Zhang](zhanz547@mcmaster.ca)
+  - [Victor, Yu](yuv6@mcmaster.ca)
+  - [Kevin, Kim](kimc91@mcmaster.ca)
 
 ## Product Description
-
-This product is an _exploration command center_ for the [Island](https://ace-design.github.io/island/) serious game. 
+This product is an _exploration command center_ for the [Island](https://ace-design.github.io/island/) serious game.
 
 - The `ca.mcmaster.se2aa4.island.team_XXX_.Explorer` class implements the command center, used to compete with the others. (XXX being the team identifier)
 - The `Runner` class allows one to run the command center on a specific map.
@@ -30,12 +30,12 @@ mosser@azrael a2-template % mvn clean package
 [INFO] Total time:  0.960 s
 [INFO] Finished at: 2024-01-20T18:26:43-05:00
 [INFO] ------------------------------------------------------------------------
-mosser@azrael a2-template % 
+mosser@azrael a2-template %
 ```
 
 This creates one jar file in the `target` directory, named after the team identifier (i.e., team 00 uses `team00-1.0.jar`).
 
-As the project is intended to run in the competition arena, this jar is not executable. 
+As the project is intended to run in the competition arena, this jar is not executable.
 
 ### Run the project
 
