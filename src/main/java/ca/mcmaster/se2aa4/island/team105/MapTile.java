@@ -8,34 +8,41 @@ import org.json.JSONObject;
 
 public class MapTile {
     private List<String> creekIdentifier(JSONObject extras) {
-        JSONArray ids = extras.getJSONArray("creeks");
-        List<String> idlist = new ArrayList<String>();
+        JSONArray ids = extras.getJSONArray("creeks");  //gets "creeks" value from "extras" from acknowledgeResults
+        List<String> creekList = new ArrayList<String>();
+        if (ids.length() > 0) { //puts elements of the JSON array into an array list
+            for (int i = 0; i < ids.length(); i++) {
+                creekList.add(ids.getString(i));
+            }
+            return creekList; //returns the list
+        } 
+        return null; //if no creek is found, return null
+    }
+
+    private List<String> siteIdentifier(JSONObject extras) { //does the above with sites
+        JSONArray ids = extras.getJSONArray("sites");   
+        List<String> siteList = new ArrayList<String>();
         if (ids.length() > 0) {
             for (int i = 0; i < ids.length(); i++) {
-                idlist.add(ids.getString(i));
+                siteList.add(ids.getString(i));
             }
-            return idlist;
+            return siteList;
         } 
         return null;
     }
 
-    private List<String> siteIdentifier(JSONObject extras) {
-        JSONArray ids = extras.getJSONArray("creeks");
-        List<String> idlist = new ArrayList<String>();
+    private List<String> biomeType(JSONObject extras) { //does the above with biomes
+        JSONArray ids = extras.getJSONArray("biomes");
+        List<String> biomeList = new ArrayList<String>();
         if (ids.length() > 0) {
             for (int i = 0; i < ids.length(); i++) {
-                idlist.add(ids.getString(i));
+                biomeList.add(ids.getString(i));
             }
-            return idlist;
+            return biomeList;
         } 
         return null;
     }
 
-    private String biomeType(JSONObject extras) {
-        String biome = extras.getString("biomes");
-        return biome;
-    }
-
-    private boolean scanned = false;
+    private boolean scanned = false; //if the area has been scanned
 
 }
