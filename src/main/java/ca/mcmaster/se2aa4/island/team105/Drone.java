@@ -6,10 +6,13 @@ public class Drone extends Explorer {
     // once we hit 250 we stop and return home
     // create json object, key, value would be another json object, value for the cost would be 5
     private int batteryLevel;
+    Direction north = Direction.NORTH;
+    Direction south = Direction.SOUTH;
+    Direction east = Direction.EAST;
+    Direction west = Direction.WEST;
 
-    public static void getBatteryLevel(int batteryLevel) {
+    private void orientation() {
         
-
-
     }
+    
 }

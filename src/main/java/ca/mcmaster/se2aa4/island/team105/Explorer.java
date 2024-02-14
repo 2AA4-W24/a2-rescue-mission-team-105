@@ -23,7 +23,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", this.batteryLevel);
     }
-
+    // not coded
     @Override
     public String takeDecision() {
         JSONObject decision = new JSONObject();
@@ -37,6 +37,7 @@ public class Explorer implements IExplorerRaid {
         return decision.toString();
     }
 
+    
     @Override
     public void acknowledgeResults(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
@@ -46,7 +47,6 @@ public class Explorer implements IExplorerRaid {
         // battery level after receiving results
         this.batteryLevel -= cost;
         logger.info("Battery level is now {}", this.batteryLevel);
-
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
