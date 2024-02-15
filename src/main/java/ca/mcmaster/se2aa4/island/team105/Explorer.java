@@ -27,11 +27,12 @@ public class Explorer implements IExplorerRaid {
     @Override
     public String takeDecision() {
         JSONObject decision = new JSONObject();
-        decision.put("action", "fly");
-        // JSONObject params = new JSONObject();
-        // params.put("direction", "E");
-        // decision.put("parameters", params); // we stop the exploration immediately
+        JSONObject parameter = new JSONObject();
+        decision.put("action", "heading");
+        parameter.put("direction", "S");
+        decision.put("parameters", parameter);
         logger.info("** Decision: {}",decision.toString());
+        
         // decrement battery level for each iteration
         logger.info("Battery level is now {}", this.batteryLevel);
         return decision.toString();

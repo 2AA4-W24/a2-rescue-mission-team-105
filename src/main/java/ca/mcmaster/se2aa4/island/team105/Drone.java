@@ -1,5 +1,7 @@
 package ca.mcmaster.se2aa4.island.team105;
 
+import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
+
 public class Drone extends Explorer {
     // save battery from json object
     // after every call 7000 - cost
