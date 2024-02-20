@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team105;
+package ca.mcmaster.se2aa4.island.team105.Map;
 
 import java.util.ArrayList;
 import java.util.List;

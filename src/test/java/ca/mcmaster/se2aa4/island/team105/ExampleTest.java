@@ -1,6 +1,9 @@
 package ca.mcmaster.se2aa4.island.team105;
 
 import org.junit.jupiter.api.Test;
+
+import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static eu.ace_design.island.runner.Runner.run;
 
