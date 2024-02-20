@@ -24,5 +24,4 @@ public enum Decision {
     EXPLOIT,
 
     TRANSFORM,
-
 }

@@ -1,13 +1,12 @@
-package ca.mcmaster.se2aa4.island.team105;
+package ca.mcmaster.se2aa4.island.team105.Drone;
 
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
-public class Drone extends Explorer {
+public class Drone {
     // save battery from json object
     // after every call 7000 - cost
     // once we hit 250 we stop and return home
     // create json object, key, value would be another json object, value for the cost would be 5
-    private int batteryLevel;
     Direction north = Direction.NORTH;
     Direction south = Direction.SOUTH;
     Direction east = Direction.EAST;
