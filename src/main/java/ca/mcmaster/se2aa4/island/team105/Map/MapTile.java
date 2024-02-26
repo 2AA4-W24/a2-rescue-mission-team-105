@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class MapTile {
-    private List<String> creekIdentifier(JSONObject extras) {
+    public List<String> creekIdentifier(JSONObject extras) {
         JSONArray ids = extras.getJSONArray("creeks");  //gets "creeks" value from "extras" from acknowledgeResults
         List<String> creekList = new ArrayList<String>();
         if (ids.length() > 0) { //puts elements of the JSON array into an array list
@@ -19,7 +19,7 @@ public class MapTile {
         return null; //if no creek is found, return null
     }
 
-    private List<String> siteIdentifier(JSONObject extras) { //does the above with sites
+    public List<String> siteIdentifier(JSONObject extras) { //does the above with sites
         JSONArray ids = extras.getJSONArray("sites");   
         List<String> siteList = new ArrayList<String>();
         if (ids.length() > 0) {
@@ -31,7 +31,7 @@ public class MapTile {
         return null;
     }
 
-    private List<String> biomeType(JSONObject extras) { //does the above with biomes
+    public List<String> biomeType(JSONObject extras) { //does the above with biomes
         JSONArray ids = extras.getJSONArray("biomes");
         List<String> biomeList = new ArrayList<String>();
         if (ids.length() > 0) {
@@ -43,6 +43,6 @@ public class MapTile {
         return null;
     }
 
-    private boolean scanned = false; //if the area has been scanned
+    public boolean scanned = false; //if the area has been scanned
 
 }
