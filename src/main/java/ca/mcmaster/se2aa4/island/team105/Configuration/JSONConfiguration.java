@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team105;
+package ca.mcmaster.se2aa4.island.team105.Configuration;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -18,8 +18,6 @@ public class JSONConfiguration {
     private BatteryLevel level;
     private Limitations limitation;  // Declare the Limitations object
 
-    //step 1 variables
-    private int decisionCount = 0;
     public void initializationWrap(String s, BatteryLevel level) {
         logger.info("** Initializing the Exploration Command Center");
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
@@ -32,17 +30,18 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap(BatteryLevel level) {
-        decisionCount++;
-        if (decisionCount ==2){
-            decision.put("action", "stop");
-        }
-        else{
+        // decisionCount++;
+        // if (decisionCount ==2){
+        //     decision.put("action", "stop");
+        // }
+        // else{
+        // decision.put("action", "fly");
+        // /* if we need parameter it would look like this
+        // parameter.put("direction", "S");
+        // decision.put("parameters", parameter);
+        // */
+        // }
         decision.put("action", "fly");
-        /* if we need parameter it would look like this
-        parameter.put("direction", "S");
-        decision.put("parameters", parameter);
-        */
-        }
         logger.info("** Decision: {}", decision.toString());
         // decrement battery level for each iteration
         logger.info("Battery level is now {}", this.level.getLevel());

@@ -11,6 +11,7 @@ public class Drone {
     Direction south = Direction.SOUTH;
     Direction east = Direction.EAST;
     Direction west = Direction.WEST;
+    // call actions 
 
     private void orientation() {
         
