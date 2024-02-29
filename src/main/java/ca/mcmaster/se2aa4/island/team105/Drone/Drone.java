@@ -14,8 +14,9 @@ public class Drone {
     private Direction heading;
     
     //sets the heading as soon as we create the object
-    public Drone() {
+    public Drone(String starting) {
         try{
+            /*
             //Opens the file
             String jsonData = new String(Files.readAllBytes(Paths.get("./outputs/Explorer_Island.json")));
             //Reads the file into JSONArray
@@ -25,6 +26,7 @@ public class Drone {
             JSONObject data = json.getJSONObject("data");
             String starting = data.getString("heading");
             //takes the value found and sets the required enum
+            */
             this.heading = Direction.valueOf(starting);
         }catch (Exception e) {
             e.printStackTrace();

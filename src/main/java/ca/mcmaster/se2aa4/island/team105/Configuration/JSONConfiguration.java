@@ -8,6 +8,7 @@ import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.io.StringReader;
+import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 
 public class JSONConfiguration {
 
@@ -27,6 +28,7 @@ public class JSONConfiguration {
         this.limitation = new Limitations(this.level);  // Instantiate the Limitations object
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", this.level.getLevel());
+        Drone flyingDrone = new Drone(direction);
     }
 
     public String takeDecisionWrap(BatteryLevel level) {
