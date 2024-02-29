@@ -9,15 +9,20 @@ import static org.junit.jupiter.api.Assertions.*;
 import static eu.ace_design.island.runner.Runner.run;
 
 import java.io.File;
-
+import ca.mcmaster.se2aa4.island.team105.Drone.*;
+import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
 public class ExampleTest {
 
-    @Test
-    public void sampleTest() {
-        assertTrue(1 == 1);
-    }
 
+    @Test
+    public void droneClass() {
+        Drone testDrone = new Drone();
+        Direction heading = testDrone.getHeading();
+        Direction east = Direction.E;
+        assertTrue(heading == east);
+    }
+    
     @Test
     public void map03Test() {
         String filename = "./maps/map03.json";
