@@ -47,6 +47,7 @@ public class Actions {
         decision.put("parameters", parameter);
     }
 
+    // might not need this
     public void glimpse(JSONObject decision, JSONObject parameter, Direction direction, JSONObject range) {
         decision.put("action", "glimpse");
         parameter.put("direction", direction);
@@ -54,5 +55,11 @@ public class Actions {
         decision.put("range", 1);
     }
 
+    public void explore(JSONObject decision) {
+        decision.put("action", "explore");
+    }
+
+
+ 
 
 }

@@ -41,6 +41,7 @@ public class JSONConfiguration {
         // decision.put("parameters", parameter);
         // */
         // }
+        params.put("")
         decision.put("action", "fly");
         logger.info("** Decision: {}", decision.toString());
         // decrement battery level for each iteration
