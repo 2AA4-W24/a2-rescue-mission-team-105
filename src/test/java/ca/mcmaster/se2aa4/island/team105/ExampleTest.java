@@ -8,13 +8,20 @@ import static org.junit.jupiter.api.Assertions.*;
 import static eu.ace_design.island.runner.Runner.run;
 
 import java.io.File;
-
+import ca.mcmaster.se2aa4.island.team105.Drone.*;
+import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
 public class ExampleTest {
 
-    @Test
-    public void sampleTest() {
-        assertTrue(1 == 1);
+    // A test for the drone class for the current jsonArray output
+    @Test 
+    public void droneClass() {
+        //Creates class
+        Drone testDrone = new Drone();
+        Direction heading = testDrone.getHeading();
+        Direction east = Direction.E;
+        //Checks if the heading was east becuase for this file it should be east
+        assertTrue(heading == east);
     }
 
     @Test
