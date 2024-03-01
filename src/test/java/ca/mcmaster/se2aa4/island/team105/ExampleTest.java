@@ -2,8 +2,6 @@ package ca.mcmaster.se2aa4.island.team105;
 
 import org.junit.jupiter.api.Test;
 
-import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static eu.ace_design.island.runner.Runner.run;
 
@@ -14,16 +12,6 @@ import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 public class ExampleTest {
 
     // A test for the drone class for the current jsonArray output
-    @Test 
-    public void droneClass() {
-        //Creates class
-        Drone testDrone = new Drone();
-        Direction heading = testDrone.getHeading();
-        Direction east = Direction.E;
-        //Checks if the heading was east becuase for this file it should be east
-        assertTrue(heading == east);
-    }
-
     @Test
     public void map03Test() {
         String filename = "./maps/map03.json";

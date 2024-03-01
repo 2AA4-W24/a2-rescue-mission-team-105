@@ -2,6 +2,8 @@ package ca.mcmaster.se2aa4.island.team105.Configuration;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
 
@@ -11,12 +13,13 @@ import java.io.StringReader;
 
 public class JSONConfiguration {
 
-
     private final Logger logger = LogManager.getLogger();
-    private JSONObject decision = new JSONObject();
+    protected JSONObject decision = new JSONObject();
     private JSONObject parameter = new JSONObject();
     private BatteryLevel level;
     private Limitations limitation;  // Declare the Limitations object
+    private int decisionCount;
+    private Actions action;
 
     public void initializationWrap(String s, BatteryLevel level) {
         logger.info("** Initializing the Exploration Command Center");
@@ -30,24 +33,16 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap(BatteryLevel level) {
-        // decisionCount++;
-        // if (decisionCount ==2){
-        //     decision.put("action", "stop");
-        // }
-        // else{
-        // decision.put("action", "fly");
-        // /* if we need parameter it would look like this
-        // parameter.put("direction", "S");
-        // decision.put("parameters", parameter);
-        // */
-        // }
-        params.put("")
-        decision.put("action", "fly");
+        decisionCount++;
+        if (decisionCount == 300){
+            limitation.returnHome(action);  // Call returnHome at the appropriate place
+        }
+        else {
+            decision.put("action", "fly");
+        }
         logger.info("** Decision: {}", decision.toString());
         // decrement battery level for each iteration
-        logger.info("Battery level is now {}", this.level.getLevel());
-        limitation.returnHome();  // Call returnHome at the appropriate place
-        
+        logger.info("Battery level is now {}", this.level.getLevel());        
         return decision.toString();
     }
 
@@ -63,6 +58,6 @@ public class JSONConfiguration {
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
-        limitation.returnHome();
+        limitation.returnHome(action);
     }
 }
