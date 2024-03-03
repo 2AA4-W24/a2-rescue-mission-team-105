@@ -6,6 +6,7 @@ import org.json.JSONTokener;
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
+import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +17,7 @@ public class JSONConfiguration {
     private final Logger logger = LogManager.getLogger();
     protected JSONObject decision = new JSONObject();
     private JSONObject parameter = new JSONObject();
+    private Direction direction;
     private BatteryLevel level;
     private Limitations limitation;  // Declare the Limitations object
     private int decisionCount;
@@ -34,12 +36,24 @@ public class JSONConfiguration {
 
     public String takeDecisionWrap(BatteryLevel level) {
         decisionCount++;
-        if (decisionCount == 300){
+        if (decisionCount == 30) {
             limitation.returnHome(action);  // Call returnHome at the appropriate place
         }
-        else {
+        
+        if (decisionCount == 10) {
+            decision.put("action", "echo");
+            parameter.put("direction", "N");
+            decision.put("parameters", parameter);
+        }
+
+        else  {
             decision.put("action", "fly");
         }
+
+        // else if (decisionCount % 2 == 0) {
+        //     action.echo(decision, parameter, direction);
+        // }
+        
         logger.info("** Decision: {}", decision.toString());
         // decrement battery level for each iteration
         logger.info("Battery level is now {}", this.level.getLevel());        
