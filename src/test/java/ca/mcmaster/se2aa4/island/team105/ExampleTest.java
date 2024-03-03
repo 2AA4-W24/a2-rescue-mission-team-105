@@ -2,8 +2,6 @@ package ca.mcmaster.se2aa4.island.team105;
 
 import org.junit.jupiter.api.Test;
 
-import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static eu.ace_design.island.runner.Runner.run;
 
@@ -14,6 +12,7 @@ import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 public class ExampleTest {
 
     // A test for the drone class for the current jsonArray output
+
     @Test 
     public void droneClass() {
         //Creates class

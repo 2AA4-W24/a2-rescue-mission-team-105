@@ -14,11 +14,22 @@ public class Limitations extends JSONConfiguration {
         this.level = level;
     }
 
-    public void returnHome() {
-        if (this.level.getLevel() == 2000) {
-            logger.info("Battery level is 2000. Returning home.");
+    // checks battery
+    public void returnHome(Actions action) {
+        if (level.getLevel() <= level.getLevel() * (0.90)) {
+            logger.info("Battery level is equal to or below 6800. Returning home");
+            action.stop(decision);
         } else {
-            logger.info("Battery level is not 2000. Continuing exploration.");
+            logger.info("Battery level is greater than 6800. Continuing exploration.");
         }
     }
+
+    // checks bad command
+    public void badCommand(Actions action) {
+        
+    }
+
+    // checks radio range
+
+
 }

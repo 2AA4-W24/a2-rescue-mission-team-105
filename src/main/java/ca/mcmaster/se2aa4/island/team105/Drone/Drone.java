@@ -1,5 +1,7 @@
 package ca.mcmaster.se2aa4.island.team105.Drone;
 
+import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
+
 import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -11,12 +13,10 @@ import java.util.Map;
 import java.util.EnumMap;
 
 
-import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
-
 public class Drone {
     //This is private becase we will further create the services in this class
-    private Direction heading;
     
+
     //sets the heading as soon as we create the object
     public Drone(String starting) {
         try{
@@ -41,6 +41,7 @@ public class Drone {
     public Direction getHeading() {
         return(this.heading);
     }
+  
     public void headRight(){
         Map<Direction, Direction> goingRight = new EnumMap<>(Direction.class);
         goingRight.put(Direction.N, Direction.E);
@@ -49,6 +50,7 @@ public class Drone {
         goingRight.put(Direction.W, Direction.N);
         this.heading = goingRight.get(this.heading);
     }
+  
     public void headLeft(){
         Map<Direction, Direction> goingLeft = new EnumMap<>(Direction.class);
         goingLeft.put(Direction.N, Direction.W);
@@ -57,5 +59,6 @@ public class Drone {
         goingLeft.put(Direction.E, Direction.N);
         this.heading = goingLeft.get(this.heading);
     }
+
     
 }
