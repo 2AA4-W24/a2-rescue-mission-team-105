@@ -26,7 +26,7 @@ public class Limitations extends JSONConfiguration {
 
     // checks battery
     public void returnHome(Actions action) {
-        if (level.getLevel() <= level.getLevel() * (0.90)) {
+        if (level.getLevel() <= 6900) {
             logger.info("Battery level is equal to or below 6800. Returning home");
             action.stop(decision);
         } else {
@@ -35,7 +35,7 @@ public class Limitations extends JSONConfiguration {
     }
 
     // checks bad command
-    public void badCommand(Actions action, Direction desiredDirection, Drone turning) {
+    public void badCommand(Actions action, Direction desiredDirection) {
         if (desiredDirection == heading) {
             logger.info("Already heading in the desired direction. Continuing exploration.");
         } else {
@@ -58,8 +58,9 @@ public class Limitations extends JSONConfiguration {
     }
 
 
-
     // checks radio range
+    
+
 
 
 }

@@ -6,6 +6,7 @@ import org.json.JSONTokener;
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
+import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,18 +35,27 @@ public class JSONConfiguration {
 
     public String takeDecisionWrap(BatteryLevel level) {
         decisionCount++;
-        if (decisionCount == 30) {
+        if (decisionCount == 20) {
             limitation.returnHome(action);  // Call returnHome at the appropriate place
         }
         
-        if (decisionCount == 10) {
+        else if (decisionCount == 10) {
             decision.put("action", "echo");
             parameter.put("direction", "N");
             decision.put("parameters", parameter);
         }
 
-        else  {
+        else if (decisionCount == 5) {
+            limitation.badCommand(action, Direction.W);
+        }
+
+        else if (decisionCount > 0)  {
             decision.put("action", "fly");
+        }
+
+        else {
+            Direction desiredDirection = Direction.E; // Replace with the actual desired direction
+            limitation.badCommand(action, desiredDirection);
         }
 
         // else if (decisionCount % 2 == 0) {
