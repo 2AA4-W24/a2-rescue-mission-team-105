@@ -22,7 +22,6 @@ public class ExampleTest {
         // Checks if the heading was east because for this file it should be east
         assertTrue(heading == east);
     }
-
     @Test
     public void correctDirection() {
         Limitations limitations = new Limitations();
@@ -39,15 +38,6 @@ public class ExampleTest {
         assertFalse(result);
     }
   
-    @Test 
-    public void droneClass() {
-        //Creates class
-        Drone testDrone = new Drone("E");
-        Direction heading = testDrone.getHeading();
-        Direction east = Direction.E;
-        //Checks if the heading was east because for this file it should be east
-        assertTrue(heading == east);
-    }
 
     @Test
     public void map03Test() {

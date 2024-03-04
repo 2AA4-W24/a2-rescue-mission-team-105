@@ -8,6 +8,8 @@ import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
 public class Explorer implements IExplorerRaid {
 
     private BatteryLevel level;
+    private String lastDecision;
+
     JSONConfiguration initialize = new JSONConfiguration();
 
     @Override
@@ -18,7 +20,7 @@ public class Explorer implements IExplorerRaid {
     // not coded
     @Override
     public String takeDecision () {
-        return initialize.takeDecisionWrap(level);
+        return initialize.takeDecisionWrap(level, lastDecision);
     }
 
     
