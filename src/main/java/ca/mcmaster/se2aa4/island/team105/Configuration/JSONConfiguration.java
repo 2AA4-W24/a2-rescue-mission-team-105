@@ -7,6 +7,9 @@ import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
 
+import ca.mcmaster.se2aa4.island.team105.Map.MapTile;
+import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.io.StringReader;
@@ -18,6 +21,9 @@ public class JSONConfiguration {
     protected JSONObject parameter = new JSONObject();
     private BatteryLevel level;
     private Limitations limitation;  // Declare the Limitations object
+
+    private MapTile scaninfo = new MapTile();
+    private int decisionCount;
     private Actions action;
 
     
@@ -81,6 +87,7 @@ public class JSONConfiguration {
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
+        scaninfo.poiIdentifier(extraInfo);
         logger.info("Additional information received: {}", extraInfo);
         limitation.returnHome(action);
     }

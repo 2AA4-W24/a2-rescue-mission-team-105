@@ -37,7 +37,6 @@ public class ExampleTest {
         boolean result = limitations.is180DegreeTurn(desiredDirection);
         assertFalse(result);
     }
-  
 
     @Test
     public void map03Test() {
