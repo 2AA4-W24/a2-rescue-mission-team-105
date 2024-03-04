@@ -2,24 +2,27 @@ package ca.mcmaster.se2aa4.island.team105.Configuration;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
 import ca.mcmaster.se2aa4.island.team105.Map.MapTile;
+import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.io.StringReader;
-import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 
 public class JSONConfiguration {
 
-
     private final Logger logger = LogManager.getLogger();
-    private JSONObject decision = new JSONObject();
-    private JSONObject parameter = new JSONObject();
+    protected JSONObject decision = new JSONObject();
+    protected JSONObject parameter = new JSONObject();
     private BatteryLevel level;
     private Limitations limitation;  // Declare the Limitations object
     private MapTile scaninfo = new MapTile();
+    private int decisionCount;
+    private Actions action;
 
     public void initializationWrap(String s, BatteryLevel level) {
         logger.info("** Initializing the Exploration Command Center");
@@ -30,27 +33,40 @@ public class JSONConfiguration {
         this.limitation = new Limitations(this.level);  // Instantiate the Limitations object
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", this.level.getLevel());
-        Drone flyingDrone = new Drone(direction);
     }
 
     public String takeDecisionWrap(BatteryLevel level) {
-        // decisionCount++;
-        // if (decisionCount ==2){
-        //     decision.put("action", "stop");
+        decisionCount++;
+        if (decisionCount == 20) {
+            limitation.returnHome(action);  // Call returnHome at the appropriate place
+        }
+        
+        else if (decisionCount == 10) {
+            decision.put("action", "echo");
+            parameter.put("direction", "N");
+            decision.put("parameters", parameter);
+        }
+
+        else if (decisionCount == 5) {
+            limitation.badCommand(action, Direction.W);
+        }
+
+        else if (decisionCount > 0)  {
+            decision.put("action", "fly");
+        }
+
+        else {
+            Direction desiredDirection = Direction.E; // Replace with the actual desired direction
+            limitation.badCommand(action, desiredDirection);
+        }
+
+        // else if (decisionCount % 2 == 0) {
+        //     action.echo(decision, parameter, direction);
         // }
-        // else{
-        // decision.put("action", "fly");
-        // /* if we need parameter it would look like this
-        // parameter.put("direction", "S");
-        // decision.put("parameters", parameter);
-        // */
-        // }
-        decision.put("action", "fly");
+        
         logger.info("** Decision: {}", decision.toString());
         // decrement battery level for each iteration
-        logger.info("Battery level is now {}", this.level.getLevel());
-        limitation.returnHome();  // Call returnHome at the appropriate place
-        
+        logger.info("Battery level is now {}", this.level.getLevel());        
         return decision.toString();
     }
 
@@ -67,6 +83,6 @@ public class JSONConfiguration {
         JSONObject extraInfo = response.getJSONObject("extras");
         scaninfo.poiIdentifier(extraInfo);
         logger.info("Additional information received: {}", extraInfo);
-        limitation.returnHome();
+        limitation.returnHome(action);
     }
 }
