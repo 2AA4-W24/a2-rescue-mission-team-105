@@ -22,7 +22,6 @@ public class ExampleTest {
         // Checks if the heading was east because for this file it should be east
         assertTrue(heading == east);
     }
-
     @Test
     public void correctDirection() {
         Limitations limitations = new Limitations();

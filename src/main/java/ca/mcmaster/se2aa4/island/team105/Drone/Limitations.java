@@ -26,7 +26,7 @@ public class Limitations extends JSONConfiguration {
 
     // checks battery
     public void returnHome(Actions action) {
-        if (level.getLevel() <= 6900) {
+        if (level.getLevel() <= 4000) {
             logger.info("Battery level is equal to or below 6800. Returning home");
             action.stop(decision);
         } else {
