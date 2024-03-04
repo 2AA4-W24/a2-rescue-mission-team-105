@@ -1,12 +1,12 @@
 package ca.mcmaster.se2aa4.island.team105.Enums;
 
 public enum Direction {
-    NORTH,
+    N,
 
-    SOUTH,
+    S,
 
-    EAST,
+    E,
     
-    WEST;
+    W;
 }
 

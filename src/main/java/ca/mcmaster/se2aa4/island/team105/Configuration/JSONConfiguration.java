@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team105;
+package ca.mcmaster.se2aa4.island.team105.Configuration;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -9,6 +9,7 @@ import ca.mcmaster.se2aa4.island.team105.Map.MapTile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.io.StringReader;
+import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 
 public class JSONConfiguration {
 
@@ -29,16 +30,27 @@ public class JSONConfiguration {
         this.limitation = new Limitations(this.level);  // Instantiate the Limitations object
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", this.level.getLevel());
+        Drone flyingDrone = new Drone(direction);
     }
 
     public String takeDecisionWrap(BatteryLevel level) {
-        decision.put("action", "heading");
-        parameter.put("direction", "S");
-        decision.put("parameters", parameter);
+        // decisionCount++;
+        // if (decisionCount ==2){
+        //     decision.put("action", "stop");
+        // }
+        // else{
+        // decision.put("action", "fly");
+        // /* if we need parameter it would look like this
+        // parameter.put("direction", "S");
+        // decision.put("parameters", parameter);
+        // */
+        // }
+        decision.put("action", "fly");
         logger.info("** Decision: {}", decision.toString());
         // decrement battery level for each iteration
         logger.info("Battery level is now {}", this.level.getLevel());
         limitation.returnHome();  // Call returnHome at the appropriate place
+        
         return decision.toString();
     }
 
