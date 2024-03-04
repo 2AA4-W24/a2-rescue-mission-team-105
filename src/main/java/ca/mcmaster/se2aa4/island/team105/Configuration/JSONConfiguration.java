@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
+import ca.mcmaster.se2aa4.island.team105.Map.MapTile;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +19,7 @@ public class JSONConfiguration {
     private JSONObject parameter = new JSONObject();
     private BatteryLevel level;
     private Limitations limitation;  // Declare the Limitations object
+    private MapTile scaninfo = new MapTile();
 
     public void initializationWrap(String s, BatteryLevel level) {
         logger.info("** Initializing the Exploration Command Center");
@@ -63,6 +65,7 @@ public class JSONConfiguration {
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
+        scaninfo.poiIdentifier(extraInfo);
         logger.info("Additional information received: {}", extraInfo);
         limitation.returnHome();
     }
