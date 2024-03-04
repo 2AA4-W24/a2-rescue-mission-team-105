@@ -32,9 +32,9 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap(BatteryLevel level) {
-        decision.put("action", "scan");
-        //parameter.put("direction", "S");
-        //decision.put("parameters", parameter);
+        decision.put("action", "heading");
+        parameter.put("direction", "S");
+        decision.put("parameters", parameter);
         logger.info("** Decision: {}", decision.toString());
         // decrement battery level for each iteration
         logger.info("Battery level is now {}", this.level.getLevel());
