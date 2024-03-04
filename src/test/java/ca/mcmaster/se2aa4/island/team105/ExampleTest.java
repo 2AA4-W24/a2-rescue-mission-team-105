@@ -18,7 +18,7 @@ public class ExampleTest {
     @Test 
     public void droneClass() {
         //Creates class
-        Drone testDrone = new Drone();
+        Drone testDrone = new Drone("East");
         Direction heading = testDrone.getHeading();
         Direction east = Direction.E;
         //Checks if the heading was east becuase for this file it should be east

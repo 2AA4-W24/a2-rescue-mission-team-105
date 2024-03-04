@@ -21,9 +21,11 @@ public class MapTile {
             JSONArray siteIds = extras.getJSONArray("sites");
             JSONArray biomeIds = extras.getJSONArray("biomes");
 
+
             if (creekIds.length() != 0) this.creekId = creekIds.getString(0);
             if (siteIds.length() != 0) this.siteId = siteIds.getString(0);
             this.biomes = biomeIds.getString(0);
+           
         }
         
     }
