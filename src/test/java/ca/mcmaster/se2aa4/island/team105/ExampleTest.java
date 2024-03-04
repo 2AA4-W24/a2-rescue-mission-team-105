@@ -13,6 +13,32 @@ public class ExampleTest {
 
     // A test for the drone class for the current jsonArray output
 
+    @Test
+    public void droneClass() {
+        // Creates class
+        Drone testDrone = new Drone("E");
+        Direction heading = testDrone.getHeading();
+        Direction east = Direction.E;
+        // Checks if the heading was east because for this file it should be east
+        assertTrue(heading == east);
+    }
+
+    @Test
+    public void correctDirection() {
+        Limitations limitations = new Limitations();
+        Direction desiredDirection = Direction.W;
+        boolean result = limitations.is180DegreeTurn(desiredDirection);
+        assertTrue(result);
+    }
+
+    @Test
+    public void wrongDirection() {
+        Limitations limitations = new Limitations();
+        Direction desiredDirection = Direction.N;
+        boolean result = limitations.is180DegreeTurn(desiredDirection);
+        assertFalse(result);
+    }
+  
     @Test 
     public void droneClass() {
         //Creates class
@@ -37,12 +63,11 @@ public class ExampleTest {
                     .storingInto("./outputs")
                     .withName("Island")
                     .fire();
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace(System.err);
             System.exit(1);
         }
     }
-
 
 }

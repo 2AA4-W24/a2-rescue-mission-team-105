@@ -6,7 +6,6 @@ import org.json.JSONTokener;
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
-import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,8 +15,7 @@ public class JSONConfiguration {
 
     private final Logger logger = LogManager.getLogger();
     protected JSONObject decision = new JSONObject();
-    private JSONObject parameter = new JSONObject();
-    private Direction direction;
+    protected JSONObject parameter = new JSONObject();
     private BatteryLevel level;
     private Limitations limitation;  // Declare the Limitations object
     private int decisionCount;
