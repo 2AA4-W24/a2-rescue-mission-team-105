@@ -20,7 +20,7 @@ public class JSONConfiguration {
     protected JSONObject parameter = new JSONObject();
     private BatteryLevel level;
     private Limitations limitation;  // Declare the Limitations object
-    private MapTile scaninfo = new MapTile();
+    private MapTile info = new MapTile();
     private int decisionCount;
     private Actions action;
 
@@ -81,7 +81,7 @@ public class JSONConfiguration {
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
-        scaninfo.poiIdentifier(extraInfo);
+        info.updateInfo(extraInfo);
         logger.info("Additional information received: {}", extraInfo);
         limitation.returnHome(action);
     }
