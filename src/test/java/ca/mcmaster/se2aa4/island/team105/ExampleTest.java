@@ -9,6 +9,7 @@ import java.io.File;
 import ca.mcmaster.se2aa4.island.team105.Drone.*;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
+import ca.mcmaster.se2aa4.island.team105.Map.ExplorerMap;
 public class ExampleTest {
 
     // A test for the drone class for the current jsonArray output
@@ -37,6 +38,14 @@ public class ExampleTest {
         Direction desiredDirection = Direction.N;
         boolean result = limitations.is180DegreeTurn(desiredDirection);
         assertFalse(result);
+    }
+
+    @Test
+    public void setGetLocation(){
+        ExplorerMap newMap = new ExplorerMap();
+        newMap.setLocation(0, 0, 0);
+        int type = newMap.getLocation(0, 0);
+        assertTrue(type == 0);
     }
 
     @Test
