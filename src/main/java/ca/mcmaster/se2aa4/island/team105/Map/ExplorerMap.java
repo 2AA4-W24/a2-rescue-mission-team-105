@@ -4,18 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExplorerMap {
+    //list<int x, int y, int type:"0 =  water, 1 = land, 2 = creek,"
     List<int[]> xylist = new ArrayList<>();
 
     //relative position this is starting state
     private int cuurx, cuury = 0; //regular cartesian grid style coords
 
-
-    //Creates a 2d array that stores MapTile Objects
-    public ExplorerMap() {
-    }
-
     //Sets a object to inputed location
-    //list<int x, int y, int type:"0 =  water, 1 = land, 2 = creek,"
     public void setLocation(int xdist, int ydist, int type) {
         // Adding int arrays to the ArrayList
         this.xylist.add(new int[]{xdist, ydist, type});
@@ -27,11 +22,12 @@ public class ExplorerMap {
             int x = location[0];
             int y = location[1];
             if (x == xdist && y == ydist) {
-                // Match found, return the type (for demonstration purposes, you can modify as needed)
+                // Match found return the type 
                 int type = location[2];
                 return (type);
             }
         }
+        //returns -1 if it was not able to find the locations
         return(-1);
     }
 
