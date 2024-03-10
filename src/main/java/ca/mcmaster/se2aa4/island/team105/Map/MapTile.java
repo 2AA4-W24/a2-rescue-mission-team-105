@@ -41,5 +41,5 @@ public class MapTile {
     }
 
     public boolean scanned = false; //if the area has been scanned
-
+    
 }

@@ -1,5 +1,5 @@
 package ca.mcmaster.se2aa4.island.team105.Map;
-
+        
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +29,11 @@ public class ExplorerMap {
         }
         //returns -1 if it was not able to find the locations
         return(-1);
+
     }
 
+    
 
 }
+
+

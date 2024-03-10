@@ -4,11 +4,10 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
-import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
+import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
 
 import ca.mcmaster.se2aa4.island.team105.Map.MapTile;
-import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,26 +18,50 @@ public class JSONConfiguration {
     private final Logger logger = LogManager.getLogger();
     protected JSONObject decision = new JSONObject();
     protected JSONObject parameter = new JSONObject();
-    private BatteryLevel level;
+    private Drone level;
     private Limitations limitation;  // Declare the Limitations object
-
     private MapTile info = new MapTile();
     private int decisionCount;
     private Actions action;
-
-    
-
-
+    private String lastDecision;
+        
     public void initializationWrap(String s, BatteryLevel level) {
         logger.info("** Initializing the Exploration Command Center");
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}", info.toString(2));
         String direction = info.getString("heading");
-        this.level = new BatteryLevel(info.getInt("budget"));  // Create the BatteryLevel object
+        this.level = new Drone(info.getInt("budget"));  // Create the BatteryLevel object
         this.limitation = new Limitations(this.level);  // Instantiate the Limitations object
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", this.level.getLevel());
     }
+
+    public String takeDecisionWrap() {
+        // logger.info(lastDecision);  
+        // decision = new JSONObject();
+        // parameter = new JSONObject();
+
+        // if (lastDecision == null || lastDecision == "fly") {
+        //     decision.put("action", "scan");
+        //     lastDecision = "scan";
+        // }
+        
+        // else if (lastDecision == "scan") {
+        //     decision.put("action", "echo");
+        //     parameter.put("direction", "S");
+        //     decision.put("parameters", parameter);
+        //     lastDecision = "echo";
+        // }
+
+        // else if (level.getLevel() <= 6000) {
+        //     limitation.returnHome(action);
+        // }
+
+        // else {
+        //     decision.put("action", "fly");
+        //     lastDecision = "fly";
+        // }
+        decision.put("action", "scan");
 
     public String takeDecisionWrap(BatteryLevel level, String lastDecision) {
         decision = new JSONObject();
