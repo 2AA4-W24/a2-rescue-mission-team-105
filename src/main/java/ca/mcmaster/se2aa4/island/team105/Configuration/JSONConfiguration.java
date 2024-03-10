@@ -21,11 +21,11 @@ public class JSONConfiguration {
     private Drone level;
     private Limitations limitation;  // Declare the Limitations object
     private MapTile info = new MapTile();
-    private int decisionCount;
     private Actions action;
     private String lastDecision;
         
-    public void initializationWrap(String s, BatteryLevel level) {
+
+    public void initializationWrap(String s) {
         logger.info("** Initializing the Exploration Command Center");
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}", info.toString(2));
@@ -62,31 +62,6 @@ public class JSONConfiguration {
         //     lastDecision = "fly";
         // }
         decision.put("action", "scan");
-
-    public String takeDecisionWrap(BatteryLevel level, String lastDecision) {
-        decision = new JSONObject();
-        parameter = new JSONObject();
-
-        if (lastDecision == null || lastDecision == "fly") {
-            decision.put("action", "scan");
-            lastDecision = "scan";
-        }
-        
-        else if (lastDecision == "scan") {
-            decision.put("action", "echo");
-            parameter.put("direction", "S");
-            decision.put("parameters", parameter);
-            lastDecision = "echo";
-        }
-
-        else if (level.getLevel() <= 6000) {
-            limitation.returnHome(action);
-        }
-
-        else {
-            decision.put("action", "fly");
-            lastDecision = "fly";
-        }
 
         logger.info("** Decision: {}", decision.toString());
         // decrement battery level for each iteration

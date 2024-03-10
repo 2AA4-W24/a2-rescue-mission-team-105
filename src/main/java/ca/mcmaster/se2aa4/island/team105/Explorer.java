@@ -5,9 +5,6 @@ import ca.mcmaster.se2aa4.island.team105.Configuration.JSONConfiguration;
 
 public class Explorer implements IExplorerRaid {
 
-    private BatteryLevel level;
-    private String lastDecision;
-
     JSONConfiguration initialize = new JSONConfiguration();
 
     @Override
