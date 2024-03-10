@@ -10,13 +10,13 @@ import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 import java.util.Map;
 
 public class Limitations extends JSONConfiguration {
-    private BatteryLevel level;
+    private Drone level;
     private final Logger logger = LogManager.getLogger();
     Drone drone = new Drone("E");
     Direction heading = drone.getHeading();
 
     // Constructor to initialize Limitations with a BatteryLevel instance
-    public Limitations(BatteryLevel level) {
+    public Limitations(Drone level) {
         this.level = level;
     }
 
