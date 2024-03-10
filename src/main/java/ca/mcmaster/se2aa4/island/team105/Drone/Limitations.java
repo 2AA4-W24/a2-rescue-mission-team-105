@@ -60,7 +60,10 @@ public class Limitations extends JSONConfiguration {
 
     // checks radio range
     
-
+    //check all direction for range 
+    //make relative x and y borders when out of range response seen
+    //to stay in range never fly or "heading" command out of range
+    //Never fly or head into a postiion where we are facing the out while on the edge
 
 
 }
