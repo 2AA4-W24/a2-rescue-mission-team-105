@@ -12,6 +12,7 @@ public class Actions {
 
     public void fly (JSONObject decision) {
         decision.put("action", "fly");
+        
     }
 
     public void heading(JSONObject decision, JSONObject parameter, Direction direction) {
