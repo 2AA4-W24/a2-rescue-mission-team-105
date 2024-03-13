@@ -22,6 +22,7 @@ public class JSONConfiguration {
     private Drone level;
     private Limitations limitation;  // Declare the Limitations object
     private Translator translator;
+    Actions action = new Actions(decision);
     RelativeCoordinate coordinate = new RelativeCoordinate(0, 0); // maybe change later
 
     public void initializationWrap(String s) {
@@ -36,32 +37,7 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        // logger.info(lastDecision);  
-        // decision = new JSONObject();
-        // parameter = new JSONObject();
-
-        // if (lastDecision == null || lastDecision == "fly") {
-        //     decision.put("action", "scan");
-        //     lastDecision = "scan";
-        // }
-        
-        // else if (lastDecision == "scan") {
-        //     decision.put("action", "echo");
-        //     parameter.put("direction", "S");
-        //     decision.put("parameters", parameter);
-        //     lastDecision = "echo";
-        // }
-
-        // else if (level.getLevel() <= 6000) {
-        //     limitation.returnHome(action);
-        // }
-
-        // else {
-        //     decision.put("action", "fly");
-        //     lastDecision = "fly";
-        // }
-        Actions action = new Actions();
-        action.fly(decision);
+        action.fly();
         logger.info("** Decision: {}", decision.toString());
         // decrement battery level for each iteration
         logger.info("Battery level is now {}", this.level.getLevel());       
