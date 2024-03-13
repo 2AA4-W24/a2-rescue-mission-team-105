@@ -37,7 +37,7 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        
+        logger.info(level.getX() + " " + level.getY());
         action.fly(level);
         logger.info("** Decision: {}", decision.toString());
         // decrement battery level for each iteration
@@ -63,6 +63,7 @@ public class JSONConfiguration {
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
+        logger.info(level.getX() + " " + level.getY());
         // limitation.returnHome(action);
         translator = new Translator(response, level);
     }

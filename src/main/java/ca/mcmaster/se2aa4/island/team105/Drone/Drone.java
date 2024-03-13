@@ -4,8 +4,10 @@ import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 import java.util.Map;
 import java.util.EnumMap;
 
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 public class Drone {
+    private final Logger logger = LogManager.getLogger();
     //This is private because we will further create the services in this class
     private Direction heading;
     private int level;
@@ -65,15 +67,23 @@ public class Drone {
     }
 
     public void updatedFlyingCoordinates() {
-        switch(heading) {
-            case N:
-                y+=1;
-            case S:
-                y-=1;
-            case E:
-                x+=1;
-            case W:
-                x-=1;
+        switch(this.heading) {
+            case Direction.N:
+                this.y+=1;
+                break;
+            case Direction.S:
+                this.y-=1;
+                break;
+            case Direction.E:
+                logger.info("e deteted");
+                this.x+=1;
+                break;
+            case Direction.W:
+                this.x-=1;
+                break;
+            default:
+                logger.info("The heading is wrong lol idk slkdjfaldkfja;fdsl");
+                break;
         }
     }
 
