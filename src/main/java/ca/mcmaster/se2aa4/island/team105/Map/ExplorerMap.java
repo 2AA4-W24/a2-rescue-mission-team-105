@@ -29,17 +29,6 @@ public class ExplorerMap {
         Point targetPoint = new Point(xdist, ydist);
         String result = mapLayout.get(targetPoint);
         return result;
-        /*/
-        for (int[] location : this.xylist) {
-            int x = location[0];
-            int y = location[1];
-            if (x == xdist && y == ydist) {
-                // Match found, return the type (for demonstration purposes, you can modify as needed)
-                int type = location[2];
-                return (type);
-            }
-        }
-        return(-1);*/
     }
 
     public void updateCurrentPoint(int xdist, int ydist){
