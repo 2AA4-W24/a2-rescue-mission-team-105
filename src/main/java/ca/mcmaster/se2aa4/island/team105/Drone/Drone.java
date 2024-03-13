@@ -13,10 +13,8 @@ public class Drone {
     private int level;
     private int x, y;
 
-    public Drone(int level, String starting) {
+    public Drone(Integer level, String starting) {
         this.level = level;
-        this.x = 0;
-        this.y = 0;
         try{
             this.heading = Direction.valueOf(starting);
         }catch (Exception e) {
@@ -35,6 +33,7 @@ public class Drone {
     public Integer getX() {
         return x;
     }
+    
 
     public Integer getY() {
         return y;

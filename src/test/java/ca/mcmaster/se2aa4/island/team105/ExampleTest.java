@@ -41,10 +41,19 @@ public class ExampleTest {
 
     @Test
     public void setGetLocation(){
-        ExplorerMap newMap = new ExplorerMap();
-        newMap.setLocation(0, 0, 0);
-        int type = newMap.getLocation(0, 0);
-        assertTrue(type == 0);
+        ExplorerMap testMap = new ExplorerMap();
+        testMap.setLocation(0, 0, "test_info");
+        String info = testMap.getLocation(0, 0);
+        assertTrue(info == "test_info");
+    }
+    
+    @Test
+    public void updateCurrentLoation(){
+        ExplorerMap testMove = new ExplorerMap();
+        testMove.updateCurrentPoint(2, 2);
+        testMove.setLocation(0, 2, "Different location");
+        String info = testMove.getLocation(2, 4);
+        assertTrue(info == "Different location");
     }
 
     @Test
