@@ -2,13 +2,11 @@ package ca.mcmaster.se2aa4.island.team105.Drone;
 
 import org.json.JSONObject;
 
+import ca.mcmaster.se2aa4.island.team105.Configuration.JSONConfiguration;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
-public class Actions {
+public class Actions extends JSONConfiguration {
     
-    Drone drone;
-    RelativeCoordinate coordinates;
-
     private JSONObject decision;
     // private JSONObject parameter;
     // private JSONObject direction;
@@ -22,9 +20,9 @@ public class Actions {
         decision.put("action", "stop");
     }
 
-    public void fly () {
+    public void fly (Drone drone) {
         decision.put("action", "fly");
-        // coordinates.updatedFlyingCoordinates(drone.getHeading());
+        drone.updatedFlyingCoordinates();
         
     }
 

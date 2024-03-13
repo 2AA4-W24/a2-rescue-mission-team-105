@@ -23,7 +23,7 @@ public class JSONConfiguration {
     private Limitations limitation;  // Declare the Limitations object
     private Translator translator;
     Actions action = new Actions(decision);
-    RelativeCoordinate coordinate = new RelativeCoordinate(0, 0); // maybe change later
+     // maybe change later
 
     public void initializationWrap(String s) {
         logger.info("** Initializing the Exploration Command Center");
@@ -37,7 +37,7 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        action.fly();
+        action.fly(level);
         logger.info("** Decision: {}", decision.toString());
         // decrement battery level for each iteration
         logger.info("Battery level is now {}", this.level.getLevel());       
