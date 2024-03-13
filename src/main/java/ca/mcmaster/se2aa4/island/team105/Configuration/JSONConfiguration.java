@@ -6,6 +6,7 @@ import org.json.JSONTokener;
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
+import ca.mcmaster.se2aa4.island.team105.Drone.RelativeCoordinate;
 import ca.mcmaster.se2aa4.island.team105.Map.Translator;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
@@ -20,9 +21,8 @@ public class JSONConfiguration {
     protected JSONObject parameter = new JSONObject();
     private Drone level;
     private Limitations limitation;  // Declare the Limitations object
-    private int decisionCount;
-    private Actions action;
     private Translator translator;
+    RelativeCoordinate coordinate = new RelativeCoordinate(0, 0); // maybe change later
 
     public void initializationWrap(String s) {
         logger.info("** Initializing the Exploration Command Center");
@@ -60,8 +60,8 @@ public class JSONConfiguration {
         //     decision.put("action", "fly");
         //     lastDecision = "fly";
         // }
-        decision.put("action", "scan");
-
+        Actions action = new Actions();
+        action.fly(decision);
         logger.info("** Decision: {}", decision.toString());
         // decrement battery level for each iteration
         logger.info("Battery level is now {}", this.level.getLevel());       
@@ -71,20 +71,22 @@ public class JSONConfiguration {
         // use the 2d map
         // based on the surrounding/echoing, we make a decision
     }
+
     // have a variable make it equal to whatever the action is, then
     public void acknowledgeResultsWrap(String s) {
+        
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Response received:\n" + response.toString(2));
         Integer cost = response.getInt("cost");
         logger.info("The cost of the action was {}", cost);
         // battery level after receiving results
-        //this.level.setLevel(this.level.getLevel() - cost);
+        this.level.setLevel(this.level.getLevel() - cost);
         logger.info("Battery level is now {}", this.level.getLevel());
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
-        limitation.returnHome(action);
+        // limitation.returnHome(action);
         translator = new Translator(response, level);
     }
 }

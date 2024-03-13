@@ -5,6 +5,9 @@ import org.json.JSONObject;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
 public class Actions {
+    
+    Drone drone;
+    RelativeCoordinate coordinates;
 
     public void stop(JSONObject decision) {
         decision.put("action", "stop");
@@ -12,6 +15,7 @@ public class Actions {
 
     public void fly (JSONObject decision) {
         decision.put("action", "fly");
+        coordinates.updatedFlyingCoordinates(drone.getHeading());
         
     }
 

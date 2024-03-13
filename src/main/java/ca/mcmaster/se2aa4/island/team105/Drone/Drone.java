@@ -57,5 +57,7 @@ public class Drone {
         goingLeft.put(Direction.E, Direction.N);
         this.heading = goingLeft.get(this.heading);
     }
+
+    
     
 }
