@@ -12,7 +12,7 @@ import java.util.Map;
 public class Limitations extends JSONConfiguration {
     private Drone level;
     private final Logger logger = LogManager.getLogger();
-    Drone drone = new Drone("E");
+    Drone drone = new Drone(7000, "E");
     Direction heading = drone.getHeading();
 
     // Constructor to initialize Limitations with a BatteryLevel instance

@@ -2,10 +2,10 @@ package ca.mcmaster.se2aa4.island.team105.Drone;
 
 import org.json.JSONObject;
 
-import ca.mcmaster.se2aa4.island.team105.Configuration.JSONConfiguration;
+
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
-public class Actions extends JSONConfiguration {
+public class Actions {
     
     private JSONObject decision;
     // private JSONObject parameter;

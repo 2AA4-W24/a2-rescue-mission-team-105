@@ -8,13 +8,18 @@ import java.util.EnumMap;
 public class Drone {
     //This is private because we will further create the services in this class
     private Direction heading;
-    private Integer level;
-    private Integer x, y;
+    private int level;
+    private int x, y;
 
-    public Drone(Integer level) {
+    public Drone(int level, String starting) {
         this.level = level;
         this.x = 0;
         this.y = 0;
+        try{
+            this.heading = Direction.valueOf(starting);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Integer getLevel() {
@@ -33,16 +38,6 @@ public class Drone {
         return y;
     }
 
-    
-    
-    //sets the heading as soon as we create the object
-    public Drone(String starting) {
-        try{
-            this.heading = Direction.valueOf(starting);
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     // call actions 
     //Simple return to check the functionality
