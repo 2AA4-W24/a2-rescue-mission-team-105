@@ -10,13 +10,13 @@ import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 import java.util.Map;
 
 public class Limitations extends JSONConfiguration {
-    private BatteryLevel level;
+    private Drone level;
     private final Logger logger = LogManager.getLogger();
     Drone drone = new Drone("E");
     Direction heading = drone.getHeading();
 
     // Constructor to initialize Limitations with a BatteryLevel instance
-    public Limitations(BatteryLevel level) {
+    public Limitations(Drone level) {
         this.level = level;
     }
 
@@ -26,7 +26,7 @@ public class Limitations extends JSONConfiguration {
 
     // checks battery
     public void returnHome(Actions action) {
-        if (level.getLevel() <= 6900) {
+        if (level.getLevel() <= 4000) {
             logger.info("Battery level is equal to or below 6800. Returning home");
             action.stop(decision);
         } else {

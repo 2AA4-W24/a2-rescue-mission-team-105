@@ -34,7 +34,7 @@ public class ExplorerMap {
             int x = location[0];
             int y = location[1];
             if (x == xdist && y == ydist) {
-                // Match found, return the type (for demonstration purposes, you can modify as needed)
+                // Match found return the type 
                 int type = location[2];
                 return (type);
             }
@@ -42,7 +42,7 @@ public class ExplorerMap {
         return(-1);*/
     }
 
-    public void updateCurrentPoint(int xdist, int ydist){
-        currentPoint.translate(xdist, ydist);
-    }
+
 }
+
+

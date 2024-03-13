@@ -8,7 +8,7 @@ public class Information extends Translator{
 
     public Information() {
         this.biome = getBiome(); //maybe make an enum of this
-        this.creek = getCreek(); //call translator methods here
+        this.creek = getCreek(); //whenever a new information object is made, methods to update Information from Translator runs
         this.site = getSite();
         this.batteryLevel = getBattery();
     }

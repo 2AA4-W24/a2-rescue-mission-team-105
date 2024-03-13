@@ -4,7 +4,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
-import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
+import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
 import ca.mcmaster.se2aa4.island.team105.Map.Translator;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
@@ -18,58 +18,60 @@ public class JSONConfiguration {
     private final Logger logger = LogManager.getLogger();
     protected JSONObject decision = new JSONObject();
     protected JSONObject parameter = new JSONObject();
-    private BatteryLevel level;
+    private Drone level;
     private Limitations limitation;  // Declare the Limitations object
     private int decisionCount;
     private Actions action;
     private Translator translator;
 
-    public void initializationWrap(String s, BatteryLevel level) {
+    public void initializationWrap(String s) {
         logger.info("** Initializing the Exploration Command Center");
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}", info.toString(2));
         String direction = info.getString("heading");
-        this.level = new BatteryLevel(info.getInt("budget"));  // Create the BatteryLevel object
+        this.level = new Drone(info.getInt("budget"));  // Create the BatteryLevel object
         this.limitation = new Limitations(this.level);  // Instantiate the Limitations object
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", this.level.getLevel());
     }
 
-    public String takeDecisionWrap(BatteryLevel level) {
-        decisionCount++;
-        if (decisionCount == 20) {
-            limitation.returnHome(action);  // Call returnHome at the appropriate place
-        }
-        
-        else if (decisionCount == 10) {
-            decision.put("action", "echo");
-            parameter.put("direction", "N");
-            decision.put("parameters", parameter);
-        }
+    public String takeDecisionWrap() {
+        // logger.info(lastDecision);  
+        // decision = new JSONObject();
+        // parameter = new JSONObject();
 
-        else if (decisionCount == 5) {
-            limitation.badCommand(action, Direction.W);
-        }
-
-        else if (decisionCount > 0)  {
-            decision.put("action", "fly");
-        }
-
-        else {
-            Direction desiredDirection = Direction.E; // Replace with the actual desired direction
-            limitation.badCommand(action, desiredDirection);
-        }
-
-        // else if (decisionCount % 2 == 0) {
-        //     action.echo(decision, parameter, direction);
+        // if (lastDecision == null || lastDecision == "fly") {
+        //     decision.put("action", "scan");
+        //     lastDecision = "scan";
         // }
         
+        // else if (lastDecision == "scan") {
+        //     decision.put("action", "echo");
+        //     parameter.put("direction", "S");
+        //     decision.put("parameters", parameter);
+        //     lastDecision = "echo";
+        // }
+
+        // else if (level.getLevel() <= 6000) {
+        //     limitation.returnHome(action);
+        // }
+
+        // else {
+        //     decision.put("action", "fly");
+        //     lastDecision = "fly";
+        // }
+        decision.put("action", "scan");
+
         logger.info("** Decision: {}", decision.toString());
         // decrement battery level for each iteration
-        logger.info("Battery level is now {}", this.level.getLevel());        
+        logger.info("Battery level is now {}", this.level.getLevel());       
         return decision.toString();
+        // wanna read results
+        // based on those results, what do i want to do
+        // use the 2d map
+        // based on the surrounding/echoing, we make a decision
     }
-
+    // have a variable make it equal to whatever the action is, then
     public void acknowledgeResultsWrap(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Response received:\n" + response.toString(2));

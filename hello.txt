@@ -1,0 +1,2 @@
+Response --> Translator --> Information --> updateAreaMap --> updateDrone --> DecisionMaker(information, areamap, drone) --> make decision
+DecisionMaker implement an interface (search STRATEGY INTERFACE)
