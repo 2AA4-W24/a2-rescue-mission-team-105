@@ -12,7 +12,8 @@ import java.util.Map;
 public class Limitations extends JSONConfiguration {
     private Drone level;
     private final Logger logger = LogManager.getLogger();
-    Drone drone = new Drone(100, "E");
+    Drone drone = new Drone(7000, "E");
+
     Direction heading = drone.getHeading();
 
     // Constructor to initialize Limitations with a BatteryLevel instance
@@ -28,7 +29,7 @@ public class Limitations extends JSONConfiguration {
     public void returnHome(Actions action) {
         if (level.getLevel() <= 4000) {
             logger.info("Battery level is equal to or below 6800. Returning home");
-            action.stop(decision);
+            action.stop();
         } else {
             logger.info("Battery level is greater than 6800. Continuing exploration.");
         }
@@ -42,7 +43,7 @@ public class Limitations extends JSONConfiguration {
             if (is180DegreeTurn(desiredDirection)) {
                 logger.error("Attempting a 180-degree turn. Invalid command.");
             } else {
-                action.heading(decision, parameter, desiredDirection);
+                action.heading(parameter, desiredDirection);
             }
         }
     }
