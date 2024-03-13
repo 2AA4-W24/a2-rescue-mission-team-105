@@ -29,7 +29,7 @@ public class JSONConfiguration {
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}", info.toString(2));
         String direction = info.getString("heading");
-        this.level = new Drone(info.getInt("budget"));  // Create the BatteryLevel object
+        this.level = new Drone(info.getInt("budget"), direction);  // Create the BatteryLevel object
         this.limitation = new Limitations(this.level);  // Instantiate the Limitations object
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", this.level.getLevel());

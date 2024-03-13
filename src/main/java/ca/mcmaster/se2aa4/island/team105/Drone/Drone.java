@@ -11,8 +11,13 @@ public class Drone {
     private Direction heading;
     private Integer level;
 
-    public Drone(Integer level) {
+    public Drone(Integer level, String starting) {
         this.level = level;
+        try{
+            this.heading = Direction.valueOf(starting);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Integer getLevel() {
@@ -24,14 +29,7 @@ public class Drone {
     }
     
     
-    //sets the heading as soon as we create the object
-    public Drone(String starting) {
-        try{
-            this.heading = Direction.valueOf(starting);
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 
     // call actions 
     //Simple return to check the functionality
