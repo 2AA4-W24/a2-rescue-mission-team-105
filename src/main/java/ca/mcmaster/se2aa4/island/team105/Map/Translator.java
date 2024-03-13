@@ -2,15 +2,15 @@ package ca.mcmaster.se2aa4.island.team105.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import ca.mcmaster.se2aa4.island.team105.Drone.BatteryLevel;
+import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 
 public class Translator {
     private int cost;
     private JSONObject extras;
-    private BatteryLevel battery;
-
-    public Translator(JSONObject response, BatteryLevel battery) {
+    private Drone battery;
+    
+    //creates a translator that takes the response from JSONConfiguration
+    public Translator(JSONObject response, Drone battery) {
         this.cost = response.getInt("cost");
         this.extras = response.getJSONObject("extras");
         this.battery = battery;
@@ -20,7 +20,7 @@ public class Translator {
 
     }
 
-    //method to update information class
+    //methods to update information class
     public String getBiome() {
         if (extras.has("biomes")) {
             JSONArray biomes = extras.getJSONArray("biomes");
