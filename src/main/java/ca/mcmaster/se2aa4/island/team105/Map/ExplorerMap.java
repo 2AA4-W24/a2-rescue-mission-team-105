@@ -1,28 +1,35 @@
 package ca.mcmaster.se2aa4.island.team105.Map;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.awt.Point;
 
 public class ExplorerMap {
-    List<int[]> xylist = new ArrayList<>();
 
     //relative position this is starting state
-    private int cuurx, cuury = 0; //regular cartesian grid style coords
+    Point currentPoint = new Point(0, 0);
 
-
-    //Creates a 2d array that stores MapTile Objects
+    //Creates a 2d array that stores information Objects
+    HashMap<Point, String> mapLayout = new HashMap<>();
     public ExplorerMap() {
     }
 
+
     //Sets a object to inputed location
     //list<int x, int y, int type:"0 =  water, 1 = land, 2 = creek,"
-    public void setLocation(int xdist, int ydist, int type) {
-        // Adding int arrays to the ArrayList
-        this.xylist.add(new int[]{xdist, ydist, type});
+    public void setLocation(int xdist, int ydist, String infoString) {
+        // Adding int arrays to the hashmap
+        Point targetPoint = currentPoint.getLocation();
+        targetPoint.translate(xdist, ydist);
+        mapLayout.put(targetPoint, infoString);
     }
 
     //gets object from location
-    public int getLocation(int xdist, int ydist) {
+    public String getLocation(int xdist, int ydist) {
+        Point targetPoint = new Point(xdist, ydist);
+        String result = mapLayout.get(targetPoint);
+        return result;
+        /*/
         for (int[] location : this.xylist) {
             int x = location[0];
             int y = location[1];
@@ -32,8 +39,10 @@ public class ExplorerMap {
                 return (type);
             }
         }
-        return(-1);
+        return(-1);*/
     }
 
-
+    public void updateCurrentPoint(int xdist, int ydist){
+        currentPoint.translate(xdist, ydist);
+    }
 }
