@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static eu.ace_design.island.runner.Runner.run;
 
 import java.io.File;
+import java.util.logging.Logger;
+
 import ca.mcmaster.se2aa4.island.team105.Drone.*;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
@@ -56,6 +58,13 @@ public class ExampleTest {
         assertTrue(info == "Different location");
     }
 
+    @Test
+    public void radarTest(){
+        ExplorerMap testRadar = new ExplorerMap();
+        testRadar.setEchoInfo(0, 5, false);
+        String info = testRadar.getLocation(0, 3);
+        assertTrue(info == "Ocean");
+    }
     @Test
     public void map03Test() {
         String filename = "./maps/map03.json";
