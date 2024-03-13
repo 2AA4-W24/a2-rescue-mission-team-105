@@ -6,7 +6,13 @@ import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
 public class Actions {
 
-    public void stop(JSONObject decision) {
+    private JSONObject decision;
+
+    public Actions(JSONObject decision) {
+        this.decision = decision;
+    }
+
+    public void stop() {
         decision.put("action", "stop");
     }
 
