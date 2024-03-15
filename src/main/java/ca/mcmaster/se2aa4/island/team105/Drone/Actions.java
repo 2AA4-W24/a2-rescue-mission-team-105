@@ -30,6 +30,7 @@ public class Actions {
         decision.put("action", "heading");
         parameter.put("direction", direction);
         decision.put("parameters", parameter);
+        drone.updatedFlyingCoordinates();
         drone.updatedHeadingCoordinates(direction);
     }
 

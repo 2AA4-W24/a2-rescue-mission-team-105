@@ -90,28 +90,20 @@ public class Drone {
         // updatedFlyingCoordinates();
         switch(direction) {
             case Direction.N:
-                if (direction != Direction.N) {
-                    heading = direction;
-                    updatedFlyingCoordinates();
-                }
+                this.heading = direction;
+                updatedFlyingCoordinates();
                 break;
             case Direction.S:
-                if (direction != Direction.S) {
-                    heading = direction;
-                    updatedFlyingCoordinates();
-                }
+                this.heading = direction;
+                updatedFlyingCoordinates();
                 break;
             case Direction.E:
-                if (direction != Direction.E) {
-                    heading = direction;
-                    updatedFlyingCoordinates();
-                }
+                this.heading = direction;
+                updatedFlyingCoordinates();
                 break;
             case Direction.W:
-                if (direction != Direction.W) {
-                    heading = direction;
-                    updatedFlyingCoordinates();
-            }
+                this.heading = direction;
+                updatedFlyingCoordinates();
                 break;
             default:
                 logger.info("The heading is wrong");
