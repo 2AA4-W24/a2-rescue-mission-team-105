@@ -87,7 +87,7 @@ public class Drone {
     }
 
     public void updatedHeadingCoordinates(Direction direction) {
-        updatedFlyingCoordinates();
+        // updatedFlyingCoordinates();
         switch(direction) {
             case Direction.N:
                 if (direction != Direction.N) {
