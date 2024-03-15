@@ -30,10 +30,11 @@ public class Actions {
         
     }
 
-    public void heading(JSONObject parameter, Direction direction) {
+    public void heading(JSONObject parameter, Direction direction, Drone drone) {
         decision.put("action", "heading");
         parameter.put("direction", direction);
         decision.put("parameters", parameter);
+        drone.updatedHeadingCoordinates(direction);
     }
 
     public void echo(JSONObject parameter, Direction direction) {
