@@ -2,13 +2,9 @@ package ca.mcmaster.se2aa4.island.team105.Drone;
 
 import org.json.JSONObject;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 
 public class Actions {
-
-    private final Logger logger = LogManager.getLogger();
     
     private JSONObject decision;
     // private JSONObject parameter;
@@ -30,10 +26,12 @@ public class Actions {
         
     }
 
-    public void heading(JSONObject parameter, Direction direction) {
+    public void heading(JSONObject parameter, Direction direction, Drone drone) {
         decision.put("action", "heading");
         parameter.put("direction", direction);
         decision.put("parameters", parameter);
+        drone.updatedFlyingCoordinates();
+        drone.updatedHeadingCoordinates(direction);
     }
 
     public void echo(JSONObject parameter, Direction direction) {

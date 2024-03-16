@@ -81,7 +81,32 @@ public class Drone {
                 this.x-=1;
                 break;
             default:
-                logger.info("The heading is wrong lol idk slkdjfaldkfja;fdsl");
+                logger.info("The heading is wrong");
+                break;
+        }
+    }
+
+    public void updatedHeadingCoordinates(Direction direction) {
+        // updatedFlyingCoordinates();
+        switch(direction) {
+            case Direction.N:
+                this.heading = direction;
+                updatedFlyingCoordinates();
+                break;
+            case Direction.S:
+                this.heading = direction;
+                updatedFlyingCoordinates();
+                break;
+            case Direction.E:
+                this.heading = direction;
+                updatedFlyingCoordinates();
+                break;
+            case Direction.W:
+                this.heading = direction;
+                updatedFlyingCoordinates();
+                break;
+            default:
+                logger.info("The heading is wrong");
                 break;
         }
     }

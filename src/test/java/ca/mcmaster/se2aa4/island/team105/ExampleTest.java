@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static eu.ace_design.island.runner.Runner.run;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 import ca.mcmaster.se2aa4.island.team105.Drone.*;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;

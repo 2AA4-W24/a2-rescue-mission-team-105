@@ -6,9 +6,8 @@ import org.json.JSONTokener;
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
-import ca.mcmaster.se2aa4.island.team105.Drone.RelativeCoordinate;
-import ca.mcmaster.se2aa4.island.team105.Map.Translator;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
+import ca.mcmaster.se2aa4.island.team105.Map.Translator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +21,7 @@ public class JSONConfiguration {
     private Drone level;
     private Limitations limitation;  // Declare the Limitations object
     private Translator translator;
+    private int count;
     Actions action = new Actions(decision);
      // maybe change later
 
@@ -37,16 +37,17 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        logger.info(level.getX() + " " + level.getY());
+        count++;
+        JSONObject decision = new JSONObject();
+        JSONObject parameter = new JSONObject();
+        if (count < 2) {
+            action.heading(parameter, Direction.N , level);
+        }
         action.fly(level);
+        logger.info(level.getX() + " " + level.getY());
         logger.info("** Decision: {}", decision.toString());
-        // decrement battery level for each iteration
         logger.info("Battery level is now {}", this.level.getLevel());       
         return decision.toString();
-        // wanna read results
-        // based on those results, what do i want to do
-        // use the 2d map
-        // based on the surrounding/echoing, we make a decision
     }
 
     // have a variable make it equal to whatever the action is, then
@@ -64,7 +65,7 @@ public class JSONConfiguration {
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
         logger.info(level.getX() + " " + level.getY());
-        // limitation.returnHome(action);
+        limitation.returnHome(action);
         translator = new Translator(response, level);
     }
 }

@@ -43,7 +43,7 @@ public class Limitations extends JSONConfiguration {
             if (is180DegreeTurn(desiredDirection)) {
                 logger.error("Attempting a 180-degree turn. Invalid command.");
             } else {
-                action.heading(parameter, desiredDirection);
+                action.heading(parameter, desiredDirection, drone);
             }
         }
     }
