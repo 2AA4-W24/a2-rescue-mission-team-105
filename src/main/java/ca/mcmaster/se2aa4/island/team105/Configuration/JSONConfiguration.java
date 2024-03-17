@@ -3,6 +3,7 @@ package ca.mcmaster.se2aa4.island.team105.Configuration;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import ca.mcmaster.se2aa4.island.team105.DecisionMaker;
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
@@ -22,6 +23,8 @@ public class JSONConfiguration {
     private Limitations limitation;  // Declare the Limitations object
     private Translator translator;
     Actions action = new Actions(decision);
+    Direction direction;
+    private int count;
      // maybe change later
 
     public void initializationWrap(String s) {
@@ -38,7 +41,9 @@ public class JSONConfiguration {
     public String takeDecisionWrap() {
         JSONObject decision = new JSONObject();
         JSONObject parameter = new JSONObject();
-        action.heading(parameter, Direction.S , level);
+        DecisionMaker decisionMaker = new DecisionMaker();
+        logger.info("yo is this running");
+        decisionMaker.findMapBox(limitation, level, direction, action, parameter, count);
         logger.info(level.getX() + " " + level.getY());
         logger.info("** Decision: {}", decision.toString());
         logger.info("Battery level is now {}", this.level.getLevel());       
