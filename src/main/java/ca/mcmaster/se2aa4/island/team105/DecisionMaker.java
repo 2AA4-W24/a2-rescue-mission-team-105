@@ -20,6 +20,7 @@ public class DecisionMaker {
         direction = orientation(direction, drone);
         logger.info(direction);
         if (limitation.is180DegreeTurn(direction) == false) {
+            logger.info("hee");
             if (count % 2 == 0) {
                 action.echo(parameter, direction);
             }
@@ -33,16 +34,16 @@ public class DecisionMaker {
     public Direction orientation(Direction direction, Drone drone) {
         Direction heading = drone.getHeading();
         switch(heading) {
-            case N:
+            case Direction.N:
                 return Direction.N;
-            case S:
+            case Direction.S:
                 return Direction.S;
-            case E:
+            case Direction.E:
                 return Direction.E;
-            case W:
+            case Direction.W:
                 return Direction.W;   
             default:
-                return null; // Or throw an exception depending on your logic
+                throw new IllegalArgumentException("Invalid heading encountered: " + heading);
         }
     }
 
