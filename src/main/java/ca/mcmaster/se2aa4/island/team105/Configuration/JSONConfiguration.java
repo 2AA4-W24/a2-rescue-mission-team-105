@@ -21,7 +21,6 @@ public class JSONConfiguration {
     private Drone level;
     private Limitations limitation;  // Declare the Limitations object
     private Translator translator;
-    private int count;
     Actions action = new Actions(decision);
      // maybe change later
 
@@ -37,13 +36,9 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        count++;
         JSONObject decision = new JSONObject();
         JSONObject parameter = new JSONObject();
-        if (count < 2) {
-            action.heading(parameter, Direction.N , level);
-        }
-        action.fly(level);
+        action.heading(parameter, Direction.S , level);
         logger.info(level.getX() + " " + level.getY());
         logger.info("** Decision: {}", decision.toString());
         logger.info("Battery level is now {}", this.level.getLevel());       

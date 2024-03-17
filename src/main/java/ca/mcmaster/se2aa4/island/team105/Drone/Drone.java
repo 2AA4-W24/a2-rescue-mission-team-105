@@ -6,6 +6,7 @@ import java.util.EnumMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 public class Drone {
     private final Logger logger = LogManager.getLogger();
     //This is private because we will further create the services in this class
@@ -68,6 +69,7 @@ public class Drone {
     public void updatedFlyingCoordinates() {
         switch(this.heading) {
             case Direction.N:
+                logger.info("you ran it twice bro");
                 this.y+=1;
                 break;
             case Direction.S:
@@ -87,7 +89,7 @@ public class Drone {
     }
 
     public void updatedHeadingCoordinates(Direction direction) {
-        // updatedFlyingCoordinates();
+        updatedFlyingCoordinates();
         switch(direction) {
             case Direction.N:
                 this.heading = direction;

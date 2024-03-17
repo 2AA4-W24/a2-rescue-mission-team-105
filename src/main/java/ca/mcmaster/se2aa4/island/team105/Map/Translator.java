@@ -29,6 +29,14 @@ public class Translator {
 
     }
 
+    public String getLand() {
+        if (extras.has("range")) {
+            JSONArray land = extras.getJSONArray("range");
+            return land.getString(0);
+        } else return null;
+
+    }
+
     public String getCreek() {
         if (extras.has("creeks")) {
             JSONArray biomes = extras.getJSONArray("creeks");
