@@ -26,8 +26,9 @@ public class DecisionMaker {
             else {
                 action.fly(drone);
             }
-        }
+        }else{
         logger.info("Incorrect command, cannot echo in the opposite direction");
+        }
     }
 
     public Direction orientation(Direction direction, Drone drone) {
