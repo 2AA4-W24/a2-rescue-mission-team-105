@@ -86,5 +86,6 @@ public class JSONConfiguration {
         logger.info("Additional information received: {}", extraInfo);
         limitation.returnHome(action);
         translator = new Translator(response, level);
+        logger.info(translator.foundGround());
     }
 }
