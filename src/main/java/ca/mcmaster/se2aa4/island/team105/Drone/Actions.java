@@ -22,8 +22,6 @@ public class Actions {
     public void fly (Drone drone) {
         decision.put("action", "fly");
         drone.updatedFlyingCoordinates();
-        
-        
     }
 
     public void heading(JSONObject parameter, Direction direction, Drone drone) {

@@ -7,6 +7,7 @@ import ca.mcmaster.se2aa4.island.team105.DecisionMaker;
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
+import ca.mcmaster.se2aa4.island.team105.Enums.Decision;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 import ca.mcmaster.se2aa4.island.team105.Map.Translator;
 
@@ -21,10 +22,10 @@ public class JSONConfiguration {
     protected JSONObject parameter = new JSONObject();
     private Drone level;
     private Limitations limitation;  // Declare the Limitations object
-    private Translator translator;
     Actions action = new Actions(decision);
-    Direction direction;
     private int count;
+    Direction direction;
+
      // maybe change later
 
     public void initializationWrap(String s) {
@@ -39,10 +40,7 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        JSONObject decision = new JSONObject();
-        JSONObject parameter = new JSONObject();
         DecisionMaker decisionMaker = new DecisionMaker();
-        logger.info("yo is this running");
         decisionMaker.findMapBox(limitation, level, direction, action, parameter, count);
         logger.info(level.getX() + " " + level.getY());
         logger.info("** Decision: {}", decision.toString());
@@ -66,6 +64,6 @@ public class JSONConfiguration {
         logger.info("Additional information received: {}", extraInfo);
         logger.info(level.getX() + " " + level.getY());
         limitation.returnHome(action);
-        translator = new Translator(response, level);
+        Translator translator = new Translator(response, level);
     }
 }

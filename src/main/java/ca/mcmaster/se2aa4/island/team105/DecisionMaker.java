@@ -12,24 +12,38 @@ import org.apache.logging.log4j.Logger;
 public class DecisionMaker {
 
     private final static Logger logger = LogManager.getLogger();
-    
 
 
-    public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter, int count) {
+    public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter, int count) { // might be high coupling
         count++;
         direction = orientation(direction, drone);
-        logger.info(direction);
+        logger.info("Direction is: " + direction);
         if (limitation.is180DegreeTurn(direction) == false) {
-            logger.info("hee");
-            if (count % 2 == 0) {
+            if (count < 2) {
+                logger.info("will the heading ever change?");
                 action.echo(parameter, direction);
             }
-            else {
-                action.fly(drone);
-            }
+            logger.info("does this ever");
+            action.fly(drone);
         }
-        logger.info("Incorrect command, cannot echo in the opposite direction");
+        else {
+            logger.info("Incorrect command, cannot echo in the opposite direction");
+        }
     }
+
+    // Echo in the same direction of heading, if there is no land then perform
+        // Echo on sides left/right side, depending on the which side we hit land, we want to stick to only on that side afterwards
+        // Fly after echoing
+        // Keeping going until you hit the first and last land
+        // Then turn in the same direction you echoed.
+        // Echo direction is now changed to the opposite direction you were flying
+        // Keep echo/flying until you hit first/last land
+        // Store all these information
+    // If there is a land then
+        // Change heading to either east/west
+        // fly forward, echo in the direction of the map until you get no land, then 
+        // start the first state :D
+
 
     public Direction orientation(Direction direction, Drone drone) {
         Direction heading = drone.getHeading();

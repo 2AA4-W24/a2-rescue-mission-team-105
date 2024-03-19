@@ -4,6 +4,7 @@ import java.util.EnumMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 import ca.mcmaster.se2aa4.island.team105.Configuration.JSONConfiguration;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
@@ -36,7 +37,7 @@ public class Limitations extends JSONConfiguration {
     }
 
     // checks bad command
-    public void badCommand(Actions action, Direction desiredDirection) {
+    public void badCommand(Actions action, Direction desiredDirection, JSONObject parameter) {
         if (desiredDirection == heading) {
             logger.info("Already heading in the desired direction. Continuing exploration.");
         } else {
