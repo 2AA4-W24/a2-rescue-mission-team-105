@@ -29,8 +29,8 @@ public class DecisionMaker {
         if (limitation.is180DegreeTurn(direction) == false) {
             if (count % 2 == 0) {
                 logger.info("will the heading ever change?");
-                // decision = action.echo(parameter, direction);
-                decision = action.scan();
+                decision = action.echo(parameter, direction);
+                // decision = action.scan();
             }
             else if (count % 2 == 1) {
                 logger.info("does this ever");
