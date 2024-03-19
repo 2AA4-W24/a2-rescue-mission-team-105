@@ -18,24 +18,29 @@ public class DecisionMaker {
 
     public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) { // might be high coupling
         count++;
-        if (drone.getX() == 10) {
+        if (drone.getX() == 20) {
             decision = action.stop();
             return;
         }
         logger.info(drone.getX());
-        logger.info("counter is" + count);
+        logger.info("counter is: " + count);
         direction = rightOrientation(direction, drone);
         logger.info("Direction is: " + direction);
         if (limitation.is180DegreeTurn(direction) == false) {
-            if (count % 2 == 0) {
+            if (count % 3 == 0) {
                 logger.info("will the heading ever change?");
-                decision = action.echo(parameter, direction);
+                decision = action.echo(parameter, Direction.N);
                 // decision = action.scan();
             }
-            else if (count % 2 == 1) {
+            else if (count % 3 == 1) {
                 logger.info("does this ever");
                 decision = action.fly(drone);
             }
+
+            else if (count % 3 == 2){
+                decision = action.echo(parameter, Direction.S);
+            }
+
         }
         else {
             logger.info("Incorrect command, cannot echo in the opposite direction");
