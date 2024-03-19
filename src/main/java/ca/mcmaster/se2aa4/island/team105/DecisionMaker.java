@@ -13,22 +13,37 @@ public class DecisionMaker {
 
     private final static Logger logger = LogManager.getLogger();
 
+    protected JSONObject decision = new JSONObject();
+    private int count; // need to keep this outside
 
-    public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter, int count) { // might be high coupling
+    public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) { // might be high coupling
         count++;
-        direction = orientation(direction, drone);
+        if (drone.getX() == 10) {
+            decision = action.stop();
+            return;
+        }
+        logger.info(drone.getX());
+        logger.info("counter is" + count);
+        direction = rightOrientation(direction, drone);
         logger.info("Direction is: " + direction);
         if (limitation.is180DegreeTurn(direction) == false) {
-            if (count < 2) {
+            if (count % 2 == 0) {
                 logger.info("will the heading ever change?");
-                action.echo(parameter, direction);
+                // decision = action.echo(parameter, direction);
+                decision = action.scan();
             }
-            logger.info("does this ever");
-            action.fly(drone);
+            else if (count % 2 == 1) {
+                logger.info("does this ever");
+                decision = action.fly(drone);
+            }
         }
         else {
             logger.info("Incorrect command, cannot echo in the opposite direction");
         }
+    }
+
+    public JSONObject getDecision() {
+        return decision;
     }
 
     // Echo in the same direction of heading, if there is no land then perform
@@ -61,47 +76,35 @@ public class DecisionMaker {
         }
     }
 
-    public void rightOrientation(Direction direction, Drone drone) {
+    public Direction rightOrientation(Direction direction, Drone drone) {
         Direction heading = drone.getHeading();
-            switch(heading) {
-                case Direction.N:
-                    direction = Direction.E;
-                    break;
-                case Direction.S:
-                    direction = Direction.W;
-                    break;
-                case Direction.E:
-                    direction = Direction.S;
-                    break;
-                case Direction.W:
-                    direction = Direction.N;   
-                    break;
-                default:
-                    break;
-            }
-
+        switch(heading) {
+            case Direction.N:
+                return Direction.E;
+            case Direction.S:
+                return Direction.W;
+            case Direction.E:
+                return Direction.S;
+            case Direction.W:
+                return Direction.N;   
+            default:
+                throw new IllegalArgumentException("Invalid heading encountered: " + heading);
+        }
     }
 
-    public void leftOrientation(Direction direction, Drone drone) {
+    public Direction leftOrientation(Direction direction, Drone drone) {
         Direction heading = drone.getHeading();
-            switch(heading) {
-                case Direction.N:
-                    direction = Direction.W;
-                    break;
-                case Direction.S:
-                    direction = Direction.E;
-                    break;
-                case Direction.E:
-                    direction = Direction.N;
-                    break;
-                case Direction.W:
-                    direction = Direction.S;   
-                    break;
-                default:
-                    break;
-            }
-
+        switch(heading) {
+            case Direction.N:
+                return Direction.W;
+            case Direction.S:
+                return Direction.E;
+            case Direction.E:
+                return Direction.N;
+            case Direction.W:
+                return Direction.S;   
+            default:
+                throw new IllegalArgumentException("Invalid heading encountered: " + heading);
+        }
     }
-
-
 }

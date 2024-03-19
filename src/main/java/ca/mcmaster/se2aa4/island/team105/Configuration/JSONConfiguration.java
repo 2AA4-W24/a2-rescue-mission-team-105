@@ -7,7 +7,6 @@ import ca.mcmaster.se2aa4.island.team105.DecisionMaker;
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
-import ca.mcmaster.se2aa4.island.team105.Enums.Decision;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 import ca.mcmaster.se2aa4.island.team105.Map.Translator;
 
@@ -23,8 +22,8 @@ public class JSONConfiguration {
     private Drone level;
     private Limitations limitation;  // Declare the Limitations object
     Actions action = new Actions(decision);
-    private int count;
     Direction direction;
+    private DecisionMaker decisionMaker = new DecisionMaker(); // need to keep it outside
 
      // maybe change later
 
@@ -40,8 +39,8 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        DecisionMaker decisionMaker = new DecisionMaker();
-        decisionMaker.findMapBox(limitation, level, direction, action, parameter, count);
+        decisionMaker.findMapBox(limitation, level, direction, action, parameter);
+        decision = decisionMaker.getDecision();
         logger.info(level.getX() + " " + level.getY());
         logger.info("** Decision: {}", decision.toString());
         logger.info("Battery level is now {}", this.level.getLevel());       
