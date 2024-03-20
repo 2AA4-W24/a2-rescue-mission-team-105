@@ -84,25 +84,12 @@ public class DecisionMaker {
                     break;
                 case 2:
                     decision = action.heading(parameter, searchDirection, drone);
-                    if searchDirection == leftOrientation(direction){
-                        searchDirection = leftOrientation(searchDirection);
-                        direction = leftOrientation(direction);
+                    if(searchDirection == leftOrientation(direction, drone)){
+                        searchDirection = leftOrientation(searchDirection, drone);
+                        direction = leftOrientation(direction, drone);
                     }
                     else{
-                        searchDirection = rightOrientation(searchDirection);
-                        direction = rightOrientation(direction);
-
-                    }
-                    break;
-                case 3
-                    logger.info("phase 4");
-                    if (count % 3 == 1) {
-                        logger.info("does this ever");
-                        decision = action.fly(drone);
-                    }
-        
-                    else if (count % 3 == 2){
-                        decision = action.echo(parameter, searchDirection);
+                        searchDirection = rightOrientation(searchDirection, drone);
                     }
                     break;
                 default:
