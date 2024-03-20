@@ -41,7 +41,7 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        decisionMaker.findMapBox(limitation, level, direction, action, parameter, x, y);
+        decisionMaker.findMapBox(limitation, level, direction, action, parameter);
         decision = decisionMaker.getDecision();
         logger.info(level.getX() + " " + level.getY());
         logger.info("** Decision: {}", decision.toString());
@@ -67,12 +67,10 @@ public class JSONConfiguration {
         limitation.returnHome(action);
         Translator translator = new Translator(response, level);
         logger.info("found ground is " + translator.foundGround());
-        if (translator.foundOcean()) {
-            x = translator.getRange();
-            if (translator.getRange() == x) {
-                y = translator.getRange();
-            }
-        }
+        // if (translator.foundOcean()) {
+        //     x = translator.getRange();
+        //     y = translator.getRange();
+        // }
     }
 
 

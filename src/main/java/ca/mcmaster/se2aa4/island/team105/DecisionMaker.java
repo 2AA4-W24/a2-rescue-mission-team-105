@@ -16,17 +16,14 @@ public class DecisionMaker {
 
     protected JSONObject decision = new JSONObject();
     private int count; // need to keep this outside
-    
 
-    public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter, int mapX, int mapY) { // might be high coupling
+    public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action,
+            JSONObject parameter) { // might be high coupling
         count++;
         if (drone.getX() == 20) {
             decision = action.stop();
             return;
         }
-        logger.info("map x is: " + mapX);
-        
-        logger.info("map y is: " + mapY);
         // logger.info(drone.getX());
         // logger.info("counter is: " + count);
         direction = rightOrientation(direction, drone);
@@ -35,16 +32,14 @@ public class DecisionMaker {
             if (count % 3 == 0) {
                 decision = action.echo(parameter, Direction.N);
                 // decision = action.scan();
-            }
-            else if (count % 3 == 1) {
+            } else if (count % 3 == 1) {
                 decision = action.fly(drone);
             }
 
-            else if (count % 3 == 2){
+            else if (count % 3 == 2) {
                 decision = action.echo(parameter, Direction.S);
             }
-        }
-        else {
+        } else {
             logger.info("Incorrect command, cannot echo in the opposite direction");
         }
     }
@@ -53,23 +48,24 @@ public class DecisionMaker {
         return decision;
     }
 
-    // Echo in the same direction of heading, if there is no land then perform
-        // Echo on sides left/right side, depending on the which side we hit land, we want to stick to only on that side afterwards
-        // Fly after echoing
-        // Keeping going until you hit the first and last land
-        // Then turn in the same direction you echoed.
-        // Echo direction is now changed to the opposite direction you were flying
-        // Keep echo/flying until you hit first/last land
-        // Store all these information
-    // If there is a land then
-        // Change heading to either east/west
-        // fly forward, echo in the direction of the map until you get no land, then 
-        // start the first state :D
 
+    // Echo in the same direction of heading, if there is no land then perform
+    // Echo on sides left/right side, depending on the which side we hit land, we
+    // want to stick to only on that side afterwards
+    // Fly after echoing
+    // Keeping going until you hit the first and last land
+    // Then turn in the same direction you echoed.
+    // Echo direction is now changed to the opposite direction you were flying
+    // Keep echo/flying until you hit first/last land
+    // Store all these information
+    // If there is a land then
+    // Change heading to either east/west
+    // fly forward, echo in the direction of the map until you get no land, then
+    // start the first state :D
 
     public Direction orientation(Direction direction, Drone drone) {
         Direction heading = drone.getHeading();
-        switch(heading) {
+        switch (heading) {
             case Direction.N:
                 return Direction.N;
             case Direction.S:
@@ -77,7 +73,7 @@ public class DecisionMaker {
             case Direction.E:
                 return Direction.E;
             case Direction.W:
-                return Direction.W;   
+                return Direction.W;
             default:
                 throw new IllegalArgumentException("Invalid heading encountered: " + heading);
         }
@@ -85,7 +81,7 @@ public class DecisionMaker {
 
     public Direction rightOrientation(Direction direction, Drone drone) {
         Direction heading = drone.getHeading();
-        switch(heading) {
+        switch (heading) {
             case Direction.N:
                 return Direction.E;
             case Direction.S:
@@ -93,7 +89,7 @@ public class DecisionMaker {
             case Direction.E:
                 return Direction.S;
             case Direction.W:
-                return Direction.N;   
+                return Direction.N;
             default:
                 throw new IllegalArgumentException("Invalid heading encountered: " + heading);
         }
@@ -101,7 +97,7 @@ public class DecisionMaker {
 
     public Direction leftOrientation(Direction direction, Drone drone) {
         Direction heading = drone.getHeading();
-        switch(heading) {
+        switch (heading) {
             case Direction.N:
                 return Direction.W;
             case Direction.S:
@@ -109,7 +105,7 @@ public class DecisionMaker {
             case Direction.E:
                 return Direction.N;
             case Direction.W:
-                return Direction.S;   
+                return Direction.S;
             default:
                 throw new IllegalArgumentException("Invalid heading encountered: " + heading);
         }
