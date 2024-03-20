@@ -39,6 +39,17 @@ public class DecisionMaker {
                     count = 0;
                 }
             }
+            if(!landFound){
+                if (phase == 1){
+                    phase = 2;
+                    count = 0;
+                }
+                else if (phase == 2){
+                    phase = 3;
+                    count = 0;
+                }
+            }
+
             switch(phase) {
                 case 0:
                    
@@ -62,6 +73,29 @@ public class DecisionMaker {
                     break;
                 case 1:
                     logger.info("phase 2");
+                    if (count % 3 == 1) {
+                        logger.info("does this ever");
+                        decision = action.fly(drone);
+                    }
+        
+                    else if (count % 3 == 2){
+                        decision = action.echo(parameter, searchDirection);
+                    }
+                    break;
+                case 2:
+                    decision = action.heading(parameter, searchDirection, drone);
+                    if searchDirection == leftOrientation(direction){
+                        searchDirection = leftOrientation(searchDirection);
+                        direction = leftOrientation(direction);
+                    }
+                    else{
+                        searchDirection = rightOrientation(searchDirection);
+                        direction = rightOrientation(direction);
+
+                    }
+                    break;
+                case 3
+                    logger.info("phase 4");
                     if (count % 3 == 1) {
                         logger.info("does this ever");
                         decision = action.fly(drone);
