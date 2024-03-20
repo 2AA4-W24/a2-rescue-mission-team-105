@@ -58,7 +58,7 @@ public class DecisionMaker {
                     }
                 }
             }
-            if(phase == 3 && !radar){
+            if(phase == 3 && radar && landFound){
                 if (phase == 3){
                     logger.info("phase 3");
                     phase = 4;
