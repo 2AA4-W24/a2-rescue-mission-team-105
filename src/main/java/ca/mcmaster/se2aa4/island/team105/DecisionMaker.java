@@ -55,26 +55,30 @@ public class DecisionMaker {
             switch(phase) {
                 case 0:
                    
-                    if (count % 4 == 0) {
+                    if (count % 5 == 0) {
                         decision = action.echo(parameter, Direction.N);
                         searchDirection = Direction.N;
                         // decision = action.scan();
                     }
 
-                    else if (count % 4 == 1) {
+                    else if (count % 5 == 1) {
                         decision = action.echo(parameter, Direction.E);
                         searchDirection = Direction.E;
                     } 
         
-                    else if (count % 4 == 2){
+                    else if (count % 5 == 2){
                         decision = action.echo(parameter, Direction.S);
                         searchDirection = Direction.S;
 
                     }
 
-                    else if (count % 4 == 3) {
+                    else if (count % 5 == 3) {
                         logger.info("does this ever");
                         decision = action.fly(drone);
+                    }
+
+                    else if (count % 5 == 4) {
+                        decision = action.scan();
                     }
     
                     break;
@@ -91,17 +95,17 @@ public class DecisionMaker {
                     break;
                 case 2:
                     decision = action.heading(parameter, searchDirection, drone);
-                    if searchDirection == leftOrientation(direction){
-                        searchDirection = leftOrientation(searchDirection);
-                        direction = leftOrientation(direction);
+                    if (searchDirection == leftOrientation(direction, drone)) {
+                        searchDirection = leftOrientation(searchDirection, drone);
+                        direction = leftOrientation(direction, drone);
                     }
-                    else{
-                        searchDirection = rightOrientation(searchDirection);
-                        direction = rightOrientation(direction);
+                    else {
+                        searchDirection = rightOrientation(searchDirection, drone);
+                        direction = rightOrientation(direction, drone);
 
                     }
                     break;
-                case 3
+                case 3:
                     logger.info("phase 4");
                     if (count % 3 == 1) {
                         logger.info("does this ever");
