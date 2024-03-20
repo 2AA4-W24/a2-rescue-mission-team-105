@@ -61,9 +61,13 @@ public class ExplorerMap {
 
     //gets object from location
     public String getLocation(int xdist, int ydist) {
-        Point targetPoint = new Point(xdist, ydist);
-        String result = mapLayout.get(targetPoint);
-        return result;
+        try {
+            Point targetPoint = new Point(xdist, ydist);
+            String result = mapLayout.get(targetPoint);
+            return result;
+        } catch (Exception e) {
+            return "Information not found"; // 
+        }
     }
 
     public void updateCurrentPoint(int xdist, int ydist){
