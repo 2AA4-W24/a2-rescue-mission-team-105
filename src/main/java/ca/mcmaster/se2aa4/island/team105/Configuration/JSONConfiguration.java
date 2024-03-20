@@ -24,7 +24,7 @@ public class JSONConfiguration {
     Actions action = new Actions(decision);
     Direction direction;
     private DecisionMaker decisionMaker = new DecisionMaker(); // need to keep it outside
-    private int mapRange;
+    private int x,y;
     
 
      // maybe change later
@@ -41,7 +41,7 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        decisionMaker.findMapBox(limitation, level, direction, action, parameter);
+        decisionMaker.findMapBox(limitation, level, direction, action, parameter, x, y);
         decision = decisionMaker.getDecision();
         logger.info(level.getX() + " " + level.getY());
         logger.info("** Decision: {}", decision.toString());
@@ -66,10 +66,14 @@ public class JSONConfiguration {
         logger.info(level.getX() + " " + level.getY());
         limitation.returnHome(action);
         Translator translator = new Translator(response, level);
-        logger.info("wowowowow " + translator.getRange());
         logger.info("found ground is " + translator.foundGround());
+        if (translator.foundOcean()) {
+            x = translator.getRange();
+            if (translator.getRange() == x) {
+                y = translator.getRange();
+            }
+        }
     }
-    
 
 
 }
