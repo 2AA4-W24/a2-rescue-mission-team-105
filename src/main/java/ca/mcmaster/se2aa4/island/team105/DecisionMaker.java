@@ -10,7 +10,7 @@ import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class DecisionMaker {
+public class DecisionMaker implements SearchMethods {
 
     private final static Logger logger = LogManager.getLogger();
 
@@ -22,7 +22,7 @@ public class DecisionMaker {
     Direction searchDirection;
 
     
-
+    @Override
     public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) { // might be high coupling
         count++;
         if (drone.getX() == 40) {
@@ -107,7 +107,7 @@ public class DecisionMaker {
 
                     }
                     break;
-                    
+
                 case 3:
                     logger.info("phase 4");
                     if (count % 3 == 1) {
@@ -130,6 +130,24 @@ public class DecisionMaker {
 
     public JSONObject getDecision() {
         return decision;
+    }
+
+    @Override
+    public void spiralSearch(Actions action, Drone drone) {
+        // go to the middle of the map box
+        // 
+        count++;
+        if (count % 3 == 0) {
+            action.fly(drone);
+        }
+        else {
+            action.heading(decision, searchDirection, drone);
+        }
+    }
+
+    @Override
+    public void gridSearch() {
+
     }
 
 
