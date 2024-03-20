@@ -15,6 +15,7 @@ public class DecisionMaker {
 
     protected JSONObject decision = new JSONObject();
     private int count; // need to keep this outside
+    
 
     public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) { // might be high coupling
         count++;
@@ -22,8 +23,8 @@ public class DecisionMaker {
             decision = action.stop();
             return;
         }
-        logger.info(drone.getX());
-        logger.info("counter is: " + count);
+        // logger.info(drone.getX());
+        // logger.info("counter is: " + count);
         direction = rightOrientation(direction, drone);
         logger.info("Direction is: " + direction);
         if (limitation.is180DegreeTurn(direction) == false) {

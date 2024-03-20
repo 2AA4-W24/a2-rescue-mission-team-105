@@ -15,8 +15,9 @@ public class Limitations extends JSONConfiguration {
     private final Logger logger = LogManager.getLogger();
     Drone drone = new Drone(7000, "E");
     private boolean radioRange;
-
     Direction heading = drone.getHeading();
+
+    
 
     // Constructor to initialize Limitations with a BatteryLevel instance
     public Limitations(Drone level) {

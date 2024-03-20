@@ -7,12 +7,9 @@ import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 public class Actions {
     
     private JSONObject decision;
-    // private JSONObject parameter;
-    // private JSONObject direction;
 
     public Actions(JSONObject decision) {
         this.decision = decision;
-        // this.direction = direction;
     }
 
     public JSONObject stop() {
