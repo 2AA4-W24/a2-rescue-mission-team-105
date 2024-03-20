@@ -24,7 +24,6 @@ public class JSONConfiguration {
     Actions action = new Actions(decision);
     Direction direction;
     private DecisionMaker decisionMaker = new DecisionMaker(); // need to keep it outside
-    private int mapRange;
     
 
      // maybe change later
@@ -65,11 +64,11 @@ public class JSONConfiguration {
         logger.info("Additional information received: {}", extraInfo);
         logger.info(level.getX() + " " + level.getY());
         limitation.returnHome(action);
+
         Translator translator = new Translator(response, level);
-        logger.info("wowowowow " + translator.getRange());
         logger.info("found ground is " + translator.foundGround());
+        decisionMaker.decisionUpdate(translator.foundGround(), translator.getRange());
     }
-    
 
 
 }
