@@ -16,6 +16,12 @@ public class DecisionMaker {
 
     protected JSONObject decision = new JSONObject();
     private int count; // need to keep this outside
+    private int phase = 0;
+    private boolean landFound;
+    private int range;
+    Direction searchDirection;
+
+    
 
     public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action,
             JSONObject parameter) { // might be high coupling
@@ -26,20 +32,57 @@ public class DecisionMaker {
         }
         // logger.info(drone.getX());
         // logger.info("counter is: " + count);
-        direction = rightOrientation(direction, drone);
+        // direction = rightOrientation(direction, drone);
         logger.info("Direction is: " + direction);
         if (limitation.is180DegreeTurn(direction) == false) {
-            if (count % 3 == 0) {
-                decision = action.echo(parameter, Direction.N);
-                // decision = action.scan();
-            } else if (count % 3 == 1) {
-                decision = action.fly(drone);
+            if (phase == 0){
+                if(landFound){
+                    phase = 1;
+                    count = 0;
+                }
             }
+            switch(phase) {
+                case 0:
+                   
+                    if (count % 4 == 0) {
+                        decision = action.echo(parameter, Direction.N);
+                        searchDirection = Direction.N;
+                        // decision = action.scan();
+                    }
 
-            else if (count % 3 == 2) {
-                decision = action.echo(parameter, Direction.S);
-            }
-        } else {
+                    else if (count % 4 == 1) {
+                        decision = action.echo(parameter, Direction.E);
+                        searchDirection = Direction.E;
+                    } 
+        
+                    else if (count % 4 == 2){
+                        decision = action.echo(parameter, Direction.S);
+                        searchDirection = Direction.S;
+
+                    }
+
+                    else if (count % 4 == 3) {
+                        logger.info("does this ever");
+                        decision = action.fly(drone);
+                    }
+    
+                    break;
+                case 1:
+                    logger.info("phase 2");
+                    if (count % 3 == 1) {
+                        logger.info("does this ever");
+                        decision = action.fly(drone);
+                    }
+        
+                    else if (count % 3 == 2){
+                        decision = action.echo(parameter, searchDirection);
+                    }
+                    break;
+                default:
+                  logger.info("not in phase");
+              }
+        }
+        else {
             logger.info("Incorrect command, cannot echo in the opposite direction");
         }
     }
@@ -109,5 +152,10 @@ public class DecisionMaker {
             default:
                 throw new IllegalArgumentException("Invalid heading encountered: " + heading);
         }
+    }
+    
+    public void decisionUpdate(boolean land_found, int distance){
+        landFound = land_found;
+        range = distance;
     }
 }
