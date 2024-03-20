@@ -24,7 +24,6 @@ public class JSONConfiguration {
     Actions action = new Actions(decision);
     Direction direction;
     private DecisionMaker decisionMaker = new DecisionMaker(); // need to keep it outside
-    private int x,y;
     
 
      // maybe change later
@@ -69,10 +68,6 @@ public class JSONConfiguration {
         Translator translator = new Translator(response, level);
         logger.info("found ground is " + translator.foundGround());
         decisionMaker.decisionUpdate(translator.foundGround(), translator.getRange());
-        // if (translator.foundOcean()) {
-        //     x = translator.getRange();
-        //     y = translator.getRange();
-        // }
     }
 
 

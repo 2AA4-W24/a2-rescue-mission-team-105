@@ -23,24 +23,25 @@ public class DecisionMaker {
 
     
 
-    public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action,
-            JSONObject parameter) { // might be high coupling
+    public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) { // might be high coupling
         count++;
-        if (drone.getX() == 20) {
+        if (drone.getX() == 40) {
             decision = action.stop();
             return;
         }
         // logger.info(drone.getX());
         // logger.info("counter is: " + count);
-        // direction = rightOrientation(direction, drone);
+        direction = orientation(direction, drone);
         logger.info("Direction is: " + direction);
         if (limitation.is180DegreeTurn(direction) == false) {
+            
             if (phase == 0){
                 if(landFound){
                     phase = 1;
                     count = 0;
                 }
             }
+
             if(!landFound){
                 if (phase == 1){
                     phase = 2;
@@ -58,12 +59,11 @@ public class DecisionMaker {
                     if (count % 5 == 0) {
                         decision = action.echo(parameter, Direction.N);
                         searchDirection = Direction.N;
-                        // decision = action.scan();
                     }
 
                     else if (count % 5 == 1) {
-                        decision = action.echo(parameter, Direction.E);
-                        searchDirection = Direction.E;
+                        decision = action.echo(parameter, direction);
+                        searchDirection = direction;
                     } 
         
                     else if (count % 5 == 2){
@@ -73,15 +73,16 @@ public class DecisionMaker {
                     }
 
                     else if (count % 5 == 3) {
-                        logger.info("does this ever");
-                        decision = action.fly(drone);
-                    }
-
-                    else if (count % 5 == 4) {
+                        logger.info("scanning");
                         decision = action.scan();
                     }
-    
+                    
+                    else if (count % 5 == 4) {
+                        logger.info("flying");
+                        decision = action.fly(drone);
+                    }
                     break;
+
                 case 1:
                     logger.info("phase 2");
                     if (count % 3 == 1) {
@@ -93,6 +94,7 @@ public class DecisionMaker {
                         decision = action.echo(parameter, searchDirection);
                     }
                     break;
+
                 case 2:
                     decision = action.heading(parameter, searchDirection, drone);
                     if (searchDirection == leftOrientation(direction, drone)) {
@@ -105,6 +107,7 @@ public class DecisionMaker {
 
                     }
                     break;
+                    
                 case 3:
                     logger.info("phase 4");
                     if (count % 3 == 1) {
@@ -196,4 +199,6 @@ public class DecisionMaker {
         landFound = land_found;
         range = distance;
     }
+
+
 }
