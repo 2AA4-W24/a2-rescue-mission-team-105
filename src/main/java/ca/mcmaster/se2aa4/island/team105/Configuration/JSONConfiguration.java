@@ -65,9 +65,13 @@ public class JSONConfiguration {
         logger.info("Additional information received: {}", extraInfo);
         logger.info(level.getX() + " " + level.getY());
         limitation.returnHome(action);
+
         Translator translator = new Translator(response, level);
         logger.info("wowowowow " + translator.getRange());
         logger.info("found ground is " + translator.foundGround());
+        decisionMaker.decisionUpdate(translator.foundGround(), translator.getRange());
+        
+
     }
     
 
