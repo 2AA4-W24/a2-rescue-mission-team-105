@@ -3,6 +3,7 @@ package ca.mcmaster.se2aa4.island.team105.Configuration;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import ca.mcmaster.se2aa4.island.team105.DecisionMaker;
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
@@ -20,9 +21,12 @@ public class JSONConfiguration {
     protected JSONObject parameter = new JSONObject();
     private Drone level;
     private Limitations limitation;  // Declare the Limitations object
-    private Translator translator;
-    private int count;
     Actions action = new Actions(decision);
+    Direction direction;
+    private DecisionMaker decisionMaker = new DecisionMaker(); // need to keep it outside
+    private int mapRange;
+    
+
      // maybe change later
 
     public void initializationWrap(String s) {
@@ -37,13 +41,8 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        count++;
-        JSONObject decision = new JSONObject();
-        JSONObject parameter = new JSONObject();
-        if (count < 2) {
-            action.heading(parameter, Direction.N , level);
-        }
-        action.fly(level);
+        decisionMaker.findMapBox(limitation, level, direction, action, parameter);
+        decision = decisionMaker.getDecision();
         logger.info(level.getX() + " " + level.getY());
         logger.info("** Decision: {}", decision.toString());
         logger.info("Battery level is now {}", this.level.getLevel());       
@@ -66,6 +65,11 @@ public class JSONConfiguration {
         logger.info("Additional information received: {}", extraInfo);
         logger.info(level.getX() + " " + level.getY());
         limitation.returnHome(action);
-        translator = new Translator(response, level);
+        Translator translator = new Translator(response, level);
+        logger.info("wowowowow " + translator.getRange());
+        logger.info("found ground is " + translator.foundGround());
     }
+    
+
+
 }

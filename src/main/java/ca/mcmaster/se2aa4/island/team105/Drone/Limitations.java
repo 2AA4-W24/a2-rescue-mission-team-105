@@ -4,6 +4,7 @@ import java.util.EnumMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 import ca.mcmaster.se2aa4.island.team105.Configuration.JSONConfiguration;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
@@ -13,8 +14,10 @@ public class Limitations extends JSONConfiguration {
     private Drone level;
     private final Logger logger = LogManager.getLogger();
     Drone drone = new Drone(7000, "E");
-
+    private boolean radioRange;
     Direction heading = drone.getHeading();
+
+    
 
     // Constructor to initialize Limitations with a BatteryLevel instance
     public Limitations(Drone level) {
@@ -36,7 +39,7 @@ public class Limitations extends JSONConfiguration {
     }
 
     // checks bad command
-    public void badCommand(Actions action, Direction desiredDirection) {
+    public void badCommand(Actions action, Direction desiredDirection, JSONObject parameter) {
         if (desiredDirection == heading) {
             logger.info("Already heading in the desired direction. Continuing exploration.");
         } else {
@@ -58,13 +61,19 @@ public class Limitations extends JSONConfiguration {
         return oppositeDirections.get(heading) == desiredDirection;
     }
 
+    public boolean radioRange() {
+        // gets the size of the map through the radio range
+        // to get the size echo in all directions
+        // conditionals if current x and y is less than the radio range results than you cannot fly in that direction
+        return radioRange;
+
+    }
 
     // checks radio range
-    
     //check all direction for range 
     //make relative x and y borders when out of range response seen
     //to stay in range never fly or "heading" command out of range
-    //Never fly or head into a postiion where we are facing the out while on the edge
+    //Never fly or head into a postion where we are facing the out while on the edge
 
 
 }

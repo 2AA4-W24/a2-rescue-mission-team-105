@@ -1,16 +1,25 @@
 package ca.mcmaster.se2aa4.island.team105.Map;
 
-public class Information extends Translator{
-    private String biome;
-    private String creek;
-    private String site;
-    private int batteryLevel;
+public class Information{
+    public String biome;
+    public String creek;
+    public String site;
+    public int batteryLevel;
 
     public Information() {
-        this.biome = getBiome(); //maybe make an enum of this
-        this.creek = getCreek(); //whenever a new information object is made, methods to update Information from Translator runs
-        this.site = getSite();
-        this.batteryLevel = getBattery();
+        super();
+        this.biome = "";
+        this.creek = ""; //whenever a new information object is made, methods to update Information from Translator runs
+        this.site = "";
+        this.batteryLevel = 0;
     }
+
+
+
+
+
+
+    
+    //more methods, ex. isground or whateva 
 
 }
