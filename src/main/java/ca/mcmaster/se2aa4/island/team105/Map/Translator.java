@@ -10,8 +10,6 @@ import org.apache.logging.log4j.Logger;
 public class Translator {
     private int cost;
     private JSONObject extras;
-    //private Drone battery;
-    //private Information info;
     private String creeks;
     private String sites;
     private boolean isGround;
@@ -28,6 +26,7 @@ public class Translator {
     }
 
     //methods to update information class lmao this is so scuffed
+
     public boolean foundGround() {
         if (extras.has("found")) {
             if (extras.get("found").equals("GROUND")) {
@@ -36,6 +35,7 @@ public class Translator {
         }
         return false;
     }
+
 
     public boolean foundOcean() {
         if (extras.has("found")) {

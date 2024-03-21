@@ -34,8 +34,8 @@ public class DecisionMaker implements SearchMethods {
         // logger.info("counter is: " + count);
         direction = orientation(direction, drone);
         logger.info("Direction is: " + direction);
-        if(true){
-        //if (limitation.is180DegreeTurn(direction) == false) {
+        // if(true){
+        if (limitation.is180DegreeTurn(direction) == false) {
             if (phase == 0){
                 if(landFound){
                     phase = 1;
@@ -172,21 +172,48 @@ public class DecisionMaker implements SearchMethods {
     }
 
     @Override
-    public void spiralSearch(Actions action, Drone drone) {
-        // go to the middle of the map box
-        // 
+    public void gridSearch(Actions action, Drone drone, Limitations limitation, Direction direction) {
         count++;
-        if (count % 3 == 0) {
-            action.fly(drone);
-        }
-        else {
-            action.heading(decision, searchDirection, drone);
-        }
-    }
+        if (limitation.is180DegreeTurn(direction) == false) {
+            if (count == 1) { // while the drone (x,y) is in the border of the box
+                if (count % 2 == 0) {
+                    action.fly(drone);
+                }
+                else {
+                    action.scan();
+                }
+            }
 
-    @Override
-    public void gridSearch() {
+            else {
+                direction = leftOrientation(direction, drone);
+                if (count % 6 == 1) {
+                    action.heading(decision, direction, drone); // head left
+                    direction = rightOrientation(direction, drone);
+                }
 
+                else if (count % 6 == 2) {
+                    action.heading(decision, direction, drone); // head right
+                }
+
+                else if (count % 6 == 3) {
+                    action.echo(decision, direction); // head right
+                }
+
+                else if (count % 6 == 4) {
+                    action.fly(drone); 
+                }
+
+                else if (count % 6 == 5) {
+                    action.heading(decision, direction, drone); // head right
+                }
+
+                else {
+                    action.fly(drone);
+                }
+
+            }
+
+        }
     }
 
 
