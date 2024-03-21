@@ -13,11 +13,16 @@ import org.apache.logging.log4j.Logger;
 
 public class DecisionMaker implements SubObserver {
 
+
     private final static Logger logger = LogManager.getLogger();
 
     protected JSONObject decision = new JSONObject();
     private int count = -1; // need to keep this outside
     private int gridCount = -1;
+    private int count; // need to keep this outside
+
+    private boolean foundGround;
+    private int echoRange;
     private int phase = 0;
     private boolean landFound;
     private int range;

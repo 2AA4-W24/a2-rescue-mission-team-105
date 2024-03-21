@@ -9,6 +9,7 @@ import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 import ca.mcmaster.se2aa4.island.team105.Map.SubObserver;
+import ca.mcmaster.se2aa4.island.team105.Map.ExplorerMap;
 import ca.mcmaster.se2aa4.island.team105.Map.Translator;
 
 import org.apache.logging.log4j.LogManager;
@@ -27,8 +28,8 @@ public class JSONConfiguration {
     private SubObserver decisionMaker = new DecisionMaker(); // need to keep it outside
     private Translator translate = new Translator();
     private int mapRange;
+    ExplorerMap explorer = new ExplorerMap();
     
-
      // maybe change later
 
     public void initializationWrap(String s) {
