@@ -28,7 +28,7 @@ public class DecisionMaker {
         Direction right = rightOrientation(direction, drone);
         count++;
         //Stops when reaches the last state
-        if (phase == 5) {
+        if (phase == 8) {
             decision = action.stop();
             return;
         }
@@ -50,16 +50,28 @@ public class DecisionMaker {
                     phase = 3;
                     count = 0;
                 }
+                else if (phase == 5){
+                    phase = 6;
+                    count = 0;
+                }
                 else if (phase == 4){
                     phase = 5;
                     count = 0;
                 }
+                else if (phase == 7){
+                    phase = 8;
+                    count = 0;
+                }
             }
         }
-        if(phase == 3 && radar && landFound){
+        if(radar && landFound){
             if (phase == 3){
                 logger.info("phase 3");
                 phase = 4;
+                count = 0;
+            }
+            if (phase == 6){
+                phase = 7;
                 count = 0;
             }
         }
@@ -136,7 +148,6 @@ public class DecisionMaker {
                     break;
                 case 4:
                     if (count % 3 == 0) {
-                        logger.info("does this ever");
                         decision = action.fly(drone);
                         radar = false;
                     }
@@ -154,11 +165,56 @@ public class DecisionMaker {
                     }
                     break;
                 case 5:
-                    decision = action.stop();
+                    decision = action.heading(parameter, searchDirection, drone);
+                    if(searchDirection == leftOrientation(direction, drone)){
+                        searchDirection = leftOrientation(searchDirection, drone);
+                        direction = leftOrientation(direction, drone);
+                        radar = false;
+                    }
+                    else{
+                        searchDirection = rightOrientation(searchDirection, drone);
+                        direction = rightOrientation(direction, drone);
+                        radar = false;
+                    }
+                    phase = 6;
+                    break;
+                case 6:
+                    logger.info("phase 4");
+                    if (count % 2 == 0) {
+                        logger.info("does this ever");
+                        decision = action.fly(drone);
+                        radar = false;
+                    }
+        
+                    else if (count % 2 == 1){
+                        decision = action.echo(parameter, searchDirection);
+                        radar = true;
+
+                    }
+                    
+                    break;
+                case 7:
+                    if (count % 3 == 0) {
+                        decision = action.fly(drone);
+                        radar = false;
+                    }
+        
+                    else if (count % 3 == 1){
+                        decision = action.echo(parameter, searchDirection);
+                        logger.info(searchDirection);
+                        radar = true;
+
+                    }
+                    else if (count % 3 == 2){
+                        decision = action.scan();
+                        radar = false;
+
+                    }
+                    break;
                 default:
-                    logger.info("not in phase");
-                }
-            }else{
+                    logger.info("no case found");
+            }
+        }else{
                 logger.info("Bad Command: echo in wrong direction");
             }
         }
