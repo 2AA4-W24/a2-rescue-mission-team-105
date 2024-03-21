@@ -20,6 +20,7 @@ public class DecisionMaker implements SubObserver {
     private boolean foundGround;
     private int echoRange;
     
+    @Override
     public void update(String found, int range) {
         this.foundGround = (found.equals("GROUND"));
         this.echoRange = range;
