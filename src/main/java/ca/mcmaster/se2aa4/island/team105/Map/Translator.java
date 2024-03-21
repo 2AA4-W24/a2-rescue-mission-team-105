@@ -26,10 +26,6 @@ public class Translator implements TranslateSubject{
     public Translator() {
         this.cost = 0;
         this.extras = null;
-        //this.battery = battery;
-        this.creeks = "";
-        this.sites = "";
-        this.isGround = false;
     }
 
     //to be called in main
@@ -48,6 +44,7 @@ public class Translator implements TranslateSubject{
     //sets info in this class from JSONConfiguration
     public void setInfo(JSONObject response) {
         this.extras = response.getJSONObject("extras");
+        this.cost = response.getInt("cost");
         notifyObservers();
     }
 

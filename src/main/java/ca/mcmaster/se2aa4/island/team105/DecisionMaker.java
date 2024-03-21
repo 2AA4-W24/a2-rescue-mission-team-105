@@ -18,10 +18,13 @@ public class DecisionMaker implements SubObserver {
     protected JSONObject decision = new JSONObject();
     private int count; // need to keep this outside
     private boolean foundGround;
+    private int echoRange;
     
-    public void update(String found) {
+    public void update(String found, int range) {
         this.foundGround = (found.equals("GROUND"));
+        this.echoRange = range;
         logger.info(foundGround);
+        logger.info(echoRange);
     }
 
     public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) { // might be high coupling

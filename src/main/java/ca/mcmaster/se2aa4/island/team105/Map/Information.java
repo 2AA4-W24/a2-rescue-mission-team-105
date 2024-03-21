@@ -11,14 +11,16 @@ public class Information implements Observer, TranslateSubject{
     public String site;
     public int batteryLevel;
     private String found;
+    private int range;
     private List<SubObserver> subObservers = new ArrayList<>();
 
     public Information() {
         this.biome = "";
-        this.creek = ""; //whenever a new information object is made, methods to update Information from Translator runs
+        this.creek = ""; 
         this.site = "";
         this.batteryLevel = 0;
         this.found = "";
+        this.range = 0;
     }
 
     public void addObserver(SubObserver subObserver) {
@@ -27,7 +29,7 @@ public class Information implements Observer, TranslateSubject{
 
     public void notifyObservers()  {
         for (SubObserver subObserver : subObservers) {
-            subObserver.update(this.found);
+            subObserver.update(this.found, this.range);
         }
     }
 
@@ -35,13 +37,9 @@ public class Information implements Observer, TranslateSubject{
     public void update(JSONObject extras) {
         if (extras.has("found")) {
             this.found = extras.getString("found");
+            this.range = extras.getInt("range");
             notifyObservers();
         }
     }
-
-
-
-    
-    //more methods, ex. isground or whateva 
 
 }

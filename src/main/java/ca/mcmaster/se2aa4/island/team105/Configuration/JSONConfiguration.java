@@ -9,7 +9,6 @@ import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 import ca.mcmaster.se2aa4.island.team105.Map.SubObserver;
-import ca.mcmaster.se2aa4.island.team105.Map.TranslateSubject;
 import ca.mcmaster.se2aa4.island.team105.Map.Translator;
 
 import org.apache.logging.log4j.LogManager;
