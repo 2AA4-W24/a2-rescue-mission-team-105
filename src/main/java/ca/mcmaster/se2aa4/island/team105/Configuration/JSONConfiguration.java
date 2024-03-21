@@ -44,9 +44,8 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        //((DecisionMaker)decisionMaker).findMapBox(limitation, level, direction, action, parameter);
-        //decision = decisionMaker.getDecision();
-        decision = action.echo(parameter, Direction.S);
+        ((DecisionMaker)decisionMaker).findMapBox(limitation, level, direction, action, parameter);
+        decision = ((DecisionMaker)decisionMaker).getDecision();
         logger.info(level.getX() + " " + level.getY());
         logger.info("** Decision: {}", decision.toString());
         logger.info("Battery level is now {}", this.level.getLevel());       
@@ -73,8 +72,11 @@ public class JSONConfiguration {
         //Translator translator = new Translator(response, level);
         //logger.info("wowowowow " + translator.getRange());
         //logger.info("found ground is " + translator.foundGround());
+
+        Translator translator = new Translator(response, level);
+        logger.info("found ground is " + translator.foundGround());
+        ((DecisionMaker)decisionMaker).decisionUpdate(translator.foundGround(), translator.getRange()); //dawg
     }
-    
 
 
 }
