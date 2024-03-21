@@ -14,7 +14,7 @@ public class DecisionMaker {
     private final static Logger logger = LogManager.getLogger();
 
     protected JSONObject decision = new JSONObject();
-    private int count; // need to keep this outside
+    private int count = -1; // need to keep this outside
     private int phase = 0;
     private boolean landFound;
     private int range;
@@ -28,7 +28,7 @@ public class DecisionMaker {
         Direction right = rightOrientation(direction, drone);
         count++;
         //Stops when reaches the last state
-        if (phase == 8) {
+        if (phase == 2) {
             decision = action.stop();
             return;
         }
@@ -39,13 +39,15 @@ public class DecisionMaker {
                 count = 0;
             }
         }
+        else if (phase == 1){
+            if(landFound){
+                phase = 2;
+                count = 0;
+            }
+        }
         if(radar){
             if(!landFound){
-                if (phase == 1){
-                    phase = 2;
-                    count = 0;
-                }
-                else if (phase == 2){
+                if (phase == 2){
                     logger.info("phase 3");
                     phase = 3;
                     count = 0;
@@ -78,16 +80,37 @@ public class DecisionMaker {
         if(limitation.is180DegreeTurn(direction)== false){
             switch(phase) {
                 case 0:
+                    if (count % 5 == 0){
+                        decision = action.echo(parameter, orientation(direction,drone));
+                    }
                     
-                    if (count % 4 == 0) {
-                        logger.info("will the heading ever change?");
+                    else if (count % 5 == 1) {
                         decision = action.echo(parameter, left);
                         searchDirection = left;
                         // decision = action.scan();
                     }
-                    else if (count % 4 == 2) {
-                        logger.info("does this ever");
+        
+                    else if (count % 5 == 2){
+                        decision = action.echo(parameter, right);
+                        searchDirection = right;
+
+                    }
+
+                    else if (count % 5 == 3) {
                         decision = action.fly(drone);
+                    }
+
+                    else if (count % 5 == 4){
+                        decision = action.scan();
+                    }
+                    break;
+
+                case 1:
+                    
+                    if (count % 4 == 0) {
+                        decision = action.echo(parameter, left);
+                        searchDirection = left;
+                        // decision = action.scan();
                     }
         
                     else if (count % 4 == 1){
@@ -95,12 +118,22 @@ public class DecisionMaker {
                         searchDirection = right;
 
                     }
-                    
+
+                    else if (count % 4 == 2) {
+                        decision = action.fly(drone);
+                    }
+
                     else if (count % 4 == 3){
                         decision = action.scan();
                     }
                     break;
-                case 1:
+
+
+
+
+
+
+                /*case 1:
                     logger.info("phase 2");
                     if (count % 3 == 0) {
                         logger.info("does this ever");
@@ -116,7 +149,7 @@ public class DecisionMaker {
                         decision = action.scan();
                         radar = false;
                     }
-                    break;
+                    break;*/
                 case 2:
                     decision = action.heading(parameter, searchDirection, drone);
                     if(searchDirection == leftOrientation(direction, drone)){
