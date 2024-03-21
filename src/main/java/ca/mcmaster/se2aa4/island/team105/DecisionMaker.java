@@ -6,33 +6,21 @@ import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
-import ca.mcmaster.se2aa4.island.team105.Map.SubObserver;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class DecisionMaker implements SubObserver {
-
+public class DecisionMaker implements SearchMethods {
 
     private final static Logger logger = LogManager.getLogger();
 
     protected JSONObject decision = new JSONObject();
     private int count; // need to keep this outside
-
-    private boolean foundGround;
-    private int echoRange;
     private int phase = 0;
     private boolean landFound;
     private int range;
     private boolean radar;
     Direction searchDirection;
-    
-    @Override
-    public void update(String found, int range) {
-        this.foundGround = (found.equals("GROUND"));
-        this.echoRange = range;
-        logger.info(foundGround);
-        logger.info(echoRange);
-    }
 
     
     @Override
