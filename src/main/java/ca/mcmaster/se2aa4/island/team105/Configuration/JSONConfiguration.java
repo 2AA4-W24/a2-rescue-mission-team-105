@@ -8,6 +8,7 @@ import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
+import ca.mcmaster.se2aa4.island.team105.Map.SubObserver;
 import ca.mcmaster.se2aa4.island.team105.Map.ExplorerMap;
 import ca.mcmaster.se2aa4.island.team105.Map.Translator;
 
@@ -24,13 +25,15 @@ public class JSONConfiguration {
     private Limitations limitation;  // Declare the Limitations object
     Actions action = new Actions(decision);
     Direction direction;
-    private DecisionMaker decisionMaker = new DecisionMaker(); // need to keep it outside
+    private SubObserver decisionMaker = new DecisionMaker(); // need to keep it outside
+    private Translator translate = new Translator();
+    private int mapRange;
     ExplorerMap explorer = new ExplorerMap();
     
-
      // maybe change later
 
     public void initializationWrap(String s) {
+        translate.addObserver(decisionMaker);
         logger.info("** Initializing the Exploration Command Center");
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}", info.toString(2));
@@ -42,8 +45,9 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        decisionMaker.findMapBox(limitation, level, direction, action, parameter);
-        decision = decisionMaker.getDecision();
+        //((DecisionMaker)decisionMaker).findMapBox(limitation, level, direction, action, parameter);
+        //decision = decisionMaker.getDecision();
+        decision = action.echo(parameter, Direction.S);
         logger.info(level.getX() + " " + level.getY());
         logger.info("** Decision: {}", decision.toString());
         logger.info("Battery level is now {}", this.level.getLevel());       
@@ -66,10 +70,11 @@ public class JSONConfiguration {
         logger.info("Additional information received: {}", extraInfo);
         logger.info(level.getX() + " " + level.getY());
         limitation.returnHome(action);
-        Translator translator = new Translator(response, level);
-        logger.info("found ground is " + translator.foundGround());
-        explorer.setEchoInfo(1, 2, true);
-        logger.info("this is for explorer map " +  explorer.getLocation(1, 1));
+        translate.setInfo(response);
+        //Translator translator = new Translator(response, level);
+        //logger.info("wowowowow " + translator.getRange());
+        //logger.info("found ground is " + translator.foundGround());
+
     }
 
 
