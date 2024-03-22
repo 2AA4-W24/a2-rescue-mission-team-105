@@ -31,7 +31,7 @@ public class DecisionMaker {
         Direction right = rightOrientation(direction, drone);
         count++;
         //Stops when reaches the last state
-        if (phase == 4) {
+        if (phase == 5) {
             decision = action.stop();
             return;
         }
@@ -103,16 +103,31 @@ public class DecisionMaker {
                     break;
 
                 case 2:
-                    if (count == 0){
+                    if (count < 3){
                         decision = action.fly(drone);
                     }
-                    else if(count < 3){
+                    else if(count < 6){
                         if(turnLeft){
-                            decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
-                            turnDirection = rightOrientation(turnDirection, drone);                        }
-                        else{
                             decision = action.heading(parameter, leftOrientation(turnDirection, drone), drone);
-                            turnDirection = leftOrientation(turnDirection, drone);                        }
+                            turnDirection = leftOrientation(turnDirection, drone);
+                        }
+                        else{
+                            decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
+                            turnDirection = rightOrientation(turnDirection, drone);  
+                        }
+                    }
+                    else if(count < 7){
+                        if(turnLeft){
+                            turnDirection = rightOrientation(turnDirection, drone);
+                            decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
+                            turnDirection = rightOrientation(turnDirection, drone);
+                            
+                        }
+                        else{
+                            turnDirection = leftOrientation(turnDirection, drone);
+                            decision = action.heading(parameter, leftOrientation(turnDirection, drone), drone);
+                            turnDirection = leftOrientation(turnDirection, drone);
+                        }
                     }
                     else{
                         decision = action.heading(parameter, turnDirection, drone);
@@ -133,22 +148,7 @@ public class DecisionMaker {
                     
                     break;
                 case 4:
-                    if (count % 3 == 0) {
-                        decision = action.fly(drone);
-                        radar = false;
-                    }
-        
-                    else if (count % 3 == 1){
-                        decision = action.echo(parameter, searchDirection);
-                        logger.info(searchDirection);
-                        radar = true;
-
-                    }
-                    else if (count % 3 == 2){
-                        decision = action.scan();
-                        radar = false;
-
-                    }
+                    decision = action.stop();
                     break;
                 
                 default:
@@ -162,11 +162,12 @@ public class DecisionMaker {
 
         public void gridSearch(Actions action, Drone drone, Limitations limitation, Direction direction, JSONObject parameter) {
             gridCount++;
-    
+            
+
             if (limitation.is180DegreeTurn(direction) == false) {
                 switch(state) {
                     case 0:
-                        decision = action.heading(parameter, orientation(direction, drone), drone);
+                        decision = action.echo(parameter, orientation(direction, drone));
                         return;
                     
                     case 1: 
@@ -218,7 +219,7 @@ public class DecisionMaker {
                         }
                         break;
                     }
-                    
+
                     if (state == 0) {
                         if (landFound) {
                             state = 1;
@@ -233,7 +234,7 @@ public class DecisionMaker {
         
                     else if (state == 2) {
                         if (landFound) {
-                            state = 0;
+                            state = 2;
                             gridCount = 0;
                         }
                         else if (!landFound) {
@@ -243,7 +244,7 @@ public class DecisionMaker {
                     }
         
                     else if (state == 3) {
-                        state = 0;
+                        state = 4;
                     }
         
                     if (state == 4) {
@@ -251,6 +252,7 @@ public class DecisionMaker {
                         return;
                     }
                 }
+                
             }
 
 
