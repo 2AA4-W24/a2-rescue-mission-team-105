@@ -46,9 +46,10 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        ((DecisionMaker)decisionMaker).findMapBox(limitation, level, direction, action, parameter);
-        decision = ((DecisionMaker)decisionMaker).getDecision();
-        count++;
+        // decisionMaker.findMapBox(limitation, level, direction, action, parameter);
+        decisionMaker.gridSearch(action, level, limitation, direction, parameter);
+        // decision = action.scan();
+        decision = decisionMaker.getDecision();
         logger.info(level.getX() + " " + level.getY());
         logger.info("** Decision: {}", decision.toString());
         logger.info("Battery level is now {}", this.level.getLevel());       
