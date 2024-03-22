@@ -107,16 +107,31 @@ public class DecisionMaker {
 
 
                 case 2:
-                    if (count == 0){
+                    if (count < 3){
                         decision = action.fly(drone);
                     }
-                    else if(count < 3){
+                    else if(count < 6){
                         if(turnLeft){
-                            decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
-                            turnDirection = rightOrientation(turnDirection, drone);                        }
-                        else{
                             decision = action.heading(parameter, leftOrientation(turnDirection, drone), drone);
-                            turnDirection = leftOrientation(turnDirection, drone);                        }
+                            turnDirection = leftOrientation(turnDirection, drone);
+                        }
+                        else{
+                            decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
+                            turnDirection = rightOrientation(turnDirection, drone);  
+                        }
+                    }
+                    else if(count < 7){
+                        if(turnLeft){
+                            turnDirection = rightOrientation(turnDirection, drone);
+                            decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
+                            turnDirection = rightOrientation(turnDirection, drone);
+                            
+                        }
+                        else{
+                            turnDirection = leftOrientation(turnDirection, drone);
+                            decision = action.heading(parameter, leftOrientation(turnDirection, drone), drone);
+                            turnDirection = leftOrientation(turnDirection, drone);
+                        }
                     }
                     else{
                         decision = action.heading(parameter, turnDirection, drone);
