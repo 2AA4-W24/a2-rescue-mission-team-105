@@ -104,8 +104,7 @@ public class DecisionMaker extends SubObserver {
                 phase = 7;
                 count = 0;
             }
-        }
-        if(limitation.is180DegreeTurn(direction)== false){
+        }if(limitation.is180DegreeTurn(direction)== false){
             switch(phase) {
                 case 0:
                     if (count % 5 == 0){
@@ -115,7 +114,6 @@ public class DecisionMaker extends SubObserver {
                     else if (count % 5 == 1) {
                         decision = action.echo(parameter, left);
                         searchDirection = left;
-                        // decision = action.scan();
                     }
         
                     else if (count % 5 == 2){
@@ -138,13 +136,16 @@ public class DecisionMaker extends SubObserver {
                     if (count % 4 == 0) {
                         decision = action.echo(parameter, left);
                         searchDirection = left;
+                        turnDirection = rightOrientation(searchDirection, drone);
+                        turnLeft = true;
                         // decision = action.scan();
                     }
         
                     else if (count % 4 == 1){
                         decision = action.echo(parameter, right);
                         searchDirection = right;
-
+                        turnDirection = leftOrientation(searchDirection, drone);
+                        turnLeft = false;
                     }
 
                     else if (count % 4 == 2) {
@@ -184,24 +185,20 @@ public class DecisionMaker extends SubObserver {
                         }
                     }
                     else{
-                        searchDirection = rightOrientation(searchDirection, drone);
-                        direction = rightOrientation(direction, drone);
-                        radar = false;
+                        decision = action.heading(parameter, turnDirection, drone);
+                        phase = 3;
+                        count = 0;
                     }
-                    phase = 3;
                     break;
+
                 case 3:
                     logger.info("phase 4");
-                    if (count % 2 == 0) {
-                        logger.info("does this ever");
+                    if (count <= this.echoRange) {
                         decision = action.fly(drone);
-                        radar = false;
                     }
-        
-                    else if (count % 2 == 1){
-                        decision = action.echo(parameter, searchDirection);
-                        radar = true;
-
+                    else{
+                        phase = 4;
+                        decision = action.scan();
                     }
                     
                     break;
