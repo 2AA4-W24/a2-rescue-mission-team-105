@@ -102,11 +102,6 @@ public class DecisionMaker {
                     }
                     break;
 
-
-
-
-
-
                 case 2:
                     if (count == 0){
                         decision = action.fly(drone);
@@ -165,48 +160,62 @@ public class DecisionMaker {
         }
 
 
-        public void gridSearch(Actions action, Drone drone, Limitations limitation, Direction direction) {
+        public void gridSearch(Actions action, Drone drone, Limitations limitation, Direction direction, JSONObject parameter) {
             Direction left = leftOrientation(direction, drone);
             Direction right = rightOrientation(direction, drone);
             gridCount++;
-                
-                if (state == 2) {
-                    decision = action.stop();
-                    return;
-                }
-
-                if (state == 1) {
-                    if (landFound) {
-                        state = 1;
-                    }
-                }
-
-                else if (state == 2) {
-                    if (landFound) {
-                        state = 2;
-                    }
-                }
-
+  
+            if (state == 0) {
                 if (landFound) {
-                    state = 2;
+                    state = 1;
                     gridCount = 0;
                 }
+            }
 
+            else if (state == 1) {
+                if (!landFound) {
+                    state = 2;
+                    gridCount = 0;
+                    direction = Direction.E; // must be original heading you were facing when you first started
+                }
+            }
+
+            else if (state == 2) {
                 if (!landFound) {
                     state = 3;
-                    gridCount = 0; 
+                    gridCount = 0;
                 }
+            }
 
+            else if (state == 3) {
+                if (landFound) {
+                    gridCount = 0;
+                    state = 4;
+                }
+            }
+
+            else if (state == 4) {
+                if (!landFound) {
+                    state = 3;
+                    gridCount = 0;
+                }
+            }
 
             if (limitation.is180DegreeTurn(direction) == false) {
                 switch(state) {
+                    case 0:
+                        action.echo(decision, direction);
+
                     case 1: 
-                        if (gridCount % 2 == 0) {
-                            action.scan();
-                        }
-                        else {
+                        if (gridCount < range) {
                             action.fly(drone);
                         }
+                        else {
+                            action.scan();
+                            state = 0;
+                        }
+                        break;
+
 
                     case 2:
                         if (gridCount % 2 == 0) {
@@ -214,85 +223,46 @@ public class DecisionMaker {
                         }
 
                         else {
-                            action.scan();
+                            action.heading(decision, direction, drone);
                         }
+                        break;
+
                     
                     case 3:
-                        if (gridCount % 2 == 0) {
-                            action.echo(decision, direction);
-                            direction = leftOrientation(direction, drone);
+                        if (count == 0){
+                            decision = action.fly(drone);
                         }
-
-                        else if (gridCount % 2 == 1) {
-                            action.echo(decision, direction);
+                        else if(count < 3){
+                            if(turnLeft){
+                                decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
+                                turnDirection = rightOrientation(turnDirection, drone);                        }
+                            else{
+                                decision = action.heading(parameter, leftOrientation(turnDirection, drone), drone);
+                                turnDirection = leftOrientation(turnDirection, drone);                        }
                         }
-                        
-
+                        else{
+                            decision = action.heading(parameter, turnDirection, drone);
+                            state = 4;
+                            count = 0;
+                        }
+                        break;
+                    
                     case 4:
-                        direction = leftOrientation(direction, drone);
-                        action.echo(decision, direction);
-                    
-                    case 5:
-                        action.fly(drone);
-                    
-                    case 6: // when we're facing in the northern direction
-                        if (count % 5 == 0) {
-                            action.heading(decision, left, drone); // head left
+                        if (count % 2 == 0) {
+                            action.scan();
                         }
-        
-                        else if (count % 5 == 1) {
-                            action.heading(decision, right, drone); // head right
-                        }
-        
-                        else if (count % 5 == 2) {
-                            action.echo(decision, right); // head right
-                        }
-        
-                        else if (count % 5 == 3) {
-                            action.fly(drone); 
-                        }
-        
-                        else if (count % 5 == 4) {
-                            action.heading(decision, right, drone); // head right
-                        }
-        
                         else {
                             action.fly(drone);
                         }
-
-                    case 7: // when we're facing the southern direction
-                        if (count % 5 == 0) {
-                            direction = rightOrientation(direction, drone);
-                            action.heading(decision, direction, drone); // head right
-                            direction = leftOrientation(direction, drone);
-                        }
-        
-                        else if (count % 5 == 1) {
-                            action.heading(decision, direction, drone); // head left
-                        }
-        
-                        else if (count % 5 == 2) {
-                            action.echo(decision, direction); // head left
-                        }
-        
-                        else if (count % 5 == 3) {
-                            action.fly(drone); 
-                        }
-        
-                        else if (count % 5 == 4) {
-                            action.heading(decision, direction, drone); // head left
-                        }
-        
-                        else {
-                            action.fly(drone);
-                        }
+                        break;
+                    }
+                    
                 }
-    
-            }
+            
         }
 
 
-        // Scan, if land is found fly forward, and scan then
+        // Scan, if land is found fly forward, and echo then
         // if land is not found then
         // echo in the direction you were heading in and the direction you're facing
         // if there is land in the front, then continue echoing else dont echo at all
