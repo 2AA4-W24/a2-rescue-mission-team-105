@@ -161,16 +161,58 @@ public class DecisionMaker {
 
 
         public void gridSearch(Actions action, Drone drone, Limitations limitation, Direction direction, JSONObject parameter) {
-            gridCount++;
+            gridCount++;    
             
+            if (state == 4) {
+                logger.info("Im in state 4");
+                decision = action.stop();
+                return;
+            }
+            
+            if (state == 0) {
+                logger.info("Im in state 0");
+                logger.info(landFound);
+                if (landFound) {
+                    state = 1;
+                    gridCount = 0;
+                }
 
+                else {
+                    state = 2;
+                    gridCount = 0;
+                }
+            }
+
+            else if (state == 2) {
+                logger.info("Im in state 2");
+                if (landFound) {
+                    state = 2;
+                    gridCount = 0;
+                }
+                else if (!landFound) {
+                    state = 3;
+                    gridCount = 0;
+                }
+            }
+
+            else if (state == 3) {
+                logger.info("Im in state 3");
+                state = 4;
+            }
+
+            else {
+                logger.info("WOAH");
+            }
+            
             if (limitation.is180DegreeTurn(direction) == false) {
                 switch(state) {
                     case 0:
+                        logger.info("This is case 0");
                         decision = action.echo(parameter, orientation(direction, drone));
-                        return;
+                        break;
                     
-                    case 1: 
+                    case 1:
+                        logger.info("This is case 1"); 
                         if (gridCount <= range) {
                             decision = action.fly(drone);
                         }
@@ -182,6 +224,7 @@ public class DecisionMaker {
 
 
                     case 2:
+                        logger.info("This is case 2");
                         if (gridCount % 2 == 0) {
                             decision = action.echo(parameter, Direction.E); // starting heading
                         }
@@ -192,18 +235,22 @@ public class DecisionMaker {
 
                     
                     case 3:
+                        logger.info("This is case 3");
                         if (gridCount == 0){
                             decision = action.fly(drone);
                         }
+                        
                         else if(gridCount < 3){
                             if(turnLeft){
                                 decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
-                                turnDirection = rightOrientation(turnDirection, drone);                        }
-                            else{
+                                turnDirection = rightOrientation(turnDirection, drone);
+                            }
+                            else {
                                 decision = action.heading(parameter, leftOrientation(turnDirection, drone), drone);
-                                turnDirection = leftOrientation(turnDirection, drone);                        }
+                                turnDirection = leftOrientation(turnDirection, drone);
+                            }
                         }
-                        else{
+                        else {
                             decision = action.heading(parameter, turnDirection, drone);
                             gridCount = 0;
                             state = 4;
@@ -211,6 +258,7 @@ public class DecisionMaker {
                         break;
                     
                     case 4:
+                        logger.info("This is case 4"); 
                         if (gridCount % 2 == 0) {
                             decision = action.scan();
                         }
@@ -218,41 +266,11 @@ public class DecisionMaker {
                             decision = action.fly(drone);
                         }
                         break;
-                    }
-
-                    if (state == 0) {
-                        if (landFound) {
-                            state = 1;
-                            gridCount = 0;
-                        }
-        
-                        else if (!landFound) {
-                            state = 2;
-                            gridCount = 0;
-                        }
-                    }
-        
-                    else if (state == 2) {
-                        if (landFound) {
-                            state = 2;
-                            gridCount = 0;
-                        }
-                        else if (!landFound) {
-                            state = 3;
-                            gridCount = 0;
-                        }
-                    }
-        
-                    else if (state == 3) {
-                        state = 4;
-                    }
-        
-                    if (state == 4) {
-                        decision = action.stop();
-                        return;
+                    
+                    default:
+                    logger.info("no case found");
                     }
                 }
-                
             }
 
 
