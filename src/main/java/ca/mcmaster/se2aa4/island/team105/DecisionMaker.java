@@ -23,7 +23,6 @@ public class DecisionMaker extends SubObserver {
     private int gridCount = -1;
     private int phase = 0;
     private boolean landFound;
-    private int range;
     private boolean radar;
     private int state = 0;
     private Direction searchDirection;
@@ -268,7 +267,7 @@ public class DecisionMaker extends SubObserver {
                     
                     case 1:
                         logger.info("This is case 1"); 
-                        if (gridCount <= range) {
+                        if (gridCount <= this.echoRange) {
                             logger.info("phase 1");
                             decision = action.fly(drone);
                         }
