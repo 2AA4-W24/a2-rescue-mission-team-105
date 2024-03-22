@@ -24,18 +24,18 @@ public class DecisionMaker {
     private int state = 0;
 
     
-
     public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) { // might be high coupling
         Direction left = leftOrientation(direction, drone);
         Direction right = rightOrientation(direction, drone);
         count++;
         //Stops when reaches the last state
+        
         if (phase == 2) {
             decision = action.stop();
             return;
         }
 
-        if(phase == 0){
+        if(phase == 0) {
             if(landFound){
                 phase = 1;
                 count = 0;
@@ -47,7 +47,7 @@ public class DecisionMaker {
                 count = 0;
             }
         }
-        if(radar){
+        if(radar) {
             if(!landFound){
                 if (phase == 2){
                     logger.info("phase 3");
@@ -204,8 +204,8 @@ public class DecisionMaker {
                         radar = true;
 
                     }
-                    
                     break;
+
                 case 7:
                     if (count % 3 == 0) {
                         decision = action.fly(drone);
@@ -237,11 +237,36 @@ public class DecisionMaker {
             Direction left = leftOrientation(direction, drone);
             Direction right = rightOrientation(direction, drone);
             gridCount++;
-            if (limitation.is180DegreeTurn(direction) == false) {
                 
+                if (state == 2) {
+                    decision = action.stop();
+                    return;
+                }
+
+                if (state == 1) {
+                    if (landFound) {
+                        state = 1;
+                    }
+                }
+
+                else if (state == 2) {
+                    if (landFound) {
+                        state = 2;
+                    }
+                }
+
+                if (landFound) {
+                    state = 2;
+                    gridCount = 0;
+                }
+
+                if (!landFound) {
+                    state = 3;
+                    gridCount = 0; 
+                }
 
 
-
+            if (limitation.is180DegreeTurn(direction) == false) {
                 switch(state) {
                     case 1: 
                         if (gridCount % 2 == 0) {
@@ -261,25 +286,34 @@ public class DecisionMaker {
                         }
                     
                     case 3:
-                        action.echo(decision, direction);
+                        if (gridCount % 2 == 0) {
+                            action.echo(decision, direction);
+                            direction = leftOrientation(direction, drone);
+                        }
+
+                        else if (gridCount % 2 == 1) {
+                            action.echo(decision, direction);
+                        }
+                        
 
                     case 4:
                         direction = leftOrientation(direction, drone);
                         action.echo(decision, direction);
+                    
                     case 5:
                         action.fly(drone);
+                    
                     case 6: // when we're facing in the northern direction
                         if (count % 5 == 0) {
-                            action.heading(decision, direction, drone); // head left
-                            direction = rightOrientation(direction, drone);
+                            action.heading(decision, left, drone); // head left
                         }
         
                         else if (count % 5 == 1) {
-                            action.heading(decision, direction, drone); // head right
+                            action.heading(decision, right, drone); // head right
                         }
         
                         else if (count % 5 == 2) {
-                            action.echo(decision, direction); // head right
+                            action.echo(decision, right); // head right
                         }
         
                         else if (count % 5 == 3) {
@@ -287,7 +321,7 @@ public class DecisionMaker {
                         }
         
                         else if (count % 5 == 4) {
-                            action.heading(decision, direction, drone); // head right
+                            action.heading(decision, right, drone); // head right
                         }
         
                         else {
@@ -320,21 +354,14 @@ public class DecisionMaker {
                         else {
                             action.fly(drone);
                         }
-    
                 }
-                
-                
-                
-                
-                
-
     
             }
         }
 
 
         // Scan, if land is found fly forward, and scan then
-        // if land if not found then
+        // if land is not found then
         // echo in the direction you were heading in and the direction you're facing
         // if there is land in the front, then continue echoing else dont echo at all
         // if the is land in the side, then continue echoing, else don't echo at all
@@ -348,7 +375,7 @@ public class DecisionMaker {
     public JSONObject getDecision() {
         return decision;
     }
-    
+
     public Direction orientation(Direction direction, Drone drone) {
         Direction heading = drone.getHeading();
         switch(heading) {
