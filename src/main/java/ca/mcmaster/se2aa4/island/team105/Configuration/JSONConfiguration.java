@@ -29,6 +29,7 @@ public class JSONConfiguration {
     private Translator translate = new Translator();
     private int mapRange;
     ExplorerMap explorer = new ExplorerMap();
+    private int count;
     
      // maybe change later
 
@@ -47,6 +48,7 @@ public class JSONConfiguration {
     public String takeDecisionWrap() {
         ((DecisionMaker)decisionMaker).findMapBox(limitation, level, direction, action, parameter);
         decision = ((DecisionMaker)decisionMaker).getDecision();
+        count++;
         logger.info(level.getX() + " " + level.getY());
         logger.info("** Decision: {}", decision.toString());
         logger.info("Battery level is now {}", this.level.getLevel());       

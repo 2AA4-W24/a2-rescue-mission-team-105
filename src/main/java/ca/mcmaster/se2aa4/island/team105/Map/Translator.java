@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class Translator implements TranslateSubject{
+public class Translator extends TranslateSubject{
     private int cost;
     private JSONObject extras;
     private final Logger logger = LogManager.getLogger();

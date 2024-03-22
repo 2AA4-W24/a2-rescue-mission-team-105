@@ -12,7 +12,7 @@ import ca.mcmaster.se2aa4.island.team105.Map.SubObserver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class DecisionMaker implements SubObserver {
+public class DecisionMaker extends SubObserver {
 
 
     private final static Logger logger = LogManager.getLogger();
@@ -31,15 +31,19 @@ public class DecisionMaker implements SubObserver {
     
     @Override
     public void update(String found, int range, JSONArray biomes) {
+        this.inOcean = true;
         this.foundGround = (found.equals("GROUND"));
         this.echoRange = range;
-        for (int i = 0; i < biomes.length(); i++) {
-            if (!biomes.getString(i).equals("OCEAN")) {
-                this.inOcean = true;
-            }
-        }       
+        if (biomes != null) {
+            for (int i = 0; i < biomes.length(); i++) {
+                if (!biomes.getString(i).equals("OCEAN")) {
+                    this.inOcean = false;
+                }
+            }   
+        }    
         logger.info(foundGround);
         logger.info(echoRange);
+        logger.info(inOcean);
     }
 
     public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) { // might be high coupling

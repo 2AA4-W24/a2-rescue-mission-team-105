@@ -6,7 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Information implements Observer, TranslateSubject{
+public class Information extends TranslateSubject{
     private JSONArray biomes;
     private JSONArray creeks;
     private JSONArray sites;
@@ -41,13 +41,12 @@ public class Information implements Observer, TranslateSubject{
         if (extras.has("found")) {
             this.found = extras.getString("found");
             this.range = extras.getInt("range");
-            notifyObservers();
-        }
-        if (extras.has("biomes")) {
+        } else if (extras.has("biomes")) {
             this.biomes = extras.getJSONArray("biomes");
             this.creeks = extras.getJSONArray("creeks");
             this.sites = extras.getJSONArray("sites");
         }
+        notifyObservers();
     }
 
 }
