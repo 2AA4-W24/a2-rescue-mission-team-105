@@ -30,7 +30,7 @@ public class DecisionMaker {
         Direction right = rightOrientation(direction, drone);
         count++;
         //Stops when reaches the last state
-        if (phase == 4) {
+        if (phase == 5) {
             decision = action.stop();
             return;
         }
@@ -137,22 +137,7 @@ public class DecisionMaker {
                     
                     break;
                 case 4:
-                    if (count % 3 == 0) {
-                        decision = action.fly(drone);
-                        radar = false;
-                    }
-        
-                    else if (count % 3 == 1){
-                        decision = action.echo(parameter, searchDirection);
-                        logger.info(searchDirection);
-                        radar = true;
-
-                    }
-                    else if (count % 3 == 2){
-                        decision = action.scan();
-                        radar = false;
-
-                    }
+                    decision = action.stop();
                     break;
                 
                 default:
