@@ -138,7 +138,7 @@ public class DecisionMaker {
 
                 case 3:
                     logger.info("phase 4");
-                    if (count <= range+1) {
+                    if (count <= range) {
                         decision = action.fly(drone);
                     }
                     else{
