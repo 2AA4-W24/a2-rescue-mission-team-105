@@ -70,14 +70,6 @@ public class JSONConfiguration {
         logger.info(level.getX() + " " + level.getY());
         limitation.returnHome(action);
         translate.setInfo(response);
-        //Translator translator = new Translator(response, level);
-        //logger.info("wowowowow " + translator.getRange());
-        //logger.info("found ground is " + translator.foundGround());
-
-        Translator translator = new Translator(response, level);
-        logger.info("found ground is " + translator.foundGround());
-        ((DecisionMaker)decisionMaker).decisionUpdate(translator.foundGround(), translator.getRange()); //dawg
     }
-
 
 }

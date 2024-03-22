@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.awt.Point;
 
-public class ExplorerMap {
+public class ExplorerMap{
 
     //relative position this is starting state
     private Point currentPoint = new Point(0, 0);
@@ -13,7 +13,6 @@ public class ExplorerMap {
     HashMap<Point, String> mapLayout = new HashMap<>();
     public ExplorerMap() {
     }
-
 
     //Sets a object to inputed location
     public void setLocation(int xdist, int ydist, String infoString) {

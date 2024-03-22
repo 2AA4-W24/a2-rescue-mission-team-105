@@ -61,7 +61,7 @@ public class ExampleTest {
     @Test
     public void radarTest(){
         ExplorerMap testRadar = new ExplorerMap();
-        testRadar.setEchoInfo(0, 5, false);
+        testRadar.setEchoInfo(0, 5);
         String info = testRadar.getLocation(0, 3);
         assertTrue(info == "Ocean");
     }

@@ -32,7 +32,7 @@ public class Information implements Observer, TranslateSubject{
     @Override
     public void notifyObservers()  {
         for (SubObserver subObserver : subObservers) {
-            subObserver.update(this.found, this.range);
+            subObserver.update(this.found, this.range, this.biomes);
         }
     }
 

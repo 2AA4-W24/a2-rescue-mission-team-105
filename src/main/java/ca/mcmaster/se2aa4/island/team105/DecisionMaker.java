@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.island.team105;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
@@ -19,24 +20,20 @@ public class DecisionMaker implements SubObserver {
     protected JSONObject decision = new JSONObject();
     private int count = -1; // need to keep this outside
     private int gridCount = -1;
-    private int count; // need to keep this outside
 
-    private boolean foundGround;
-    private int echoRange;
+    private boolean foundGround; //if ground is found from echo
+    private int echoRange; //range gotten from echo
     private int phase = 0;
-    private boolean landFound;
-    private int range;
     private boolean radar;
     Direction searchDirection;
     private int state = 0;
-
-    private boolean foundGround;
-    private int echoRange;
+    private boolean inOcean;
     
     @Override
-    public void update(String found, int range) {
+    public void update(String found, int range, JSONArray biomes) {
         this.foundGround = (found.equals("GROUND"));
         this.echoRange = range;
+        this.inOcean = (biomes.getString(0) == "OCEAN");
         logger.info(foundGround);
         logger.info(echoRange);
     }
@@ -52,19 +49,19 @@ public class DecisionMaker implements SubObserver {
         }
 
         if(phase == 0){
-            if(landFound){
+            if(this.foundGround){
                 phase = 1;
                 count = 0;
             }
         }
         else if (phase == 1){
-            if(landFound){
+            if(this.foundGround){
                 phase = 2;
                 count = 0;
             }
         }
         if(radar){
-            if(!landFound){
+            if(!this.foundGround){
                 if (phase == 2){
                     logger.info("phase 3");
                     phase = 3;
@@ -84,7 +81,7 @@ public class DecisionMaker implements SubObserver {
                 }
             }
         }
-        if(radar && landFound){
+        if(radar && this.foundGround){
             if (phase == 3){
                 logger.info("phase 3");
                 phase = 4;
@@ -411,10 +408,5 @@ public class DecisionMaker implements SubObserver {
             default:
                 throw new IllegalArgumentException("Invalid heading encountered: " + heading);
         }
-    }
-    
-    public void decisionUpdate(boolean land_found, int distance){
-        landFound = land_found;
-        range = distance;
     }
 }
