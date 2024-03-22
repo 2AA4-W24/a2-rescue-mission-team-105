@@ -19,7 +19,9 @@ public class DecisionMaker {
     private boolean landFound;
     private int range;
     private boolean radar;
-    Direction searchDirection;
+    private Direction searchDirection;
+    private Direction turnDirection;
+    private boolean turnLeft;
 
     
 
@@ -45,28 +47,7 @@ public class DecisionMaker {
                 count = 0;
             }
         }
-        if(radar){
-            if(!landFound){
-                if (phase == 5){
-                    phase = 6;
-                    count = 0;
-                }
-                else if (phase == 4){
-                    phase = 5;
-                    count = 0;
-                }
-                else if (phase == 7){
-                    phase = 8;
-                    count = 0;
-                }
-            }
-        }
-        if(radar && landFound){
-            if (phase == 6){
-                phase = 7;
-                count = 0;
-            }
-        }
+        
         if(limitation.is180DegreeTurn(direction)== false){
             switch(phase) {
                 case 0:
@@ -77,7 +58,6 @@ public class DecisionMaker {
                     else if (count % 5 == 1) {
                         decision = action.echo(parameter, left);
                         searchDirection = left;
-                        // decision = action.scan();
                     }
         
                     else if (count % 5 == 2){
@@ -100,13 +80,16 @@ public class DecisionMaker {
                     if (count % 4 == 0) {
                         decision = action.echo(parameter, left);
                         searchDirection = left;
+                        turnDirection = rightOrientation(searchDirection, drone);
+                        turnLeft = true;
                         // decision = action.scan();
                     }
         
                     else if (count % 4 == 1){
                         decision = action.echo(parameter, right);
                         searchDirection = right;
-
+                        turnDirection = leftOrientation(searchDirection, drone);
+                        turnLeft = false;
                     }
 
                     else if (count % 4 == 2) {
@@ -123,48 +106,33 @@ public class DecisionMaker {
 
 
 
-                /*case 1:
-                    logger.info("phase 2");
-                    if (count % 3 == 0) {
-                        logger.info("does this ever");
-                        decision = action.fly(drone);
-                        radar = false;
-                    }
-        
-                    else if (count % 3 == 1){
-                        decision = action.echo(parameter, searchDirection);
-                        radar = true;
-                    }
-                    else if (count % 3 == 2){
-                        decision = action.scan();
-                        radar = false;
-                    }
-                    break;*/
                 case 2:
-                    decision = action.heading(parameter, searchDirection, drone);
-                    if(searchDirection == leftOrientation(direction, drone)){
-                        searchDirection = leftOrientation(searchDirection, drone);
-                        direction = leftOrientation(direction, drone);
-                        radar = false;
+                    if (count == 0){
+                        decision = action.fly(drone);
+                    }
+                    else if(count < 3){
+                        if(turnLeft){
+                            decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
+                            turnDirection = rightOrientation(turnDirection, drone);                        }
+                        else{
+                            decision = action.heading(parameter, leftOrientation(turnDirection, drone), drone);
+                            turnDirection = leftOrientation(turnDirection, drone);                        }
                     }
                     else{
-                        searchDirection = rightOrientation(searchDirection, drone);
-                        direction = rightOrientation(direction, drone);
-                        radar = false;
+                        decision = action.heading(parameter, turnDirection, drone);
+                        phase = 3;
+                        count = 0;
                     }
-                    phase = 3;
                     break;
+
                 case 3:
                     logger.info("phase 4");
-                    if (count <= range*2) {
-                        if(count % 2 == 0){
-                            decision = action.fly(drone);
-                        }else{
-                            decision = action.scan();
-                        }
+                    if (count <= range+1) {
+                        decision = action.fly(drone);
                     }
                     else{
                         phase = 4;
+                        decision = action.scan();
                     }
                     
                     break;
