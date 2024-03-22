@@ -167,11 +167,18 @@ public class DecisionMaker {
             if (limitation.is180DegreeTurn(direction) == false) {
                 switch(state) {
                     case 0:
+<<<<<<< Updated upstream
                         decision = action.echo(parameter, orientation(direction, drone));
                         return;
                     
+=======
+                        logger.info("phase 0");
+                        decision = action.echo(parameter, orientation(direction, drone));
+                        break;                    
+>>>>>>> Stashed changes
                     case 1: 
                         if (gridCount <= range) {
+                            logger.info("phase 1");
                             decision = action.fly(drone);
                         }
                         else {
@@ -183,6 +190,7 @@ public class DecisionMaker {
 
                     case 2:
                         if (gridCount % 2 == 0) {
+                            logger.info("phase 3");
                             decision = action.echo(parameter, Direction.E); // starting heading
                         }
                         else if (gridCount % 2 == 1) {
