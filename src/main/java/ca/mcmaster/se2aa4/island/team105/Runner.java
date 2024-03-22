@@ -12,7 +12,7 @@ public class Runner {
             run(Explorer.class)
                     .exploring(new File(filename))
                     .withSeed(42L)
-                    .startingAt(1, 75, "EAST")
+                    .startingAt(70, 130, "EAST")
                     .backBefore(7000) // have thresholds for battery
                     .withCrew(5)
                     .collecting(1000, "WOOD")
