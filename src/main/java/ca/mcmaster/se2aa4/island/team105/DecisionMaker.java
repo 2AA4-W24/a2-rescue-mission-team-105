@@ -162,33 +162,6 @@ public class DecisionMaker {
 
         public void gridSearch(Actions action, Drone drone, Limitations limitation, Direction direction, JSONObject parameter) {
             gridCount++;
-            
-            if (state == 0) {
-                if (landFound) {
-                    state = 1;
-                    gridCount = 0;
-                }
-
-                else if (!landFound) {
-                    state = 2;
-                    gridCount = 0;
-                }
-            }
-
-            else if (state == 2) {
-                if (landFound) {
-                    state = 2;
-                    gridCount = 0;
-                }
-                else {
-                    state = 3;
-                    gridCount = 0;
-                }
-            }
-
-            else if (state == 3) {
-                state = 0;
-            }
     
             if (limitation.is180DegreeTurn(direction) == false) {
                 switch(state) {
@@ -211,7 +184,7 @@ public class DecisionMaker {
                         if (gridCount % 2 == 0) {
                             decision = action.echo(parameter, Direction.E); // starting heading
                         }
-                        else {
+                        else if (gridCount % 2 == 1) {
                             decision = action.fly(drone);
                         }
                         break;
@@ -232,6 +205,7 @@ public class DecisionMaker {
                         else{
                             decision = action.heading(parameter, turnDirection, drone);
                             gridCount = 0;
+                            state = 4;
                         }
                         break;
                     
@@ -243,8 +217,39 @@ public class DecisionMaker {
                             decision = action.fly(drone);
                         }
                         break;
-                    }  
+                    }
                     
+                    if (state == 0) {
+                        if (landFound) {
+                            state = 1;
+                            gridCount = 0;
+                        }
+        
+                        else if (!landFound) {
+                            state = 2;
+                            gridCount = 0;
+                        }
+                    }
+        
+                    else if (state == 2) {
+                        if (landFound) {
+                            state = 0;
+                            gridCount = 0;
+                        }
+                        else if (!landFound) {
+                            state = 3;
+                            gridCount = 0;
+                        }
+                    }
+        
+                    else if (state == 3) {
+                        state = 0;
+                    }
+        
+                    if (state == 4) {
+                        decision = action.stop();
+                        return;
+                    }
                 }
             }
 
