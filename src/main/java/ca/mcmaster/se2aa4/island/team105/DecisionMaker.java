@@ -17,17 +17,22 @@ public class DecisionMaker extends SubObserver {
 
     private final static Logger logger = LogManager.getLogger();
 
+
     protected JSONObject decision = new JSONObject();
     private int count = -1; // need to keep this outside
     private int gridCount = -1;
-
-    private boolean foundGround; //if ground is found from echo
-    private int echoRange; //range gotten from echo
     private int phase = 0;
+    private boolean landFound;
+    private int range;
     private boolean radar;
-    Direction searchDirection;
     private int state = 0;
+    private Direction searchDirection;
+    private Direction turnDirection;
+    private boolean turnLeft;
     private boolean inOcean;
+    private boolean foundGround;
+    private int echoRange;
+
     
     @Override
     public void update(String found, int range, JSONArray biomes) {
