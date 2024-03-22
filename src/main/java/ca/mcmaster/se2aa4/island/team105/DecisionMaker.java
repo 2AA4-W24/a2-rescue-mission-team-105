@@ -33,7 +33,11 @@ public class DecisionMaker implements SubObserver {
     public void update(String found, int range, JSONArray biomes) {
         this.foundGround = (found.equals("GROUND"));
         this.echoRange = range;
-        this.inOcean = (biomes.getString(0) == "OCEAN");
+        for (int i = 0; i < biomes.length(); i++) {
+            if (!biomes.getString(i).equals("OCEAN")) {
+                this.inOcean = true;
+            }
+        }       
         logger.info(foundGround);
         logger.info(echoRange);
     }
