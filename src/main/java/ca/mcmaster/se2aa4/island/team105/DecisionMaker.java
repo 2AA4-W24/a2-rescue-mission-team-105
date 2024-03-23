@@ -24,6 +24,7 @@ public class DecisionMaker {
     private Direction searchDirection;
     private Direction turnDirection;
     private boolean turnLeft;
+    private Direction starting;
 
     
     public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) { // might be high coupling
@@ -148,6 +149,7 @@ public class DecisionMaker {
                     
                     break;
                 case 4:
+                    starting = orientation(turnDirection);
                     decision = action.stop();
                     break;
                 
