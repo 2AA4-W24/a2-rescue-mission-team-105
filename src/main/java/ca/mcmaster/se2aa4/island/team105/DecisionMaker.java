@@ -9,7 +9,7 @@ import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class DecisionMaker {
+public class DecisionMaker implements SearchMethods {
 
     private final static Logger logger = LogManager.getLogger();
 
@@ -24,8 +24,10 @@ public class DecisionMaker {
     private Direction searchDirection;
     private Direction turnDirection;
     private boolean turnLeft;
+    private Direction starting;
+    Drone battery;
 
-    
+    @Override
     public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) { // might be high coupling
         Direction left = leftOrientation(direction, drone);
         Direction right = rightOrientation(direction, drone);
@@ -148,6 +150,7 @@ public class DecisionMaker {
                     
                     break;
                 case 4:
+                    starting = orientation(turnDirection, drone);
                     decision = action.stop();
                     break;
                 
@@ -161,10 +164,9 @@ public class DecisionMaker {
 
 
         
-
-        public void gridSearch(Actions action, Drone drone, Limitations limitation, Direction direction, JSONObject parameter) {
+        @Override
+        public void gridSearch(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter, Drone battery) {
             turnLeft = true;
-            // which direction we're facing and which direction which we originally spawned 
             gridCount++;    
             
             if (state == 4) {
@@ -199,7 +201,6 @@ public class DecisionMaker {
             }
 
 
-            
             if (limitation.is180DegreeTurn(direction) == false) {
                 switch(state) {
                     case 0:
@@ -265,7 +266,7 @@ public class DecisionMaker {
                                 turnDirection = leftOrientation(turnDirection, drone);
                             }
                             gridCount = -1;
-                            state = 4;
+                            state = 0;
                         }
                         break;
                     

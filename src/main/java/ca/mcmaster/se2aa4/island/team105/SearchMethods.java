@@ -11,8 +11,7 @@ public interface SearchMethods  {
     
     public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter);
 
-    public void spiralSearch(Actions actions, Drone drone);    
+    public void gridSearch(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter, Drone battery);    
 
-    public void gridSearch();
 
 }
