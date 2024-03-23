@@ -13,7 +13,7 @@ public class Runner {
                     .exploring(new File(filename))
                     .withSeed(42L)
                     .startingAt(47, 100, "SOUTH")
-                    .backBefore(7000) // have thresholds for battery
+                    .backBefore(10000) // have thresholds for battery
                     .withCrew(5)
                     .collecting(1000, "WOOD")
                     .storingInto("./outputs")
