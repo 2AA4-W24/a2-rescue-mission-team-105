@@ -192,7 +192,7 @@ public class DecisionMaker {
             if (state == 4 && radar) {
                 logger.info("Im in state 4");
                 if(landFound){
-                    state = 0;
+                    state = 1;
                     gridCount = 0;
                     turnLeft = !turnLeft;
                     return;
@@ -245,7 +245,10 @@ public class DecisionMaker {
                     case 3:
                         radar = false;
                         logger.info("This is case 3");
-                        if(gridCount < 3){
+                        if (gridCount == 0){
+                            decision = action.fly(drone);
+                        }
+                        else if(gridCount < 4){
                             if(turnLeft){
                                 decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
                                 turnDirection = rightOrientation(turnDirection, drone);
@@ -255,7 +258,7 @@ public class DecisionMaker {
                                 turnDirection = leftOrientation(turnDirection, drone);
                             }
                         }
-                        else if(gridCount < 4){
+                        else if(gridCount < 5){
                             decision = action.fly(drone);
                         }
                         else{
@@ -276,14 +279,8 @@ public class DecisionMaker {
                     
                     case 4:
                         logger.info("This is case 4"); 
-                        if (gridCount % 2 == 0) {
-                            decision = action.scan();
-                            radar = false;
-                        }
-                        else {
-                            decision = action.echo(parameter, orientation(turnDirection, drone));
-                            radar = true;
-                        }
+                        decision = action.echo(parameter, orientation(turnDirection, drone));
+                        radar = true;
                         break;
                     
                     default:
