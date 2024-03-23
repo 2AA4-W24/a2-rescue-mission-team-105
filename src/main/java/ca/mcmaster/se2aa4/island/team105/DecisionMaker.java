@@ -348,19 +348,6 @@ public class DecisionMaker extends SubObserver {
             }
 
 
-        // state 0
-        //      echo forward
-        //      if you find land go to state 1
-        //      if you dont find land go to state 2
-        // state 1
-        //      fly until the range of the echo distance
-        //      scan
-        // state 2
-        //      echo in the direction of starting heading
-        //      keeping flying/echoing until land is not found
-
-    
-
     public JSONObject getDecision() {
         return decision;
     }

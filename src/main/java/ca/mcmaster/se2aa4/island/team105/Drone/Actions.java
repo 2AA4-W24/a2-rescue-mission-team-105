@@ -48,46 +48,8 @@ public class Actions {
     }
 
     public JSONObject scan() {
+        decision = new JSONObject();
         decision.put("action", "scan");
-        return decision;
-
-    }
-
-    public JSONObject land(JSONObject parameter, JSONObject id) {
-        decision.put("action", "land");
-        decision.put("parameter", parameter);
-        return decision;
-
-    }
-
-    public JSONObject moveTo(JSONObject parameter, Direction direction) {
-        decision.put("action", "move_to");
-        parameter.put("direction", direction);
-        decision.put("parameter", parameter);
-        return decision;
-
-    }
-
-    public JSONObject scout(JSONObject parameter, Direction direction) {
-        decision.put("action", "scout");
-        parameter.put("direction", direction);
-        decision.put("parameters", parameter);
-        return decision;
-
-    }
-
-    // might not need this
-    public JSONObject glimpse(JSONObject parameter, Direction direction, JSONObject range) {
-        decision.put("action", "glimpse");
-        parameter.put("direction", direction);
-        decision.put("parameters", parameter);
-        decision.put("range", 1);
-        return decision;
-
-    }
-
-    public JSONObject explore() {
-        decision.put("action", "explore");
         return decision;
 
     }
