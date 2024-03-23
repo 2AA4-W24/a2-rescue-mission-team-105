@@ -163,12 +163,13 @@ public class DecisionMaker {
         
 
         public void gridSearch(Actions action, Drone drone, Limitations limitation, Direction direction, JSONObject parameter) {
+            turnLeft = true;
             gridCount++;    
             
             if (state == 4) {
                 logger.info("Im in state 4");
-                decision = action.stop();
-                return;
+                //decision = action.stop();
+                //return;
             }
             
             if (state == 0 && radar) {
@@ -196,11 +197,7 @@ public class DecisionMaker {
                 }
             }
 
-            else if (state == 3) {
-                logger.info("Im in state 3");
-                state = 4;
-                gridCount = 0;
-            }
+
             
             if (limitation.is180DegreeTurn(direction) == false) {
                 switch(state) {
@@ -242,12 +239,7 @@ public class DecisionMaker {
                     
                     case 3:
                         logger.info("This is case 3");
-                        if (gridCount == 0){
-                            decision = action.fly(drone);
-                            radar = false;
-                        }
-                        
-                        else if(gridCount < 3){
+                        if(gridCount < 3){
                             if(turnLeft){
                                 decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
                                 turnDirection = rightOrientation(turnDirection, drone);
@@ -257,9 +249,21 @@ public class DecisionMaker {
                                 turnDirection = leftOrientation(turnDirection, drone);
                             }
                         }
-                        else {
-                            decision = action.scan();
-                            gridCount = 0;
+                        else if(gridCount < 4){
+                            decision = action.fly(drone);
+                        }
+                        else{
+                            if(!turnLeft){
+                                turnDirection = rightOrientation(turnDirection, drone);
+                                decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
+                                turnDirection = rightOrientation(turnDirection, drone);
+                            }
+                            else {
+                                turnDirection = leftOrientation(turnDirection, drone);
+                                decision = action.heading(parameter, leftOrientation(turnDirection, drone), drone);
+                                turnDirection = leftOrientation(turnDirection, drone);
+                            }
+                            gridCount = -1;
                             state = 4;
                         }
                         break;
@@ -270,7 +274,7 @@ public class DecisionMaker {
                             decision = action.scan();
                         }
                         else {
-                            decision = action.fly(drone);
+                            decision = action.stop();
                         }
                         break;
                     
