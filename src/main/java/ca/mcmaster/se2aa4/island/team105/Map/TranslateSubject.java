@@ -10,7 +10,7 @@ public class TranslateSubject {
 
     }
 
-    public void update(JSONObject extras) {
-        
+    public void update(JSONObject extras, int cost) {
+
     }
 }

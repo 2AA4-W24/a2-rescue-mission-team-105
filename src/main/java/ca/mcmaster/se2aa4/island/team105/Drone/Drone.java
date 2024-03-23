@@ -1,13 +1,16 @@
 package ca.mcmaster.se2aa4.island.team105.Drone;
 
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
+import ca.mcmaster.se2aa4.island.team105.Map.SubObserver;
+
 import java.util.Map;
 import java.util.EnumMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
 
-public class Drone {
+public class Drone extends SubObserver{
     private final Logger logger = LogManager.getLogger();
     //This is private because we will further create the services in this class
     private Direction heading;
@@ -21,6 +24,11 @@ public class Drone {
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void update(String found, int range, JSONArray biomes, int batteryLevel) {
+        this.level = batteryLevel;
     }
 
     public Integer getLevel() {

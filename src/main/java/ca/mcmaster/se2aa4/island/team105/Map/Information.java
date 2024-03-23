@@ -32,12 +32,13 @@ public class Information extends TranslateSubject{
     @Override
     public void notifyObservers()  {
         for (SubObserver subObserver : subObservers) {
-            subObserver.update(this.found, this.range, this.biomes);
+            subObserver.update(this.found, this.range, this.biomes, this.batteryLevel);
         }
     }
 
     @Override
-    public void update(JSONObject extras) {
+    public void update(JSONObject extras, int cost) {
+        this.batteryLevel -= cost;
         if (extras.has("found")) {
             this.found = extras.getString("found");
             this.range = extras.getInt("range");

@@ -41,6 +41,7 @@ public class JSONConfiguration {
         String direction = info.getString("heading");
         this.level = new Drone(info.getInt("budget"), direction);// Create the BatteryLevel object
         this.limitation = new Limitations(this.level);  // Instantiate the Limitations object
+        translate.addObserver((SubObserver)level);
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", this.level.getLevel());
     }
