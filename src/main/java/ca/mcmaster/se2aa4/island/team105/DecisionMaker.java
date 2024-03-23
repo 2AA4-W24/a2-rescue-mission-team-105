@@ -22,8 +22,8 @@ public class DecisionMaker {
     private boolean radar = false;
     private int state = 0;
     private Direction searchDirection;
-    private Direction turnDirection;
-    private boolean turnLeft;
+    private Direction turnDirection = Direction.S;
+    private boolean turnLeft = true;
     private Direction starting;
 
     
@@ -165,14 +165,8 @@ public class DecisionMaker {
         
 
         public void gridSearch(Actions action, Drone drone, Limitations limitation, Direction direction, JSONObject parameter) {
-            turnLeft = true;
             gridCount++;    
             
-            if (state == 4) {
-                logger.info("Im in state 4");
-                //decision = action.stop();
-                //return;
-            }
             
             if (state == 0 && radar) {
                 logger.info("Im in state 0");
@@ -190,12 +184,21 @@ public class DecisionMaker {
 
             else if (state == 2 && radar) {
                 logger.info("Im in state 2");
-                if (landFound) {
-                    state = 2;
-                }
-                else if (!landFound) {
+                if (!landFound) {
                     state = 3;
                     gridCount = 0;
+                }
+            }
+            if (state == 4 && radar) {
+                logger.info("Im in state 4");
+                if(landFound){
+                    state = 0;
+                    gridCount = 0;
+                    turnLeft = !turnLeft;
+                    return;
+                }else{
+                    decision = action.stop();
+                    return;
                 }
             }
 
@@ -205,7 +208,7 @@ public class DecisionMaker {
                 switch(state) {
                     case 0:
                         logger.info("This is case 0");
-                        decision = action.echo(parameter, orientation(direction, drone));
+                        decision = action.echo(parameter, orientation(turnDirection, drone));
                         radar = true;
                         break;
                     
@@ -240,6 +243,7 @@ public class DecisionMaker {
 
                     
                     case 3:
+                        radar = false;
                         logger.info("This is case 3");
                         if(gridCount < 3){
                             if(turnLeft){
@@ -274,9 +278,11 @@ public class DecisionMaker {
                         logger.info("This is case 4"); 
                         if (gridCount % 2 == 0) {
                             decision = action.scan();
+                            radar = false;
                         }
                         else {
-                            decision = action.stop();
+                            decision = action.echo(parameter, orientation(turnDirection, drone));
+                            radar = true;
                         }
                         break;
                     
