@@ -277,7 +277,14 @@ public class DecisionMaker extends SubObserver {
                         }
                         else if (gridCount % 3 == 0) {
                             logger.info("phase 3");
-                            decision = action.echo(parameter, Direction.E); // starting heading
+                            if(this.turnLeft){
+                                decision = action.echo(parameter, leftOrientation(turnDirection, drone)); // starting heading
+
+                            }
+                            else {
+                                decision = action.echo(parameter, rightOrientation(turnDirection, drone)); // starting heading
+
+                            }
                             radar = true;
                         }
                         else if (gridCount % 3 > 0) {
