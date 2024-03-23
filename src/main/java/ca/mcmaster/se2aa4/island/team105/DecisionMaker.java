@@ -22,7 +22,6 @@ public class DecisionMaker extends SubObserver {
     private int count = -1; // need to keep this outside
     private int gridCount = -1;
     private int phase = 0;
-    private boolean landFound;
     private boolean radar;
     private int state = 0;
     private Direction searchDirection;
@@ -31,6 +30,7 @@ public class DecisionMaker extends SubObserver {
     private boolean inOcean; //we scan, if there is land in the biomes array we are not in the ocean
     private boolean foundGround; //if ground is found when we echo
     private int echoRange; //if we echo, the range
+    private boolean boxfound;
 
     
     @Override
@@ -54,12 +54,6 @@ public class DecisionMaker extends SubObserver {
         Direction left = leftOrientation(direction, drone);
         Direction right = rightOrientation(direction, drone);
         count++;
-        //Stops when reaches the last state
-        if (phase == 5) {
-            decision = action.stop();
-            return;
-        }
-
         if(phase == 0){
             if(this.foundGround){
                 phase = 1;
@@ -99,11 +93,8 @@ public class DecisionMaker extends SubObserver {
                 phase = 4;
                 count = 0;
             }
-            if (phase == 6){
-                phase = 7;
-                count = 0;
-            }
-        }if(limitation.is180DegreeTurn(direction)== false){
+        }
+        if(limitation.is180DegreeTurn(direction)== false){
             switch(phase) {
                 case 0:
                     if (count % 5 == 0){
@@ -136,7 +127,7 @@ public class DecisionMaker extends SubObserver {
                         decision = action.echo(parameter, left);
                         searchDirection = left;
                         turnDirection = rightOrientation(searchDirection, drone);
-                        turnLeft = true;
+                        this.turnLeft = true;
                         // decision = action.scan();
                     }
         
@@ -144,7 +135,7 @@ public class DecisionMaker extends SubObserver {
                         decision = action.echo(parameter, right);
                         searchDirection = right;
                         turnDirection = leftOrientation(searchDirection, drone);
-                        turnLeft = false;
+                        this.turnLeft = false;
                     }
 
                     else if (count % 4 == 2) {
@@ -161,7 +152,7 @@ public class DecisionMaker extends SubObserver {
                         decision = action.fly(drone);
                     }
                     else if(count < 6){
-                        if(turnLeft){
+                        if(this.turnLeft){
                             decision = action.heading(parameter, leftOrientation(turnDirection, drone), drone);
                             turnDirection = leftOrientation(turnDirection, drone);
                         }
@@ -171,7 +162,7 @@ public class DecisionMaker extends SubObserver {
                         }
                     }
                     else if(count < 7){
-                        if(turnLeft){
+                        if(this.turnLeft){
                             turnDirection = rightOrientation(turnDirection, drone);
                             decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
                             turnDirection = rightOrientation(turnDirection, drone);
@@ -197,14 +188,12 @@ public class DecisionMaker extends SubObserver {
                     }
                     else{
                         phase = 4;
+                        this.turnLeft = !this.turnLeft;
+                        this.boxfound = true;
                         decision = action.scan();
                     }
                     
                     break;
-                case 4:
-                    decision = action.stop();
-                    break;
-                
                 default:
                     logger.info("no case found");
             }
@@ -214,7 +203,12 @@ public class DecisionMaker extends SubObserver {
         }
 
 
-        public void gridSearch(Actions action, Drone drone, Limitations limitation, Direction direction, JSONObject parameter) {
+
+
+
+
+
+        public void gridSearch(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) {
             gridCount++;    
             
             
@@ -244,7 +238,7 @@ public class DecisionMaker extends SubObserver {
                 if(this.foundGround){
                     state = 1;
                     gridCount = 1;
-                    turnLeft = !turnLeft;
+                    this.turnLeft = !this.turnLeft;
                 }else{
                     decision = action.stop();
                     return;
@@ -277,7 +271,11 @@ public class DecisionMaker extends SubObserver {
 
 
                     case 2:
-                        if (gridCount % 3 == 0) {
+                        if (gridCount == 0){
+                            decision = action.scan(); // starting heading
+                            radar = false;
+                        }
+                        else if (gridCount % 3 == 0) {
                             logger.info("phase 3");
                             decision = action.echo(parameter, Direction.E); // starting heading
                             radar = true;
@@ -296,7 +294,7 @@ public class DecisionMaker extends SubObserver {
                             decision = action.fly(drone);
                         }
                         else if(gridCount < 4){
-                            if(turnLeft){
+                            if(this.turnLeft){
                                 decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
                                 turnDirection = rightOrientation(turnDirection, drone);
                             }
@@ -309,7 +307,7 @@ public class DecisionMaker extends SubObserver {
                             decision = action.fly(drone);
                         }
                         else{
-                            if(!turnLeft){
+                            if(!this.turnLeft){
                                 turnDirection = rightOrientation(turnDirection, drone);
                                 decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
                                 turnDirection = rightOrientation(turnDirection, drone);
@@ -354,7 +352,13 @@ public class DecisionMaker extends SubObserver {
 
     
 
-    public JSONObject getDecision() {
+    public JSONObject getDecision(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) {
+        if(!this.boxfound){
+            findMapBox(limitation, drone, direction, action, parameter);
+        }else{
+            gridSearch(limitation, drone, direction, action, parameter);
+        }
+
         return decision;
     }
     
