@@ -1,30 +1,56 @@
 package ca.mcmaster.se2aa4.island.team105;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
+import ca.mcmaster.se2aa4.island.team105.Map.SubObserver;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class DecisionMaker{
+public class DecisionMaker extends SubObserver {
+
 
     private final static Logger logger = LogManager.getLogger();
+
 
     protected JSONObject decision = new JSONObject();
     private int count = -1; // need to keep this outside
     private int gridCount = -1;
     private int phase = 0;
     private boolean landFound;
-    private int range;
-    private boolean radar = false;
+    private boolean radar;
     private int state = 0;
     private Direction searchDirection;
-    private Direction turnDirection = Direction.S;
-    private boolean turnLeft = true;
+    private Direction turnDirection;
+    private boolean turnLeft;
+    private boolean inOcean; //we scan, if there is land in the biomes array we are not in the ocean
+    private boolean foundGround; //if ground is found when we echo
+    private int echoRange; //if we echo, the range
+    private int range;
     private Direction starting;
+
+    
+    @Override
+    public void update(String found, int range, JSONArray biomes) {
+        this.inOcean = true;
+        this.foundGround = (found.equals("GROUND"));
+        this.echoRange = range;
+        if (biomes != null) {
+            for (int i = 0; i < biomes.length(); i++) {
+                if (!biomes.getString(i).equals("OCEAN")) {
+                    this.inOcean = false;
+                }
+            }   
+        }    
+        logger.info(foundGround);
+        logger.info(echoRange);
+        logger.info(inOcean);
+    }
 
     public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) { // might be high coupling
         Direction left = leftOrientation(direction, drone);
@@ -36,20 +62,50 @@ public class DecisionMaker{
             return;
         }
 
-        if(phase == 0) {
-            if(landFound){
+        if(phase == 0){
+            if(this.foundGround){
                 phase = 1;
                 count = 0;
             }
         }
         else if (phase == 1){
-            if(landFound){
+            if(this.foundGround){
                 phase = 2;
                 count = 0;
             }
         }
-        
-        if(limitation.is180DegreeTurn(direction)== false){
+        if(radar){
+            if(!this.foundGround){
+                if (phase == 2){
+                    logger.info("phase 3");
+                    phase = 3;
+                    count = 0;
+                }
+                else if (phase == 5){
+                    phase = 6;
+                    count = 0;
+                }
+                else if (phase == 4){
+                    phase = 5;
+                    count = 0;
+                }
+                else if (phase == 7){
+                    phase = 8;
+                    count = 0;
+                }
+            }
+        }
+        if(radar && this.foundGround){
+            if (phase == 3){
+                logger.info("phase 3");
+                phase = 4;
+                count = 0;
+            }
+            if (phase == 6){
+                phase = 7;
+                count = 0;
+            }
+        }if(limitation.is180DegreeTurn(direction)== false){
             switch(phase) {
                 case 0:
                     if (count % 5 == 0){
@@ -138,7 +194,7 @@ public class DecisionMaker{
 
                 case 3:
                     logger.info("phase 4");
-                    if (count <= range) {
+                    if (count <= this.echoRange) {
                         decision = action.fly(drone);
                     }
                     else{
@@ -205,6 +261,10 @@ public class DecisionMaker{
 
             
             if (limitation.is180DegreeTurn(direction) == false) {
+                
+
+
+
                 switch(state) {
                     case 0:
                         logger.info("This is case 0");
@@ -214,18 +274,14 @@ public class DecisionMaker{
                     
                     case 1:
                         logger.info("This is case 1"); 
-                        if (gridCount <= range) {
+                        if (gridCount <= this.echoRange) {
                             logger.info("phase 1");
                             decision = action.fly(drone);
                             radar = false;
                         }
                         else {
-                            decision = action.scan();
-                            state = 0;
-                            radar = false;
+                            action.fly(drone);
                         }
-                        break;
-
 
                     case 2:
                         logger.info("This is case 2");
@@ -239,8 +295,6 @@ public class DecisionMaker{
                             radar = false;
 
                         }
-                        break;
-
                     
                     case 3:
                         radar = false;
@@ -279,8 +333,12 @@ public class DecisionMaker{
                     
                     case 4:
                         logger.info("This is case 4"); 
-                        decision = action.echo(parameter, orientation(turnDirection, drone));
-                        radar = true;
+                        if (gridCount % 2 == 0) {
+                            decision = action.scan();
+                        }
+                        else {
+                            action.fly(drone);
+                        }
                         break;
                     
                     default:
@@ -306,7 +364,7 @@ public class DecisionMaker{
     public JSONObject getDecision() {
         return decision;
     }
-
+    
     public Direction orientation(Direction direction, Drone drone) {
         Direction heading = drone.getHeading();
         switch(heading) {

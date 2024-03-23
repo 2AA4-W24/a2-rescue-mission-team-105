@@ -8,6 +8,8 @@ import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
+import ca.mcmaster.se2aa4.island.team105.Map.SubObserver;
+import ca.mcmaster.se2aa4.island.team105.Map.ExplorerMap;
 import ca.mcmaster.se2aa4.island.team105.Map.Translator;
 
 import org.apache.logging.log4j.LogManager;
@@ -23,13 +25,16 @@ public class JSONConfiguration {
     private Limitations limitation;  // Declare the Limitations object
     Actions action = new Actions(decision);
     Direction direction;
-    private DecisionMaker decisionMaker = new DecisionMaker(); // need to keep it outside
-    private Direction originalDirection;
+    private SubObserver decisionMaker = new DecisionMaker(); // need to keep it outside
+    private Translator translate = new Translator();
+    private int mapRange;
+    ExplorerMap explorer = new ExplorerMap();
+    private int count;
     
-
      // maybe change later
 
     public void initializationWrap(String s) {
+        translate.addObserver(decisionMaker);
         logger.info("** Initializing the Exploration Command Center");
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}", info.toString(2));
@@ -41,11 +46,10 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        originalDirection = level.getHeading();
-        decisionMaker.findMapBox(limitation, level, direction, action, parameter);
-        // decisionMaker.gridSearch(action, level, limitation, direction, parameter);
+        ((DecisionMaker)decisionMaker).findMapBox(limitation, level, direction, action, parameter);
+        //((DecisionMaker)decisionMaker).gridSearch(action, level, limitation, direction, parameter);
         // decision = action.scan();
-        decision = decisionMaker.getDecision();
+        decision = ((DecisionMaker)decisionMaker).getDecision();
         logger.info(level.getX() + " " + level.getY());
         logger.info("** Decision: {}", decision.toString());
         logger.info("Battery level is now {}", this.level.getLevel());       
@@ -68,11 +72,7 @@ public class JSONConfiguration {
         logger.info("Additional information received: {}", extraInfo);
         logger.info(level.getX() + " " + level.getY());
         limitation.returnHome(action);
-
-        Translator translator = new Translator(response, level);
-        logger.info("found ground is " + translator.foundGround());
-        decisionMaker.decisionUpdate(translator.foundGround(), translator.getRange());
+        translate.setInfo(response);
     }
-
 
 }
