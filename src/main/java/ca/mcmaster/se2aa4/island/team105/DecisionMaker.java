@@ -149,7 +149,7 @@ public class DecisionMaker {
                     
                     break;
                 case 4:
-                    starting = orientation(turnDirection);
+                    starting = orientation(turnDirection, drone);
                     decision = action.stop();
                     break;
                 
