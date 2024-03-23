@@ -149,6 +149,7 @@ public class DecisionMaker{
                     break;
                 case 4:
                     starting = orientation(turnDirection, drone);
+                    logger.info("stopping");
                     decision = action.stop();
                     break;
                 
@@ -289,8 +290,6 @@ public class DecisionMaker{
             }
 
 
-
-
         // state 0
         //      echo forward
         //      if you find land go to state 1
@@ -301,8 +300,6 @@ public class DecisionMaker{
         // state 2
         //      echo in the direction of starting heading
         //      keeping flying/echoing until land is not found
-
-    
 
     
 

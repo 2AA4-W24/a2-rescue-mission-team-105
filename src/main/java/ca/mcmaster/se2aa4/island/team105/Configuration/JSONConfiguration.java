@@ -41,9 +41,9 @@ public class JSONConfiguration {
     }
 
     public String takeDecisionWrap() {
-        // decisionMaker.findMapBox(limitation, level, direction, action, parameter);
         originalDirection = level.getHeading();
-        decisionMaker.gridSearch(action, level, limitation, direction, parameter);
+        decisionMaker.findMapBox(limitation, level, direction, action, parameter);
+        // decisionMaker.gridSearch(action, level, limitation, direction, parameter);
         // decision = action.scan();
         decision = decisionMaker.getDecision();
         logger.info(level.getX() + " " + level.getY());
