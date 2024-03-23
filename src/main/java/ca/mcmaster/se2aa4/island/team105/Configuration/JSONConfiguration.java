@@ -24,6 +24,7 @@ public class JSONConfiguration {
     Actions action = new Actions(decision);
     Direction direction;
     private DecisionMaker decisionMaker = new DecisionMaker(); // need to keep it outside
+    private Direction originalDirection;
     
 
      // maybe change later
@@ -41,6 +42,7 @@ public class JSONConfiguration {
 
     public String takeDecisionWrap() {
         // decisionMaker.findMapBox(limitation, level, direction, action, parameter);
+        originalDirection = level.getHeading();
         decisionMaker.gridSearch(action, level, limitation, direction, parameter);
         // decision = action.scan();
         decision = decisionMaker.getDecision();
