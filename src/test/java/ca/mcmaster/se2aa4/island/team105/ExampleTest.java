@@ -25,6 +25,7 @@ public class ExampleTest {
     private JSONObject decision2;
     private Actions actions;
     private int batteryLevel;
+    private DecisionMaker decisionMaker;
 
 
     
@@ -36,6 +37,7 @@ public class ExampleTest {
         testMap = new ExplorerMap();
         actions = new Actions(decision1); // Create new JSONObject for decision1
         decision2 = new JSONObject();
+        decisionMaker = new DecisionMaker();
     }
 
     @Test
@@ -108,32 +110,35 @@ public class ExampleTest {
         assertTrue(batteryLevel == 7000);
     }
 
+    @Test
+    public void rightOrientationTest() {
+        assertTrue(decisionMaker.rightOrientation(heading, testDrone).equals(Direction.S));
+    }
 
+    @Test
+    public void leftOrientation() {
+        assertTrue(decisionMaker.leftOrientation(heading, testDrone).equals(Direction.N));
+    }
 
-
-
-
-
-
-        // @Test
-    // public void map03Test() {
-    //     String filename = "./maps/map03.json";
-    //     try {
-    //         run(Explorer.class)
-    //                 .exploring(new File(filename))
-    //                 .withSeed(42L)
-    //                 .startingAt(1, 1, "EAST")
-    //                 .backBefore(7000)
-    //                 .withCrew(5)
-    //                 .collecting(1000, "WOOD")
-    //                 .storingInto("./outputs")
-    //                 .withName("Island")
-    //                 .fire();
-    //     } catch (Exception e) {
-    //         System.err.println(e.getMessage());
-    //         e.printStackTrace(System.err);
-    //         System.exit(1);
-    //     }
-    // }
+    @Test
+    public void map03Test() {
+        String filename = "./maps/map03.json";
+        try {
+            run(Explorer.class)
+                    .exploring(new File(filename))
+                    .withSeed(42L)
+                    .startingAt(1, 1, "EAST")
+                    .backBefore(7000)
+                    .withCrew(5)
+                    .collecting(1000, "WOOD")
+                    .storingInto("./outputs")
+                    .withName("Island")
+                    .fire();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace(System.err);
+            System.exit(1);
+        }
+    }
 
 }
