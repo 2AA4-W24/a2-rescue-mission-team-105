@@ -16,7 +16,7 @@ public class Runner {
                     // .startingAt(80, 160, "NORTH")
                     // .startingAt(160, 30, "WEST")
                     .startingAt(1, 30, "EAST")
-                    .backBefore(70000) // have thresholds for battery
+                    .backBefore(600)
                     .withCrew(5)
                     .collecting(1000, "WOOD")
                     .storingInto("./outputs")

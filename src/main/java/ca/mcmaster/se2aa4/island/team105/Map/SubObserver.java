@@ -4,6 +4,7 @@ import org.json.JSONArray;
 
 public class SubObserver {
     
+    // updates the observer
     public void update(String found, int range, JSONArray biomes) {
 
     }
