@@ -1,19 +1,20 @@
 package ca.mcmaster.se2aa4.island.team105.Drone;
-
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 import java.util.Map;
 import java.util.EnumMap;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+// Christina Zhang, Victor Yu, Kevin Kim
+// 24/03/2024
+// 2AA4 <T01>
+// Software Engineering
+// updates movement, battery level, current heading, and heading movement
 
 public class Drone {
-    private final Logger logger = LogManager.getLogger();
-    //This is private because we will further create the services in this class
     private Direction heading;
     private int level;
     private int x, y;
 
+    // updates heading of the drone
     public Drone(Integer level, String starting) {
         this.level = level;
         try{
@@ -35,18 +36,16 @@ public class Drone {
         return x;
     }
     
-
     public Integer getY() {
         return y;
     }
 
 
-    // call actions 
-    //Simple return to check the functionality
     public Direction getHeading() {
         return (this.heading);
     }
-  
+    
+    // turns drone 90 degrees to the right
     public void headRight(){
         Map<Direction, Direction> goingRight = new EnumMap<>(Direction.class);
         goingRight.put(Direction.N, Direction.E);
@@ -56,7 +55,7 @@ public class Drone {
         this.heading = goingRight.get(this.heading);
     }
     
-  
+    // turns drone 90 degrees to the left
     public void headLeft() {
         Map<Direction, Direction> goingLeft = new EnumMap<>(Direction.class);
         goingLeft.put(Direction.N, Direction.W);
@@ -65,30 +64,28 @@ public class Drone {
         goingLeft.put(Direction.E, Direction.N);
         this.heading = goingLeft.get(this.heading);
     }
-
+    // updates drone location based on current heading
     public void updatedFlyingCoordinates() {
         switch(this.heading) {
             case Direction.N:
-                logger.info("you ran it twice bro");
                 this.y+=1;
                 break;
             case Direction.S:
                 this.y-=1;
                 break;
             case Direction.E:
-                logger.info("e deteted");
                 this.x+=1;
                 break;
             case Direction.W:
                 this.x-=1;
                 break;
             default:
-                logger.info("The heading is wrong");
                 break;
         }
     }
-
+    // updates drone location based on heading
     public void updatedHeadingCoordinates(Direction direction) {
+        // takes into account of forward movement when calling the heading command
         updatedFlyingCoordinates();
         switch(direction) {
             case Direction.N:
@@ -108,11 +105,56 @@ public class Drone {
                 updatedFlyingCoordinates();
                 break;
             default:
-                logger.info("The heading is wrong");
                 break;
         }
     }
 
-    
-    
+    public Direction orientation(Direction direction, Drone drone) {
+        Direction heading = drone.getHeading();
+        switch(heading) {
+            case Direction.N:
+                return Direction.N;
+            case Direction.S:
+                return Direction.S;
+            case Direction.E:
+                return Direction.E;
+            case Direction.W:
+                return Direction.W;   
+            default:
+                throw new IllegalArgumentException("Invalid heading encountered: " + heading);
+        }
+    }
+
+    public Direction rightOrientation(Direction direction, Drone drone) {
+        Direction heading = drone.getHeading();
+        switch(heading) {
+            case Direction.N:
+                return Direction.E;
+            case Direction.S:
+                return Direction.W;
+            case Direction.E:
+                return Direction.S;
+            case Direction.W:
+                return Direction.N;   
+            default:
+                throw new IllegalArgumentException("Invalid heading encountered: " + heading);
+        }
+    }
+
+    public Direction leftOrientation(Direction direction, Drone drone) {
+        Direction heading = drone.getHeading();
+        switch(heading) {
+            case Direction.N:
+                return Direction.W;
+            case Direction.S:
+                return Direction.E;
+            case Direction.E:
+                return Direction.N;
+            case Direction.W:
+                return Direction.S;   
+            default:
+                throw new IllegalArgumentException("Invalid heading encountered: " + heading);
+        }
+    }
+
 }
