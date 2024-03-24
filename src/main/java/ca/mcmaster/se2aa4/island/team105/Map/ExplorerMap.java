@@ -17,24 +17,27 @@ public class ExplorerMap extends SubObserver {
     //Creates a 2d array that stores information Objects
     public HashMap<Point, String> mapLayout = new HashMap<>();
     private Drone drone;
-    private boolean siteFound;
+    private boolean siteFound = false;
     private Point siteCoordinate;
 
     
     public ExplorerMap(Drone drone) {
-        currentPoint.setLocation(drone.getX(), drone.getY());
+        currentPoint.setLocation(0, 0);
+        this.drone = drone;
     }
 
     @Override
     public void update(String found, int range, JSONArray biomes, int batteryLevel, JSONArray siteList, JSONArray creekList) {
-        currentPoint.setLocation(drone.getX(), drone.getY());
-        if (!siteList.isEmpty()) {
+        if (siteList != null && !siteList.isEmpty()) {
             siteFound = true;
             siteCoordinate = new Point(drone.getX(), drone.getY());
         }
-        if (!creekList.isEmpty()) {
+        if (creekList != null && !creekList.isEmpty()) {
             for (int i = 0; i < creekList.length(); i++) {
-                mapLayout.put(currentPoint, creekList.getString(i));
+                if (!mapLayout.containsValue(creekList.getString(i))) {
+                    Point currentPoint = new Point(drone.getX(), drone.getY());
+                    mapLayout.put(currentPoint, creekList.getString(i));
+                }
             }
         }
 
