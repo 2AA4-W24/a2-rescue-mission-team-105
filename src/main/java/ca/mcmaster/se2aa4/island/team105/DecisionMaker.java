@@ -22,7 +22,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
     private int state = 0;
     private Direction searchDirection;
     private Direction turnDirection;
-    private boolean turnLeft;
+    private boolean turnLeft = false;
     // private boolean inOcean; // we scan, if there is land in the biomes array we are not in the ocean
     private boolean foundGround; // if ground is found when we echo
     private int echoRange; // if we echo, the range
@@ -59,15 +59,15 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
         Direction left = drone.leftOrientation(direction, drone);
         Direction right = drone.rightOrientation(direction, drone);
         if (count == 0){
-            limitation.setBound(direction, 42);
+            limitation.setBound(drone.orientation(direction, drone), 52);
             decision = action.echo(parameter, left);
         }
         if (count == 1){
-            limitation.setBound(left, this.echoRange);
+            limitation.setBound(left, this.outRange);
             decision = action.echo(parameter, right);
         }
         if (count == 2){
-            limitation.setBound(right, this.echoRange);
+            limitation.setBound(right, this.outRange);
             decision = action.fly(drone);
             setupComplete = true;
             count = -1;
@@ -124,27 +124,23 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
                 // echo's all directions
                 case 0:
                     logger.info("case 0");
-                    if (count % 5 == 0) {
+                    if (count % 4 == 0) {
                         decision = action.echo(parameter, drone.orientation(direction, drone));
                     }
 
-                    else if (count % 5 == 1) {
+                    else if (count % 4 == 1) {
                         decision = action.echo(parameter, left);
                         searchDirection = left;
                     }
 
-                    else if (count % 5 == 2) {
+                    else if (count % 4 == 2) {
                         decision = action.echo(parameter, right);
                         searchDirection = right;
 
                     }
 
-                    else if (count % 5 == 3) {
+                    else if (count % 4 == 3) {
                         decision = action.fly(drone);
-                    }
-
-                    else if (count % 5 == 4) {
-                        decision = action.scan();
                     }
                     break;
                 // echo left and right
