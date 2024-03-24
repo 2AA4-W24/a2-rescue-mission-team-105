@@ -27,6 +27,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
     private boolean foundGround; // if ground is found when we echo
     private int echoRange; // if we echo, the range
     private boolean boxfound;
+    private boolean setupComplete;
 
     // extended from SubObserver class and updates the ground, ocean, and range accordingly
     @Override
@@ -44,6 +45,11 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
         logger.info(foundGround);
         logger.info(echoRange);
         logger.info(inOcean);
+    }
+
+    @Override
+    public void setup(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter){
+        limitation.setBound(direction, drone, echoRange);
     }
     // finds the outermost edge of the map
     @Override
@@ -312,13 +318,13 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
 
     // changes decision based on conditions if the box is found, dynamic approach
     // and used in the JSONConfiguration class
-    public JSONObject getDecision(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) {
+    public JSONObject calculateDecision(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) {
         if (!this.boxfound) {
             findMapEdge(limitation, drone, direction, action, parameter);
         } else {
             gridSearch(limitation, drone, direction, action, parameter);
         }
-        if(limitation.returnHome(action)){
+        if(limitation.returnHome(action) || limitation.isOutOfBounds()){
             decision = action.stop();
         }
         return decision;

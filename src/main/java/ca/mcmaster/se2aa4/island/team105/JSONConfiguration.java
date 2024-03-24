@@ -52,7 +52,7 @@ public class JSONConfiguration {
     // takes users decision and returns it as a string
     public String takeDecisionWrap() {
         if (logger.isInfoEnabled()) {
-            decision = ((DecisionMaker) decisionMaker).getDecision(limitation, level, direction, action, parameter);
+            decision = ((DecisionMaker) decisionMaker).calculateDecision(limitation, level, direction, action, parameter);
             logger.info(level.getX() + " " + level.getY());
             logger.info("** Decision: {}", decision.toString());
             logger.info("Battery level is now {}", this.level.getLevel());

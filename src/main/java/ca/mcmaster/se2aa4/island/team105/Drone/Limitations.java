@@ -21,6 +21,7 @@ public class Limitations extends JSONConfiguration {
     private final Logger logger = LogManager.getLogger();
     Drone drone = new Drone(7000, "E");
     Direction heading = drone.getHeading();
+    private int maxX, maxY, minX, minY;
 
     // Constructor to initialize Limitations with a BatteryLevel instance
     public Limitations(Drone level) {
@@ -63,4 +64,27 @@ public class Limitations extends JSONConfiguration {
         return oppositeDirections.get(heading) == desiredDirection;
     }
 
+    public void setBound(Direction desiredDirection, Drone done, int range){
+        switch (drone.getHeading()){
+            case Direction.N:
+                this.maxY = (drone.getY()+ range);
+
+            case Direction.E:
+                this.maxX = (drone.getX()+ range);
+
+            case Direction.S:
+                this.minY = (drone.getY()- range);
+
+            case Direction.W:
+                this.minX = (drone.getX()- range);
+
+        default:
+            logger.info("Direction not found!");
+        }
+        
+    }
+    public boolean isOutOfBounds(){
+
+        return false;
+    }
 }
