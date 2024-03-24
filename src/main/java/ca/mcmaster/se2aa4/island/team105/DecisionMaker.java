@@ -34,7 +34,7 @@ public class DecisionMaker extends SubObserver {
 
     
     @Override
-    public void update(String found, int range, JSONArray biomes, int batteryLevel) {
+    public void update(String found, int range, JSONArray biomes, int batteryLevel, JSONArray siteList, JSONArray creekList) {
         this.inOcean = true;
         this.foundGround = (found.equals("GROUND"));
         this.echoRange = range;

@@ -28,7 +28,7 @@ public class JSONConfiguration {
     private SubObserver decisionMaker = new DecisionMaker(); // need to keep it outside
     private Translator translate = new Translator();
     private int mapRange;
-    ExplorerMap explorer = new ExplorerMap();
+    private SubObserver explorer;
     private int count = 0;
     
      // maybe change later
@@ -40,6 +40,8 @@ public class JSONConfiguration {
         logger.info("** Initialization info:\n {}", info.toString(2));
         String direction = info.getString("heading");
         this.level = new Drone(info.getInt("budget"), direction);// Create the BatteryLevel object
+        this.explorer = new ExplorerMap(this.level);
+        translate.addObserver(explorer);
         this.limitation = new Limitations(this.level);  // Instantiate the Limitations object
         translate.addObserver((SubObserver)level);
         logger.info("The drone is facing {}", direction);
@@ -73,7 +75,13 @@ public class JSONConfiguration {
         logger.info("Additional information received: {}", extraInfo);
         logger.info(level.getX() + " " + level.getY());
         limitation.returnHome(action);
+        logger.info(((ExplorerMap)explorer).mapLayout.values().toString());
+        logger.info(((ExplorerMap)explorer).mapLayout.keySet().toString());
         translate.setInfo(response);
+    }
+
+    public String deliverFinalReportWrap() {
+        return ((ExplorerMap)explorer).getCreeks();
     }
 
 }

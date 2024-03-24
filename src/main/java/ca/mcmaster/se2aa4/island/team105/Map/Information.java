@@ -36,7 +36,7 @@ public class Information extends TranslateSubject{
     @Override
     public void notifyObservers()  {
         for (SubObserver subObserver : subObservers) {
-            subObserver.update(this.found, this.range, this.biomes, this.cost);
+            subObserver.update(this.found, this.range, this.biomes, this.cost, this.sites, this.creeks);
         }
     }
     
@@ -49,6 +49,7 @@ public class Information extends TranslateSubject{
         } else if (extras.has("biomes")) {
             this.biomes = extras.getJSONArray("biomes");
             this.creeks = extras.getJSONArray("creeks");
+            logger.info(this.creeks.toString());
             this.sites = extras.getJSONArray("sites");
         }
         notifyObservers();
