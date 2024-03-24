@@ -1,6 +1,7 @@
-package ca.mcmaster.se2aa4.island.team105.Drone;
+package ca.mcmaster.se2aa4.island.team105.drone;
 import org.json.JSONObject;
-import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
+
+import ca.mcmaster.se2aa4.island.team105.enums.Direction;
 
 // Christina Zhang, Victor Yu, Kevin Kim
 // 24/03/2024

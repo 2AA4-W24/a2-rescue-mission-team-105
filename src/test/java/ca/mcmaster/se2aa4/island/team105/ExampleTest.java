@@ -10,10 +10,9 @@ import static eu.ace_design.island.runner.Runner.run;
 
 import java.io.File;
 
-import ca.mcmaster.se2aa4.island.team105.Drone.*;
-import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
-
-import ca.mcmaster.se2aa4.island.team105.Map.ExplorerMap;
+import ca.mcmaster.se2aa4.island.team105.drone.*;
+import ca.mcmaster.se2aa4.island.team105.enums.Direction;
+import ca.mcmaster.se2aa4.island.team105.map.ExplorerMap;
 public class ExampleTest {
 
     private Drone testDrone;
@@ -31,12 +30,12 @@ public class ExampleTest {
     @BeforeEach
     public void setUp() {
         testDrone = new Drone(7000, "E");
-        limitations = new Limitations();
         heading = testDrone.getHeading();
         testMap = new ExplorerMap();
         actions = new Actions(decision1); // Create new JSONObject for decision1
         decision2 = new JSONObject();
         decisionMaker = new DecisionMaker();
+        limitations = new Limitations(testDrone);
     }
 
     @Test

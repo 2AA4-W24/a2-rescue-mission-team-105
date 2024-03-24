@@ -4,8 +4,11 @@ import static eu.ace_design.island.runner.Runner.run;
 
 import java.io.File;
 // runs the rescue mission, can modify information for the mission
-public class Runner {
+public final class Runner {
 
+    private Runner() {
+        
+    }
     public static void main(String[] args) {
         String filename = args[0];
         try {

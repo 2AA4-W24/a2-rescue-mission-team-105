@@ -1,10 +1,12 @@
-package ca.mcmaster.se2aa4.island.team105.Drone;
+package ca.mcmaster.se2aa4.island.team105.drone;
 import java.util.EnumMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
-import ca.mcmaster.se2aa4.island.team105.Configuration.JSONConfiguration;
-import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
+
+import ca.mcmaster.se2aa4.island.team105.JSONConfiguration;
+import ca.mcmaster.se2aa4.island.team105.enums.Direction;
+
 import java.util.Map;
 
 // Christina Zhang, Victor Yu, Kevin Kim
@@ -23,10 +25,6 @@ public class Limitations extends JSONConfiguration {
     // Constructor to initialize Limitations with a BatteryLevel instance
     public Limitations(Drone level) {
         this.level = level;
-    }
-
-    public Limitations() {
-
     }
 
     // checks battery level of the drone

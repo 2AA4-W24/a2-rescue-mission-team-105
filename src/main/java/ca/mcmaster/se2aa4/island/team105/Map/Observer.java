@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team105.Map;
+package ca.mcmaster.se2aa4.island.team105.map;
 
 import org.json.JSONObject;
 

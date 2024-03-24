@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team105.Map;
+package ca.mcmaster.se2aa4.island.team105.map;
 
 import org.json.JSONArray;
 
@@ -7,6 +7,6 @@ public class SubObserver {
 
     // updates the subObserver with new data
     public void update(String found, int range, JSONArray biomes) {
-
+        // method left empty
     }
 }
