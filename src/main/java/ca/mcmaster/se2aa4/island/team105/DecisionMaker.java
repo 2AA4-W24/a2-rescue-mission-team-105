@@ -23,7 +23,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
     private Direction searchDirection;
     private Direction turnDirection;
     private boolean turnLeft;
-    // private boolean inOcean; // we scan, if there is land in the biomes array we are not in the ocean
+    private boolean inOcean; // we scan, if there is land in the biomes array we are not in the ocean
     private boolean foundGround; // if ground is found when we echo
     private int echoRange; // if we echo, the range
     private boolean boxfound;
