@@ -312,12 +312,14 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
 
     // changes decision based on conditions if the box is found, dynamic approach
     // and used in the JSONConfiguration class
-    public JSONObject getDecision(Limitations limitation, Drone drone, Direction direction, Actions action,
-            JSONObject parameter) {
+    public JSONObject getDecision(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) {
         if (!this.boxfound) {
             findMapEdge(limitation, drone, direction, action, parameter);
         } else {
             gridSearch(limitation, drone, direction, action, parameter);
+        }
+        if(limitation.returnHome(action)){
+            decision = action.stop();
         }
         return decision;
     }

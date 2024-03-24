@@ -30,7 +30,7 @@ public class Limitations extends JSONConfiguration {
     // checks battery level of the drone
     public boolean returnHome(Actions action) {
         // returns home if battery threshold is equal to or below 1% of original battery or min 50
-        if (level.getLevel() <= 20 || level.getLevel() <= drone.getLevel()*0.01) {
+        if (level.getLevel() <= 40 || level.getLevel() <= drone.getLevel()*0.007) {
             logger.info("Battery level is equal or below 1% Returning home");
             return true;
         } else {
