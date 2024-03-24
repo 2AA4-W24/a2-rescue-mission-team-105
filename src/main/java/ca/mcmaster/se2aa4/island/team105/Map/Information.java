@@ -39,8 +39,7 @@ public class Information extends TranslateSubject{
             subObserver.update(this.found, this.range, this.biomes, this.cost);
         }
     }
-
-    @Override
+    
     public void update(JSONObject extras, int cost) {
         this.cost = cost;
         logger.info(this.cost);

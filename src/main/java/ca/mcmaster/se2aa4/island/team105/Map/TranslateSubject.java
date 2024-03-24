@@ -9,8 +9,4 @@ public class TranslateSubject { // Superclass to hold all Subject methods
     public void notifyObservers() {
 
     }
-
-    public void update(JSONObject extras, int cost) {
-
-    }
 }

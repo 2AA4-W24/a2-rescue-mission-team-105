@@ -120,7 +120,5 @@ public class Drone extends SubObserver{
                 break;
         }
     }
-
-    
-    
+   
 }
