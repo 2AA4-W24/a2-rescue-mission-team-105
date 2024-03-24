@@ -74,6 +74,7 @@ public class JSONConfiguration {
         logger.info("Additional information received: {}", extraInfo);
         logger.info(level.getX() + " " + level.getY());
         limitation.returnHome(action);
+        logger.info(((ExplorerMap)explorer).mapLayout.values().toString());
         translate.setInfo(response);
     }
 

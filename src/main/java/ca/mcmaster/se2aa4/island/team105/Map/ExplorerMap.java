@@ -15,7 +15,7 @@ public class ExplorerMap extends SubObserver {
     private Point currentPoint = new Point(0, 0);
 
     //Creates a 2d array that stores information Objects
-    HashMap<Point, String> mapLayout = new HashMap<>();
+    public HashMap<Point, String> mapLayout = new HashMap<>();
     private Drone drone;
     private boolean siteFound;
     private Point siteCoordinate;

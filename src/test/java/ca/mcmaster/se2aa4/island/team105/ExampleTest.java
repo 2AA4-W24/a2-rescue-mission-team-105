@@ -43,7 +43,8 @@ public class ExampleTest {
 
     @Test
     public void setGetLocation(){
-        ExplorerMap testMap = new ExplorerMap();
+        Drone drone = new Drone(7000, "E");
+        ExplorerMap testMap = new ExplorerMap(drone);
         testMap.setLocation(0, 0, "test_info");
         String info = testMap.getLocation(0, 0);
         assertTrue(info == "test_info");
@@ -51,7 +52,8 @@ public class ExampleTest {
     
     @Test
     public void updateCurrentLoation(){
-        ExplorerMap testMove = new ExplorerMap();
+        Drone drone = new Drone(7000, "E");
+        ExplorerMap testMove = new ExplorerMap(drone);
         testMove.updateCurrentPoint(2, 2);
         testMove.setLocation(0, 2, "Different location");
         String info = testMove.getLocation(2, 4);
@@ -60,7 +62,8 @@ public class ExampleTest {
 
     @Test
     public void radarTest(){
-        ExplorerMap testRadar = new ExplorerMap();
+        Drone drone = new Drone(7000, "E");
+        ExplorerMap testRadar = new ExplorerMap(drone);
         testRadar.setEchoInfo(0, 5, false);
         String info = testRadar.getLocation(0, 3);
         assertTrue(info == "Ocean");
