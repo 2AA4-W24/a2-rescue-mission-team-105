@@ -1,5 +1,4 @@
 package ca.mcmaster.se2aa4.island.team105;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
@@ -10,7 +9,7 @@ import ca.mcmaster.se2aa4.island.team105.Map.SubObserver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-// This class extends from 
+// This class extends from SubObserver and implements search methods to identify and make decisions based off of new data
 public class DecisionMaker extends SubObserver implements SearchMethods {
     private final static Logger logger = LogManager.getLogger();
     protected JSONObject decision = new JSONObject();

@@ -3,7 +3,7 @@ package ca.mcmaster.se2aa4.island.team105;
 import static eu.ace_design.island.runner.Runner.run;
 
 import java.io.File;
-
+// runs the rescue mission, can modify information for the mission
 public class Runner {
 
     public static void main(String[] args) {

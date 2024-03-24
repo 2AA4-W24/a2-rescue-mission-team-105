@@ -1,4 +1,5 @@
 package ca.mcmaster.se2aa4.island.team105.Map;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
@@ -12,7 +13,7 @@ import org.json.JSONObject;
 // such as range, and biome information. Utilizes an observer pattern by extending `TranslateSubject` 
 // in notifying other objects of data updates.
 
-public class Information extends TranslateSubject{
+public class Information extends TranslateSubject {
     // private variables for information storing
     private JSONArray biomes;
     private JSONArray creeks;
@@ -22,27 +23,31 @@ public class Information extends TranslateSubject{
     private int range;
     private List<SubObserver> subObservers = new ArrayList<>();
 
+    // constructs instances with default values
     public Information() {
         this.biomes = new JSONArray();
-        this.creeks = new JSONArray(); 
+        this.creeks = new JSONArray();
         this.sites = new JSONArray();
         this.batteryLevel = 0;
         this.found = "";
         this.range = 0;
     }
 
+    // adds subObservers to the list of observers
     @Override
     public void addObserver(SubObserver subObserver) {
         subObservers.add(subObserver);
     }
 
+    // Notifies all observers about the changes related to the map
     @Override
-    public void notifyObservers()  {
+    public void notifyObservers() {
         for (SubObserver subObserver : subObservers) {
             subObserver.update(this.found, this.range, this.biomes);
         }
     }
 
+    // updates information based on JSONObject
     @Override
     public void update(JSONObject extras) {
         if (extras.has("found")) {
