@@ -80,4 +80,8 @@ public class JSONConfiguration {
         translate.setInfo(response);
     }
 
+    public String deliverFinalReportWrap() {
+        return ((ExplorerMap)explorer).getCreeks();
+    }
+
 }
