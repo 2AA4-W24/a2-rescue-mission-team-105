@@ -69,7 +69,6 @@ public class JSONConfiguration {
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
         logger.info(level.getX() + " " + level.getY());
-        limitation.returnHome(action);
         translate.setInfo(response);
     }
 
