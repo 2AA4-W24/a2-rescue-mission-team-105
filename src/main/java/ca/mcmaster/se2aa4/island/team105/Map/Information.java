@@ -1,12 +1,14 @@
 package ca.mcmaster.se2aa4.island.team105.Map;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+// Represents information objects to store and communicate exploration data 
+// such as range, and biome information. Utilizes an observer pattern by extending `TranslateSubject` 
+// in notifying other objects of data updates.
 public class Information extends TranslateSubject{
+    
     private JSONArray biomes;
     private JSONArray creeks;
     private JSONArray sites;
@@ -23,7 +25,7 @@ public class Information extends TranslateSubject{
         this.found = "";
         this.range = 0;
     }
-
+    
     @Override
     public void addObserver(SubObserver subObserver) {
         subObservers.add(subObserver);

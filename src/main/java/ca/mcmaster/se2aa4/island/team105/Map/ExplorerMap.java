@@ -1,5 +1,4 @@
 package ca.mcmaster.se2aa4.island.team105.Map;
-
 import java.util.HashMap;
 import java.util.List;
 import java.awt.Point;

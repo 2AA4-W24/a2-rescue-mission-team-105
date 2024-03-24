@@ -2,27 +2,20 @@ package ca.mcmaster.se2aa4.island.team105;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
 import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 import ca.mcmaster.se2aa4.island.team105.Map.SubObserver;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class DecisionMaker extends SubObserver {
-
-
+public class DecisionMaker extends SubObserver implements SearchMethods {
     private final static Logger logger = LogManager.getLogger();
-
-
     protected JSONObject decision = new JSONObject();
-    private int count = -1; // need to keep this outside
+    private int count = -1;
     private int gridCount = -1;
     private int phase = 0;
-    private boolean landFound;
     private boolean radar;
     private int state = 0;
     private Direction searchDirection;
@@ -31,8 +24,7 @@ public class DecisionMaker extends SubObserver {
     private boolean inOcean; //we scan, if there is land in the biomes array we are not in the ocean
     private boolean foundGround; //if ground is found when we echo
     private int echoRange; //if we echo, the range
-    private int range;
-    private Direction starting;
+    private boolean boxfound;
 
     
     @Override
@@ -52,16 +44,11 @@ public class DecisionMaker extends SubObserver {
         logger.info(inOcean);
     }
 
+    @Override
     public void findMapBox(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) { // might be high coupling
-        Direction left = leftOrientation(direction, drone);
-        Direction right = rightOrientation(direction, drone);
+        Direction left = drone.leftOrientation(direction, drone);
+        Direction right = drone.rightOrientation(direction, drone);
         count++;
-        //Stops when reaches the last state
-        if (phase == 5) {
-            decision = action.stop();
-            return;
-        }
-
         if(phase == 0){
             if(this.foundGround){
                 phase = 1;
@@ -101,15 +88,12 @@ public class DecisionMaker extends SubObserver {
                 phase = 4;
                 count = 0;
             }
-            if (phase == 6){
-                phase = 7;
-                count = 0;
-            }
-        }if(limitation.is180DegreeTurn(direction)== false){
+        }
+        if(limitation.is180DegreeTurn(direction)== false){
             switch(phase) {
                 case 0:
                     if (count % 5 == 0){
-                        decision = action.echo(parameter, orientation(direction,drone));
+                        decision = action.echo(parameter, drone.orientation(direction,drone));
                     }
                     
                     else if (count % 5 == 1) {
@@ -137,16 +121,16 @@ public class DecisionMaker extends SubObserver {
                     if (count % 4 == 0) {
                         decision = action.echo(parameter, left);
                         searchDirection = left;
-                        turnDirection = rightOrientation(searchDirection, drone);
-                        turnLeft = true;
+                        turnDirection = drone.rightOrientation(searchDirection, drone);
+                        this.turnLeft = true;
                         // decision = action.scan();
                     }
         
                     else if (count % 4 == 1){
                         decision = action.echo(parameter, right);
                         searchDirection = right;
-                        turnDirection = leftOrientation(searchDirection, drone);
-                        turnLeft = false;
+                        turnDirection = drone.leftOrientation(searchDirection, drone);
+                        this.turnLeft = false;
                     }
 
                     else if (count % 4 == 2) {
@@ -163,26 +147,26 @@ public class DecisionMaker extends SubObserver {
                         decision = action.fly(drone);
                     }
                     else if(count < 6){
-                        if(turnLeft){
-                            decision = action.heading(parameter, leftOrientation(turnDirection, drone), drone);
-                            turnDirection = leftOrientation(turnDirection, drone);
+                        if(this.turnLeft){
+                            decision = action.heading(parameter, drone.leftOrientation(turnDirection, drone), drone);
+                            turnDirection = drone.leftOrientation(turnDirection, drone);
                         }
                         else{
-                            decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
-                            turnDirection = rightOrientation(turnDirection, drone);  
+                            decision = action.heading(parameter, drone.rightOrientation(turnDirection, drone), drone);
+                            turnDirection = drone.rightOrientation(turnDirection, drone);  
                         }
                     }
                     else if(count < 7){
-                        if(turnLeft){
-                            turnDirection = rightOrientation(turnDirection, drone);
-                            decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
-                            turnDirection = rightOrientation(turnDirection, drone);
+                        if(this.turnLeft){
+                            turnDirection = drone.rightOrientation(turnDirection, drone);
+                            decision = action.heading(parameter, drone.rightOrientation(turnDirection, drone), drone);
+                            turnDirection = drone.rightOrientation(turnDirection, drone);
                             
                         }
                         else{
-                            turnDirection = leftOrientation(turnDirection, drone);
-                            decision = action.heading(parameter, leftOrientation(turnDirection, drone), drone);
-                            turnDirection = leftOrientation(turnDirection, drone);
+                            turnDirection = drone.leftOrientation(turnDirection, drone);
+                            decision = action.heading(parameter, drone.leftOrientation(turnDirection, drone), drone);
+                            turnDirection = drone.leftOrientation(turnDirection, drone);
                         }
                     }
                     else{
@@ -199,35 +183,28 @@ public class DecisionMaker extends SubObserver {
                     }
                     else{
                         phase = 4;
+                        this.turnLeft = !this.turnLeft;
+                        this.boxfound = true;
                         decision = action.scan();
                     }
                     
                     break;
-                case 4:
-                    starting = orientation(turnDirection, drone);
-                    logger.info("stopping");
-                    decision = action.stop();
-                    break;
-                
                 default:
                     logger.info("no case found");
             }
-        }else{
+        }
+        else{
                 logger.info("Bad Command: echo in wrong direction");
             }
-        }
+    }
 
-
-        
-
-        public void gridSearch(Actions action, Drone drone, Limitations limitation, Direction direction, JSONObject parameter) {
+        @Override
+        public void gridSearch(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) {
             gridCount++;    
-            
-            
             if (state == 0 && radar) {
                 logger.info("Im in state 0");
-                logger.info(landFound);
-                if (landFound) {
+                logger.info(this.foundGround);
+                if (this.foundGround) {
                     state = 1;
                     gridCount = 0;
                 }
@@ -237,38 +214,29 @@ public class DecisionMaker extends SubObserver {
                     gridCount = 0;
                 }
             }
-
             else if (state == 2 && radar) {
                 logger.info("Im in state 2");
-                if (!landFound) {
+                if (!this.foundGround) {
                     state = 3;
                     gridCount = 0;
                 }
             }
             if (state == 4 && radar) {
                 logger.info("Im in state 4");
-                if(landFound){
+                if(this.foundGround){
                     state = 1;
-                    gridCount = 0;
-                    turnLeft = !turnLeft;
-                    return;
+                    gridCount = 1;
+                    this.turnLeft = !this.turnLeft;
                 }else{
                     decision = action.stop();
                     return;
                 }
             }
-
-
-            
             if (limitation.is180DegreeTurn(direction) == false) {
-                
-
-
-
                 switch(state) {
                     case 0:
                         logger.info("This is case 0");
-                        decision = action.echo(parameter, orientation(turnDirection, drone));
+                        decision = action.echo(parameter, drone.orientation(turnDirection, drone));
                         radar = true;
                         break;
                     
@@ -280,22 +248,35 @@ public class DecisionMaker extends SubObserver {
                             radar = false;
                         }
                         else {
-                            action.fly(drone);
+                            decision = action.scan();
+                            state = 0;
+                            radar = false;
                         }
+                        break;
+
 
                     case 2:
-                        logger.info("This is case 2");
-                        if (gridCount % 2 == 0) {
+                        if (gridCount == 0){
+                            decision = action.scan(); // starting heading
+                            radar = false;
+                        }
+                        else if (gridCount % 3 == 0) {
                             logger.info("phase 3");
-                            decision = action.echo(parameter, Direction.E); // starting heading
+                            if(this.turnLeft){
+                                decision = action.echo(parameter, drone.leftOrientation(turnDirection, drone)); // starting heading
+
+                            }
+                            else {
+                                decision = action.echo(parameter, drone.rightOrientation(turnDirection, drone)); // starting heading
+
+                            }
                             radar = true;
                         }
-                        else if (gridCount % 2 == 1) {
+                        else if (gridCount % 3 > 0) {
                             decision = action.fly(drone);
                             radar = false;
-
                         }
-                    
+                        break;
                     case 3:
                         radar = false;
                         logger.info("This is case 3");
@@ -303,28 +284,28 @@ public class DecisionMaker extends SubObserver {
                             decision = action.fly(drone);
                         }
                         else if(gridCount < 4){
-                            if(turnLeft){
-                                decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
-                                turnDirection = rightOrientation(turnDirection, drone);
+                            if(this.turnLeft){
+                                decision = action.heading(parameter, drone.rightOrientation(turnDirection, drone), drone);
+                                turnDirection = drone.rightOrientation(turnDirection, drone);
                             }
                             else {
-                                decision = action.heading(parameter, leftOrientation(turnDirection, drone), drone);
-                                turnDirection = leftOrientation(turnDirection, drone);
+                                decision = action.heading(parameter, drone.leftOrientation(turnDirection, drone), drone);
+                                turnDirection = drone.leftOrientation(turnDirection, drone);
                             }
                         }
                         else if(gridCount < 5){
                             decision = action.fly(drone);
                         }
                         else{
-                            if(!turnLeft){
-                                turnDirection = rightOrientation(turnDirection, drone);
-                                decision = action.heading(parameter, rightOrientation(turnDirection, drone), drone);
-                                turnDirection = rightOrientation(turnDirection, drone);
+                            if(!this.turnLeft){
+                                turnDirection = drone.rightOrientation(turnDirection, drone);
+                                decision = action.heading(parameter, drone.rightOrientation(turnDirection, drone), drone);
+                                turnDirection = drone.rightOrientation(turnDirection, drone);
                             }
                             else {
-                                turnDirection = leftOrientation(turnDirection, drone);
-                                decision = action.heading(parameter, leftOrientation(turnDirection, drone), drone);
-                                turnDirection = leftOrientation(turnDirection, drone);
+                                turnDirection = drone.leftOrientation(turnDirection, drone);
+                                decision = action.heading(parameter, drone.leftOrientation(turnDirection, drone), drone);
+                                turnDirection = drone.leftOrientation(turnDirection, drone);
                             }
                             gridCount = -1;
                             state = 4;
@@ -333,77 +314,23 @@ public class DecisionMaker extends SubObserver {
                     
                     case 4:
                         logger.info("This is case 4"); 
-                        if (gridCount % 2 == 0) {
-                            decision = action.scan();
-                        }
-                        else {
-                            action.fly(drone);
-                        }
+                        decision = action.echo(parameter, drone.orientation(turnDirection, drone));
+                        radar = true;
                         break;
                     
                     default:
                     logger.info("no case found");
                     }
                 }
-            }
+            }    
 
-
-    public JSONObject getDecision() {
+    public JSONObject getDecision(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) {
+        if(!this.boxfound){
+            findMapBox(limitation, drone, direction, action, parameter);
+        }
+        else{
+            gridSearch(limitation, drone, direction, action, parameter);
+        }
         return decision;
-    }
-    
-    public Direction orientation(Direction direction, Drone drone) {
-        Direction heading = drone.getHeading();
-        switch(heading) {
-            case Direction.N:
-                return Direction.N;
-            case Direction.S:
-                return Direction.S;
-            case Direction.E:
-                return Direction.E;
-            case Direction.W:
-                return Direction.W;   
-            default:
-                throw new IllegalArgumentException("Invalid heading encountered: " + heading);
-        }
-    }
-
-    public Direction rightOrientation(Direction direction, Drone drone) {
-        Direction heading = drone.getHeading();
-        switch(heading) {
-            case Direction.N:
-                return Direction.E;
-            case Direction.S:
-                return Direction.W;
-            case Direction.E:
-                return Direction.S;
-            case Direction.W:
-                return Direction.N;   
-            default:
-                throw new IllegalArgumentException("Invalid heading encountered: " + heading);
-        }
-    }
-
-    public Direction leftOrientation(Direction direction, Drone drone) {
-        Direction heading = drone.getHeading();
-        switch(heading) {
-            case Direction.N:
-                return Direction.W;
-            case Direction.S:
-                return Direction.E;
-            case Direction.E:
-                return Direction.N;
-            case Direction.W:
-                return Direction.S;   
-            default:
-                throw new IllegalArgumentException("Invalid heading encountered: " + heading);
-        }
-    }
-    
-    public void decisionUpdate(boolean land_found, int distance){
-        landFound = land_found;
-        if(landFound){
-            range = distance;
-        }
     }
 }

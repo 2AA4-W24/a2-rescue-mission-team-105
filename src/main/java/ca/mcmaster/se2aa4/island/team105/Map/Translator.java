@@ -37,10 +37,6 @@ public class Translator extends TranslateSubject{
         this.extras = response.getJSONObject("extras");
         this.cost = response.getInt("cost");
         notifyObservers();
-    }
-
-    //methods to update information class lmao this is so scuffed
-    
-    
+    }    
 
 }

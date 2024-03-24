@@ -12,7 +12,6 @@ public class Explorer implements IExplorerRaid {
         initialize.initializationWrap(s);
     }
 
-    // not coded
     @Override
     public String takeDecision () {
         return initialize.takeDecisionWrap();

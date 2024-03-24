@@ -16,7 +16,6 @@ import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
 import ca.mcmaster.se2aa4.island.team105.Map.ExplorerMap;
 public class ExampleTest {
 
-    // A test for the drone class for the current jsonArray output
     private Drone testDrone;
     private Limitations limitations;
     private Direction heading;
@@ -112,12 +111,24 @@ public class ExampleTest {
 
     @Test
     public void rightOrientationTest() {
-        assertTrue(decisionMaker.rightOrientation(heading, testDrone).equals(Direction.S));
+        assertTrue(testDrone.rightOrientation(heading, testDrone).equals(Direction.S));
     }
 
     @Test
     public void leftOrientation() {
-        assertTrue(decisionMaker.leftOrientation(heading, testDrone).equals(Direction.N));
+        assertTrue(testDrone.leftOrientation(heading, testDrone).equals(Direction.N));
+    }
+
+    @Test
+    public void orientationTrue() {
+        Direction newHeading = Direction.E;
+        assertTrue(newHeading == testDrone.orientation(heading, testDrone));
+    }
+
+    @Test
+    public void orientationFalse() {
+        Direction newHeading = Direction.W;
+        assertFalse(newHeading == testDrone.orientation(heading, testDrone));
     }
 
     @Test
@@ -127,8 +138,8 @@ public class ExampleTest {
             run(Explorer.class)
                     .exploring(new File(filename))
                     .withSeed(42L)
-                    .startingAt(1, 1, "EAST")
-                    .backBefore(7000)
+                    .startingAt(1, 100, "EAST")
+                    .backBefore(2000)
                     .withCrew(5)
                     .collecting(1000, "WOOD")
                     .storingInto("./outputs")
@@ -140,5 +151,4 @@ public class ExampleTest {
             System.exit(1);
         }
     }
-
 }
