@@ -26,6 +26,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
     // private boolean inOcean; // we scan, if there is land in the biomes array we are not in the ocean
     private boolean foundGround; // if ground is found when we echo
     private int echoRange; // if we echo, the range
+    private int outRange; //if land is not found when echo range
     private boolean boxfound;
     private boolean setupComplete = false;
 
@@ -34,6 +35,11 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
     public void update(String found, int range, JSONArray biomes) {
         boolean inOcean = true;
         this.foundGround = "GROUND".equals(found);
+        if (foundGround) {
+            this.echoRange = range;
+        } else {
+            this.outRange = range;
+        }
         this.echoRange = range;
         if (biomes != null) {
             for (int i = 0; i < biomes.length(); i++) {
