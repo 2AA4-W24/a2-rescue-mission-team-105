@@ -64,27 +64,37 @@ public class Limitations extends JSONConfiguration {
         return oppositeDirections.get(heading) == desiredDirection;
     }
 
-    public void setBound(Direction desiredDirection, Drone done, int range){
-        switch (drone.getHeading()){
+    public void setBound(Direction desiredDirection, int range){
+        switch (level.orientation(desiredDirection, drone)){
             case Direction.N:
-                this.maxY = (drone.getY()+ range);
-
+                this.maxY = (level.getY()+ range);
+                break;
             case Direction.E:
-                this.maxX = (drone.getX()+ range);
-
+                this.maxX = (level.getX()+ range);
+                break;
             case Direction.S:
-                this.minY = (drone.getY()- range);
-
+                this.minY = (level.getY()- range);
+                break;
             case Direction.W:
-                this.minX = (drone.getX()- range);
-
+                this.minX = (level.getX()- range);
+                break;
         default:
             logger.info("Direction not found!");
+            break;
         }
         
     }
     public boolean isOutOfBounds(){
-
+        if (this.minX > level.getX() || level.getX() > this.maxX ){
+            logger.info(this.minX + " " + level.getX() + " " + this.maxX);
+            return true;
+        }
+        else if(this.minY > level.getY() || level.getY() > this.maxY ){
+            logger.info(this.minY + " " + level.getY() + " " + this.maxY);
+            return true;
+        }
+        logger.info(this.minX + " " + level.getX() + " " + this.maxX);
+        logger.info(this.minY + " " + level.getY() + " " + this.maxY);
         return false;
     }
 }
