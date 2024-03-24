@@ -48,7 +48,6 @@ public class Information extends TranslateSubject {
     }
 
     // updates information based on JSONObject
-    @Override
     public void update(JSONObject extras, int cost) {
         this.cost = cost;
         if (extras.has("found")) {
