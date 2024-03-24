@@ -2,17 +2,46 @@ package ca.mcmaster.se2aa4.island.team105.Map;
 
 import java.util.HashMap;
 import java.util.List;
+
+import org.json.JSONArray;
+
+import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
+
 import java.awt.Point;
 
-public class ExplorerMap{
+public class ExplorerMap extends SubObserver {
 
     //relative position this is starting state
     private Point currentPoint = new Point(0, 0);
 
     //Creates a 2d array that stores information Objects
     HashMap<Point, String> mapLayout = new HashMap<>();
-    public ExplorerMap() {
+    private Drone drone;
+    private boolean siteFound;
+    private Point siteCoordinate;
+
+    
+    public ExplorerMap(Drone drone) {
+        currentPoint.setLocation(drone.getX(), drone.getY());
     }
+
+    @Override
+    public void update(String found, int range, JSONArray biomes, int batteryLevel, JSONArray siteList, JSONArray creekList) {
+        currentPoint.setLocation(drone.getX(), drone.getY());
+        if (!siteList.isEmpty()) {
+            siteFound = true;
+            siteCoordinate = new Point(drone.getX(), drone.getY());
+        }
+        if (!creekList.isEmpty()) {
+            for (int i = 0; i < creekList.length(); i++) {
+                mapLayout.put(currentPoint, creekList.getString(i));
+            }
+        }
+
+    }
+
+    //ok so the point be key and the value is the creek id
+    //we can have another variable like sitefound and sitecoordinate
 
     //Sets a object to inputed location
     public void setLocation(int xdist, int ydist, String infoString) {

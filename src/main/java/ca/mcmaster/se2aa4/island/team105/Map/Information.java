@@ -36,7 +36,7 @@ public class Information extends TranslateSubject{
     @Override
     public void notifyObservers()  {
         for (SubObserver subObserver : subObservers) {
-            subObserver.update(this.found, this.range, this.biomes, this.cost);
+            subObserver.update(this.found, this.range, this.biomes, this.cost, this.sites, this.creeks);
         }
     }
 

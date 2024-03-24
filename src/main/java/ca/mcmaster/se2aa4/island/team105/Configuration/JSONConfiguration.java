@@ -28,7 +28,7 @@ public class JSONConfiguration {
     private SubObserver decisionMaker = new DecisionMaker(); // need to keep it outside
     private Translator translate = new Translator();
     private int mapRange;
-    ExplorerMap explorer = new ExplorerMap();
+    private SubObserver explorer = new ExplorerMap(level);
     private int count = 0;
     
      // maybe change later
@@ -42,6 +42,7 @@ public class JSONConfiguration {
         this.level = new Drone(info.getInt("budget"), direction);// Create the BatteryLevel object
         this.limitation = new Limitations(this.level);  // Instantiate the Limitations object
         translate.addObserver((SubObserver)level);
+        translate.addObserver(explorer);
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", this.level.getLevel());
     }
