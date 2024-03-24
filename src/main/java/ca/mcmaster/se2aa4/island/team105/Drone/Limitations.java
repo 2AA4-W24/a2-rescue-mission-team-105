@@ -21,6 +21,7 @@ public class Limitations extends JSONConfiguration {
     private final Logger logger = LogManager.getLogger();
     Drone drone = new Drone(7000, "E");
     Direction heading = drone.getHeading();
+    private int maxX, maxY, minX, minY;
 
     // Constructor to initialize Limitations with a BatteryLevel instance
     public Limitations(Drone level) {
@@ -30,7 +31,7 @@ public class Limitations extends JSONConfiguration {
     // checks battery level of the drone
     public boolean returnHome(Actions action) {
         // returns home if battery threshold is equal to or below 1% of original battery or min 50
-        if (level.getLevel() <= 20 || level.getLevel() <= drone.getLevel()*0.01) {
+        if (level.getLevel() <= 40 || level.getLevel() <= drone.getLevel()*0.007) {
             logger.info("Battery level is equal or below 1% Returning home");
             return true;
         } else {
@@ -63,4 +64,37 @@ public class Limitations extends JSONConfiguration {
         return oppositeDirections.get(heading) == desiredDirection;
     }
 
+    public void setBound(Direction desiredDirection, int range){
+        switch (level.orientation(desiredDirection, drone)){
+            case Direction.N:
+                this.maxY = (level.getY()+ range);
+                break;
+            case Direction.E:
+                this.maxX = (level.getX()+ range);
+                break;
+            case Direction.S:
+                this.minY = (level.getY()- range);
+                break;
+            case Direction.W:
+                this.minX = (level.getX()- range);
+                break;
+        default:
+            logger.info("Direction not found!");
+            break;
+        }
+        
+    }
+    public boolean isOutOfBounds(){
+        if (this.minX > level.getX() || level.getX() > this.maxX ){
+            logger.info(this.minX + " " + level.getX() + " " + this.maxX);
+            return true;
+        }
+        else if(this.minY > level.getY() || level.getY() > this.maxY ){
+            logger.info(this.minY + " " + level.getY() + " " + this.maxY);
+            return true;
+        }
+        logger.info(this.minX + " " + level.getX() + " " + this.maxX);
+        logger.info(this.minY + " " + level.getY() + " " + this.maxY);
+        return false;
+    }
 }
