@@ -6,20 +6,24 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Information extends TranslateSubject{
+    private final Logger logger = LogManager.getLogger();
     private JSONArray biomes;
     private JSONArray creeks;
     private JSONArray sites;
-    public int batteryLevel;
     private String found;
     private int range;
+    private int cost;
     private List<SubObserver> subObservers = new ArrayList<>();
 
     public Information() {
         this.biomes = null;
         this.creeks = null; 
         this.sites = null;
-        this.batteryLevel = 0;
+        this.cost = 0;
         this.found = "";
         this.range = 0;
     }
@@ -32,13 +36,14 @@ public class Information extends TranslateSubject{
     @Override
     public void notifyObservers()  {
         for (SubObserver subObserver : subObservers) {
-            subObserver.update(this.found, this.range, this.biomes, this.batteryLevel);
+            subObserver.update(this.found, this.range, this.biomes, this.cost);
         }
     }
 
     @Override
     public void update(JSONObject extras, int cost) {
-        this.batteryLevel -= cost;
+        this.cost = cost;
+        logger.info(this.cost);
         if (extras.has("found")) {
             this.found = extras.getString("found");
             this.range = extras.getInt("range");

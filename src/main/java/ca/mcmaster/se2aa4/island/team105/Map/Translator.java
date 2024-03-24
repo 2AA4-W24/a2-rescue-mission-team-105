@@ -36,6 +36,7 @@ public class Translator extends TranslateSubject{
     public void setInfo(JSONObject response) {
         this.extras = response.getJSONObject("extras");
         this.cost = response.getInt("cost");
+        logger.info(cost);
         notifyObservers();
     }
 

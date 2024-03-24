@@ -29,7 +29,7 @@ public class JSONConfiguration {
     private Translator translate = new Translator();
     private int mapRange;
     ExplorerMap explorer = new ExplorerMap();
-    private int count;
+    private int count = 0;
     
      // maybe change later
 
@@ -65,7 +65,7 @@ public class JSONConfiguration {
         Integer cost = response.getInt("cost");
         logger.info("The cost of the action was {}", cost);
         // battery level after receiving results
-        this.level.setLevel(this.level.getLevel() - cost);
+        //this.level.setLevel(this.level.getLevel() - cost);
         logger.info("Battery level is now {}", this.level.getLevel());
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);

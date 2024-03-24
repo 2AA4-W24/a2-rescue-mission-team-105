@@ -28,7 +28,7 @@ public class Drone extends SubObserver{
 
     @Override
     public void update(String found, int range, JSONArray biomes, int batteryLevel) {
-        this.level = batteryLevel;
+        this.level -= batteryLevel;
     }
 
     public Integer getLevel() {
