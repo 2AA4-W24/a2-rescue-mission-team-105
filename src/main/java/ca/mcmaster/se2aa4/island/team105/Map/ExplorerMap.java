@@ -1,11 +1,9 @@
-package ca.mcmaster.se2aa4.island.team105.Map;
-
+package ca.mcmaster.se2aa4.island.team105.map;
 import java.util.HashMap;
-import java.util.List;
 
 import org.json.JSONArray;
 
-import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
+import ca.mcmaster.se2aa4.island.team105.drone.Drone;
 
 import java.awt.Point;
 
@@ -15,7 +13,7 @@ public class ExplorerMap extends SubObserver {
     private Point currentPoint = new Point(0, 0);
 
     //Creates a 2d array that stores information Objects
-    public HashMap<Point, String> mapLayout = new HashMap<>();
+    private HashMap<Point, String> mapLayout = new HashMap<>();
     private Drone drone;
     private boolean siteFound = false;
     private Point siteCoordinate;

@@ -1,41 +1,42 @@
-package ca.mcmaster.se2aa4.island.team105.Drone;
-
+package ca.mcmaster.se2aa4.island.team105.drone;
 import java.util.EnumMap;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
-import ca.mcmaster.se2aa4.island.team105.Configuration.JSONConfiguration;
-import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
+import ca.mcmaster.se2aa4.island.team105.JSONConfiguration;
+import ca.mcmaster.se2aa4.island.team105.enums.Direction;
+
 import java.util.Map;
+
+// Christina Zhang, Victor Yu, Kevin Kim
+// 24/03/2024
+// 2AA4 <T01>
+// Software Engineering
+// Facilitates and communicates with other classes in taking information and running rescue missions. Handles JSON-formatted data
+// and response acknowledgement and decision processing
 
 public class Limitations extends JSONConfiguration {
     private Drone level;
     private final Logger logger = LogManager.getLogger();
     Drone drone = new Drone(7000, "E");
-    private boolean radioRange;
     Direction heading = drone.getHeading();
-
-    
 
     // Constructor to initialize Limitations with a BatteryLevel instance
     public Limitations(Drone level) {
         this.level = level;
     }
 
-    public Limitations() {
-        //TODO Auto-generated constructor stub
-    }
-
-    // checks battery
-    public void returnHome(Actions action) {
-        if (level.getLevel() <= 4000) {
-            logger.info("Battery level is equal to or below 6800. Returning home");
-            action.stop();
+    // checks battery level of the drone
+    public boolean returnHome(Actions action) {
+        // returns home if battery threshold is equal to or below 1% of original battery or min 50
+        if (level.getLevel() <= 20 || level.getLevel() <= drone.getLevel()*0.01) {
+            logger.info("Battery level is equal or below 1% Returning home");
+            return true;
         } else {
-            logger.info("Battery level is greater than 6800. Continuing exploration.");
+            logger.info("Battery level is greater than 1%. Continuing exploration.");
         }
+        return false;
     }
 
     // checks bad command
@@ -51,6 +52,7 @@ public class Limitations extends JSONConfiguration {
         }
     }
 
+    // returns true if current direction is the opposite direction where you want to head to
     public boolean is180DegreeTurn(Direction desiredDirection) {
         Map<Direction, Direction> oppositeDirections = new EnumMap<>(Direction.class);
         oppositeDirections.put(Direction.N, Direction.S);
@@ -60,20 +62,5 @@ public class Limitations extends JSONConfiguration {
 
         return oppositeDirections.get(heading) == desiredDirection;
     }
-
-    public boolean radioRange() {
-        // gets the size of the map through the radio range
-        // to get the size echo in all directions
-        // conditionals if current x and y is less than the radio range results than you cannot fly in that direction
-        return radioRange;
-
-    }
-
-    // checks radio range
-    //check all direction for range 
-    //make relative x and y borders when out of range response seen
-    //to stay in range never fly or "heading" command out of range
-    //Never fly or head into a postion where we are facing the out while on the edge
-
 
 }

@@ -1,36 +1,16 @@
-package ca.mcmaster.se2aa4.island.team105.Enums;
+package ca.mcmaster.se2aa4.island.team105.enums;
 
-public class Decision {
+public enum Decision {
     
-    enum Direction {
-        FLY,
+    FLY,
 
-        HEADING,
+    HEADING,
 
-        ECHO,
+    ECHO,
 
-        SCAN,
+    SCAN,
 
-        STOP,
-
-        LAND,
-
-        MOVE_TO,
-
-        SCOUT,
-
-        GLIMPSE,
-
-        EXPLORE,
-
-        EXPLOIT,
-
-        TRANSFORM,
-    }
-    
-    public Decision() {
-        
-    }
+    STOP,
 }
 
 
