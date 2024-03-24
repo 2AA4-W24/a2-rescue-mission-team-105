@@ -26,13 +26,13 @@ public class Translator extends TranslateSubject{
         info.addObserver(subObserver);
     }
 
-    //notifies the information observer
+    // notifies the information observer
     @Override
     public void notifyObservers() {
         info.update(this.extras);
     }
 
-    //sets info in this class from JSONConfiguration
+    // sets info in this class from JSONConfiguration
     public void setInfo(JSONObject response) {
         this.extras = response.getJSONObject("extras");
         this.cost = response.getInt("cost");

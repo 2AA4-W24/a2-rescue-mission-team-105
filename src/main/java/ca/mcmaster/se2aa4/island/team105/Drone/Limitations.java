@@ -13,6 +13,7 @@ import java.util.Map;
 // Software Engineering
 // Facilitates and communicates with other classes in taking information and running rescue missions. Handles JSON-formatted data
 // and response acknowledgement and decision processing
+
 public class Limitations extends JSONConfiguration {
     private Drone level;
     private final Logger logger = LogManager.getLogger();

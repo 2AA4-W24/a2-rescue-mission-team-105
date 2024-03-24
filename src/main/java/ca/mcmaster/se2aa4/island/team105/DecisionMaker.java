@@ -27,6 +27,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
     private int echoRange; // if we echo, the range
     private boolean boxfound;
 
+    // extended from SubObserver class and updates the ground, ocean, and range accordingly
     @Override
     public void update(String found, int range, JSONArray biomes) {
         this.inOcean = true;
@@ -137,10 +138,6 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
                     else if (count % 3 == 2) {
                         decision = action.fly(drone);
                     }
-
-                    // else if (count % 4 == 3) {
-                    //     decision = action.scan();
-                    // }
                     break;
                 
                 // perfect u turn
@@ -269,7 +266,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
                     }
                     break;
                 
-                // perfect u turn
+                // perfect u-turn
                 case 3:
                     radar = false;
                     if (gridCount == 0) {

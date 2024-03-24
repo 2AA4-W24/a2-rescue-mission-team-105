@@ -1,13 +1,13 @@
+package ca.mcmaster.se2aa4.island.team105.Drone;
+import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
+import java.util.Map;
+import java.util.EnumMap;
+
 // Christina Zhang, Victor Yu, Kevin Kim
 // 24/03/2024
 // 2AA4 <T01>
 // Software Engineering
 // updates movement, battery level, current heading, and heading movement
-
-package ca.mcmaster.se2aa4.island.team105.Drone;
-import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
-import java.util.Map;
-import java.util.EnumMap;
 
 public class Drone {
     private Direction heading;
