@@ -1,16 +1,11 @@
-package ca.mcmaster.se2aa4.island.team105.Map;
+package ca.mcmaster.se2aa4.island.team105.map;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 
 public class Translator extends TranslateSubject{
     private int cost;
     private JSONObject extras;
-    private final Logger logger = LogManager.getLogger();
     private Information info = new Information();
     
     //creates a translator that takes the response from JSONConfiguration
@@ -37,6 +32,10 @@ public class Translator extends TranslateSubject{
         this.extras = response.getJSONObject("extras");
         this.cost = response.getInt("cost");
         notifyObservers();
-    }    
+    } 
+    
+    public int getCost() {
+        return cost;
+    }
 
 }

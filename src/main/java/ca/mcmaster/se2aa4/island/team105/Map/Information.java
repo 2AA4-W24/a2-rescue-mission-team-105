@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team105.Map;
+package ca.mcmaster.se2aa4.island.team105.map;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,8 @@ import org.json.JSONObject;
 public class Information extends TranslateSubject {
     // private variables for information storing
     private JSONArray biomes;
-    private JSONArray creeks;
-    private JSONArray sites;
+    // private JSONArray creeks;
+    // private JSONArray sites;
     public int batteryLevel;
     private String found;
     private int range;
@@ -26,8 +26,8 @@ public class Information extends TranslateSubject {
     // constructs instances with default values
     public Information() {
         this.biomes = new JSONArray();
-        this.creeks = new JSONArray();
-        this.sites = new JSONArray();
+        // this.creeks = new JSONArray();
+        // this.sites = new JSONArray();
         this.batteryLevel = 0;
         this.found = "";
         this.range = 0;
@@ -55,8 +55,8 @@ public class Information extends TranslateSubject {
             this.range = extras.getInt("range");
         } else if (extras.has("biomes")) {
             this.biomes = extras.getJSONArray("biomes");
-            this.creeks = extras.getJSONArray("creeks");
-            this.sites = extras.getJSONArray("sites");
+            // this.creeks = extras.getJSONArray("creeks");
+            // this.sites = extras.getJSONArray("sites");
         }
         notifyObservers();
     }

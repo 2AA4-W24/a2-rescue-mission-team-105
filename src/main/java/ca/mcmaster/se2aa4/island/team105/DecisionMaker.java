@@ -1,11 +1,13 @@
 package ca.mcmaster.se2aa4.island.team105;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import ca.mcmaster.se2aa4.island.team105.Drone.Actions;
-import ca.mcmaster.se2aa4.island.team105.Drone.Drone;
-import ca.mcmaster.se2aa4.island.team105.Drone.Limitations;
-import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
-import ca.mcmaster.se2aa4.island.team105.Map.SubObserver;
+
+import ca.mcmaster.se2aa4.island.team105.drone.Actions;
+import ca.mcmaster.se2aa4.island.team105.drone.Drone;
+import ca.mcmaster.se2aa4.island.team105.drone.Limitations;
+import ca.mcmaster.se2aa4.island.team105.enums.Direction;
+import ca.mcmaster.se2aa4.island.team105.map.SubObserver;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +23,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
     private Direction searchDirection;
     private Direction turnDirection;
     private boolean turnLeft;
-    private boolean inOcean; // we scan, if there is land in the biomes array we are not in the ocean
+    // private boolean inOcean; // we scan, if there is land in the biomes array we are not in the ocean
     private boolean foundGround; // if ground is found when we echo
     private int echoRange; // if we echo, the range
     private boolean boxfound;
@@ -29,13 +31,13 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
     // extended from SubObserver class and updates the ground, ocean, and range accordingly
     @Override
     public void update(String found, int range, JSONArray biomes) {
-        this.inOcean = true;
-        this.foundGround = (found.equals("GROUND"));
+        boolean inOcean = true;
+        this.foundGround = "GROUND".equals(found);
         this.echoRange = range;
         if (biomes != null) {
             for (int i = 0; i < biomes.length(); i++) {
-                if (!biomes.getString(i).equals("OCEAN")) {
-                    this.inOcean = false;
+                if (!"OCEAN".equals(biomes.getString(i))) {
+                    inOcean = false;
                 }
             }
         }
@@ -185,6 +187,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
                     break;
                 default:
                     logger.info("no case found");
+                    break;
             }
         } else {
             logger.info("Bad Command: echo in wrong direction");
@@ -302,20 +305,19 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
 
                 default:
                     logger.info("no case found");
+                    break;
             }
         }
     }
 
     // changes decision based on conditions if the box is found, dynamic approach
     // and used in the JSONConfiguration class
-    public JSONObject getDecision(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) {
+    public JSONObject getDecision(Limitations limitation, Drone drone, Direction direction, Actions action,
+            JSONObject parameter) {
         if (!this.boxfound) {
             findMapEdge(limitation, drone, direction, action, parameter);
         } else {
             gridSearch(limitation, drone, direction, action, parameter);
-        }
-        if(limitation.returnHome(action)){
-            decision = action.stop();
         }
         return decision;
     }

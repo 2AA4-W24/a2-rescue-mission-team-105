@@ -1,6 +1,8 @@
-package ca.mcmaster.se2aa4.island.team105.Drone;
-import ca.mcmaster.se2aa4.island.team105.Enums.Direction;
+package ca.mcmaster.se2aa4.island.team105.drone;
 import java.util.Map;
+
+import ca.mcmaster.se2aa4.island.team105.enums.Direction;
+
 import java.util.EnumMap;
 
 // Christina Zhang, Victor Yu, Kevin Kim
@@ -12,7 +14,8 @@ import java.util.EnumMap;
 public class Drone {
     private Direction heading;
     private int level;
-    private int x, y;
+    private int x;
+    private int y;
 
     // updates heading of the drone
     public Drone(Integer level, String starting) {
@@ -42,7 +45,7 @@ public class Drone {
 
 
     public Direction getHeading() {
-        return (this.heading);
+        return this.heading;
     }
     
     // turns drone 90 degrees to the right
