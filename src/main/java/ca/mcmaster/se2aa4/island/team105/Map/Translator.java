@@ -24,7 +24,7 @@ public class Translator extends TranslateSubject{
     // notifies the information observer
     @Override
     public void notifyObservers() {
-        info.update(this.extras);
+        info.update(this.extras, this.cost);
     }
 
     // sets info in this class from JSONConfiguration
@@ -33,9 +33,5 @@ public class Translator extends TranslateSubject{
         this.cost = response.getInt("cost");
         notifyObservers();
     } 
-    
-    public int getCost() {
-        return cost;
-    }
 
 }

@@ -12,8 +12,5 @@ public class TranslateSubject {
     public void notifyObservers() {
         // intentionally empty
     }
-    // updates from new exploration data
-    public void update(JSONObject extras) {
-        // intentionally empty
-    }
+
 }
