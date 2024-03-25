@@ -66,7 +66,7 @@ public class Limitations extends JSONConfiguration {
 
         return oppositeDirections.get(heading) == desiredDirection;
     }
-
+    
     public void setBound(Direction desiredDirection, int range){
         logger.info(desiredDirection);
 
