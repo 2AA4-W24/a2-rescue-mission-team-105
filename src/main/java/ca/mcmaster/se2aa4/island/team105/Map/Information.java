@@ -25,9 +25,9 @@ public class Information extends TranslateSubject {
 
     // constructs instances with default values
     public Information() {
-        this.biomes = null;
-        this.creeks = null; 
-        this.sites = null;
+        this.biomes = new JSONArray();
+        this.creeks = new JSONArray(); 
+        this.sites = new JSONArray();
         this.cost = 0;
         this.found = "";
         this.range = 0;
