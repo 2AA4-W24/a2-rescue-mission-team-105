@@ -346,7 +346,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
         } else {
             gridSearch(limitation, drone, direction, action, parameter);
         }
-        if(limitation.returnHome(action) || (limitation.isOutOfBounds() && setupComplete)){
+        if(limitation.returnHome(action) || limitation.isOutOfBounds() && setupComplete){
             decision = action.stop();
         }
         return decision;

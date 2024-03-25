@@ -21,7 +21,10 @@ public class Limitations extends JSONConfiguration {
     private final Logger logger = LogManager.getLogger();
     Drone drone = new Drone(7000, "E");
     Direction heading = drone.getHeading();
-    private int maxX, maxY, minX, minY;
+    private int maxX;
+    private int maxY;
+    private int minX;
+    private int minY;
 
     // Constructor to initialize Limitations with a BatteryLevel instance
     public Limitations(Drone level) {
@@ -68,16 +71,16 @@ public class Limitations extends JSONConfiguration {
         
         switch (desiredDirection){
             case Direction.N:
-                this.maxY = (level.getY()+ range);
+                this.maxY = level.getY()+ range;
                 break;
             case Direction.E:
-                this.maxX = (level.getX()+ range);
+                this.maxX = level.getX()+ range;
                 break;
             case Direction.S:
-                this.minY = (level.getY()- range);
+                this.minY = level.getY()- range;
                 break;
             case Direction.W:
-                this.minX = (level.getX()- range);
+                this.minX = level.getX()- range;
                 break;
         default:
             logger.info("Direction not found!");
@@ -87,15 +90,11 @@ public class Limitations extends JSONConfiguration {
     }
     public boolean isOutOfBounds(){
         if (this.minX > level.getX() || level.getX() > this.maxX ){
-            logger.info(this.minX + " " + level.getX() + " " + this.maxX);
             return true;
         }
         else if(this.minY > level.getY() || level.getY() > this.maxY ){
-            logger.info(this.minY + " " + level.getY() + " " + this.maxY);
             return true;
         }
-        logger.info(this.minX + " " + level.getX() + " " + this.maxX);
-        logger.info(this.minY + " " + level.getY() + " " + this.maxY);
         return false;
     }
 }
