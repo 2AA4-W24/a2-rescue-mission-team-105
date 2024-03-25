@@ -32,6 +32,7 @@ public class Actions {
 
     }
 
+    
     public JSONObject heading(JSONObject parameter, Direction direction, Drone drone) {
         decision = new JSONObject();
         parameter = new JSONObject();
