@@ -65,7 +65,8 @@ public class Limitations extends JSONConfiguration {
     }
 
     public void setBound(Direction desiredDirection, int range){
-        switch (level.orientation(desiredDirection, drone)){
+        
+        switch (desiredDirection){
             case Direction.N:
                 this.maxY = (level.getY()+ range);
                 break;
