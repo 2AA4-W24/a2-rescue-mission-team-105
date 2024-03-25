@@ -90,7 +90,7 @@ public class Limitations extends JSONConfiguration {
         }
     }
 
-    //returns true on out of bounds and false on 
+    //returns true on out of bounds and false on whne it is not out of bounds
     public boolean isOutOfBounds(){
         if (this.minX > level.getX() || level.getX() > this.maxX ){
             logger.info("out of Bounds");            

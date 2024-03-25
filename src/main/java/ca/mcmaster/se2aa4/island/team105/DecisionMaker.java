@@ -336,6 +336,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
     // changes decision based on conditions if the box is found, dynamic approach
     // and used in the JSONConfiguration class
     public JSONObject calculateDecision(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) {
+        //Makes sure that setup is complete
         if (!setupComplete){
             setup(limitation, drone, direction, action, parameter);
         }
