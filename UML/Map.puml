@@ -1,4 +1,4 @@
-@startuml
+@startuml Map
 
 package ca.mcmaster.se2aa4.island.team105.map {
     class ExplorerMap {
