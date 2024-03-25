@@ -41,10 +41,6 @@ public class Drone extends SubObserver{
         return level;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
     public Integer getX() {
         return x;
     }

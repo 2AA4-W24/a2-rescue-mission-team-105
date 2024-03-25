@@ -1,0 +1,51 @@
+@startuml Map
+
+package ca.mcmaster.se2aa4.island.team105.map {
+    class ExplorerMap {
+        -currentPoint: Point
+        -mapLayout: Map<Point, String>
+        -drone: Drone
+        +ExplorerMap(drone: Drone)
+        +update(found: String, range: int, biomes: JSONArray, batteryLevel: int, siteList: JSONArray, creekList: JSONArray): void
+        +getCreeks(): String
+    }
+    
+    class Information {
+        -biomes: JSONArray
+        -creeks: JSONArray
+        -sites: JSONArray
+        -found: String
+        -range: int
+        -cost: int
+        -subObservers: List<SubObserver>
+        +Information()
+        +addObserver(subObserver: SubObserver): void
+        +notifyObservers(): void
+        +update(extras: JSONObject, cost: int): void
+    }
+    
+    class SubObserver {
+        +update(found: String, range: int, biomes: JSONArray, batteryLevel: int, siteList: JSONArray, creekList: JSONArray): void
+    }
+    
+    class TranslateSubject {
+        +addObserver(subObserver: SubObserver): void
+        +notifyObservers(): void
+    }
+    
+    class Translator {
+        -cost: int
+        -extras: JSONObject
+        -info: Information
+        +Translator()
+        +addObserver(subObserver: SubObserver): void
+        +notifyObservers(): void
+        +setInfo(response: JSONObject): void
+    }
+}
+
+ExplorerMap --|> SubObserver
+Information --|> TranslateSubject
+Translator --|> TranslateSubject
+
+@enduml

@@ -11,7 +11,7 @@ public class Translator extends TranslateSubject{
     //creates a translator that takes the response from JSONConfiguration
     public Translator() {
         this.cost = 0;
-        this.extras = null;
+        this.extras = new JSONObject();
     }
 
     //to be called in main

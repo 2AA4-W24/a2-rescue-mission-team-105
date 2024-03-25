@@ -108,7 +108,34 @@ public class ExampleTest {
         Direction newHeading = Direction.W;
         assertFalse(newHeading == testDrone.orientation(heading, testDrone));
     }
+    
+    @Test
+    public void testSetBoundAndIsOutOfBounds() {
+        Drone drone = new Drone(1000, "E"); // Assuming a default position
+        Limitations limitations = new Limitations(drone);
 
+        limitations.setBound(Direction.E, 20);
+
+
+        for(int i = 0; i <= 20; i++){
+            actions.fly(drone);
+        } 
+        assertTrue(limitations.isOutOfBounds());
+    }
+    @Test
+    public void IsOutOfBoundsShort() {
+        Drone boundryDrone = new Drone(1000, "N"); // Assuming a default position
+        Limitations limitations = new Limitations(boundryDrone);
+
+        limitations.setBound(Direction.N, 20);
+
+
+        for(int i = 0; i < 5; i++){
+            actions.fly(boundryDrone);
+        } 
+        assertFalse(limitations.isOutOfBounds());
+    }
+    
     @Test
     public void map03Test() {
         String filename = "./maps/map03.json";
@@ -129,4 +156,5 @@ public class ExampleTest {
             System.exit(1);
         }
     }
+    
 }
