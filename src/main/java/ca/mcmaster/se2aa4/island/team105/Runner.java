@@ -16,7 +16,7 @@ public final class Runner {
                     .exploring(new File(filename))
                     .withSeed(42L)
                     .startingAt(80, 1, "SOUTH")
-                    //.startingAt(1, 150, "NORTH")
+                    //.startingAt(1, 159, "NORTH")
                     //.startingAt(80, 159, "NORTH")
                     //.startingAt(159, 30, "WEST")
                     //.startingAt(1, 130, "EAST")

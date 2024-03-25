@@ -296,9 +296,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
                 // perfect u-turn
                 case 3:
                     radar = false;
-                    if (gridCount == 0) {
-                        decision = action.fly(drone);
-                    } else if (gridCount < 4) {
+                    if (gridCount < 3) {
                         if (this.turnLeft) {
                             decision = action.heading(parameter, drone.rightOrientation(turnDirection, drone), drone);
                             turnDirection = drone.rightOrientation(turnDirection, drone);
@@ -306,7 +304,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
                             decision = action.heading(parameter, drone.leftOrientation(turnDirection, drone), drone);
                             turnDirection = drone.leftOrientation(turnDirection, drone);
                         }
-                    } else if (gridCount < 5) {
+                    } else if (gridCount < 4) {
                         decision = action.fly(drone);
                     } else {
                         if (!this.turnLeft) {
