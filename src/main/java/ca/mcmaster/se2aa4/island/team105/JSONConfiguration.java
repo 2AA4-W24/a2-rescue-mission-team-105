@@ -7,6 +7,7 @@ import ca.mcmaster.se2aa4.island.team105.drone.Actions;
 import ca.mcmaster.se2aa4.island.team105.drone.Drone;
 import ca.mcmaster.se2aa4.island.team105.drone.Limitations;
 import ca.mcmaster.se2aa4.island.team105.enums.Direction;
+import ca.mcmaster.se2aa4.island.team105.map.ExplorerMap;
 import ca.mcmaster.se2aa4.island.team105.map.SubObserver;
 import ca.mcmaster.se2aa4.island.team105.map.Translator;
 
@@ -33,6 +34,7 @@ public class JSONConfiguration {
     private Direction direction;
     private SubObserver decisionMaker = new DecisionMaker(); 
     private Translator translate = new Translator();
+    private SubObserver explorer;
 
     // sets up essential components for JSON configuration
     public void initializationWrap(String s) {
@@ -44,6 +46,9 @@ public class JSONConfiguration {
             String direction = info.getString("heading");
             this.level = new Drone(info.getInt("budget"), direction);// Create the BatteryLevel object
             this.limitation = new Limitations(this.level); // Instantiate the Limitations object
+            translate.addObserver((SubObserver)level);
+            this.explorer = new ExplorerMap(this.level);
+            translate.addObserver(explorer);
             logger.info("The drone is facing {}", direction);
             logger.info("Battery level is {}", this.level.getLevel());
         }
@@ -52,7 +57,8 @@ public class JSONConfiguration {
     // takes users decision and returns it as a string
     public String takeDecisionWrap() {
         if (logger.isInfoEnabled()) {
-            decision = ((DecisionMaker) decisionMaker).getDecision(limitation, level, direction, action, parameter);
+            logger.info("** Decision: {}", decision.toString());
+            decision = ((DecisionMaker) decisionMaker).calculateDecision(limitation, level, direction, action, parameter);
             logger.info(level.getX() + " " + level.getY());
             logger.info("** Decision: {}", decision.toString());
             logger.info("Battery level is now {}", this.level.getLevel());
@@ -68,7 +74,6 @@ public class JSONConfiguration {
             Integer cost = response.getInt("cost");
             logger.info("The cost of the action was {}", cost);
             // battery level after receiving results
-            this.level.setLevel(this.level.getLevel() - cost);
             logger.info("Battery level is now {}", this.level.getLevel());
             String status = response.getString("status");
             logger.info("The status of the drone is {}", status);
@@ -78,6 +83,10 @@ public class JSONConfiguration {
             limitation.returnHome(action);
             translate.setInfo(response);
         }
+    }
+
+    public String deliverFinalReportWrap() {
+        return ((ExplorerMap)explorer).getCreeks();
     }
 
 }

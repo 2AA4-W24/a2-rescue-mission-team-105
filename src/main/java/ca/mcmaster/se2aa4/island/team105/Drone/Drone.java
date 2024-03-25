@@ -1,9 +1,13 @@
 package ca.mcmaster.se2aa4.island.team105.drone;
+
+
 import java.util.Map;
 
-import ca.mcmaster.se2aa4.island.team105.enums.Direction;
-
 import java.util.EnumMap;
+import org.json.JSONArray;
+
+import ca.mcmaster.se2aa4.island.team105.enums.Direction;
+import ca.mcmaster.se2aa4.island.team105.map.SubObserver;
 
 // Christina Zhang, Victor Yu, Kevin Kim
 // 24/03/2024
@@ -11,7 +15,8 @@ import java.util.EnumMap;
 // Software Engineering
 // updates movement, battery level, current heading, and heading movement
 
-public class Drone {
+public class Drone extends SubObserver{
+    //This is private because we will further create the services in this class
     private Direction heading;
     private int level;
     private int x;
@@ -25,6 +30,11 @@ public class Drone {
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void update(String found, int range, JSONArray biomes, int batteryLevel, JSONArray siteList, JSONArray creekList) {
+        this.level -= batteryLevel;
     }
 
     public Integer getLevel() {

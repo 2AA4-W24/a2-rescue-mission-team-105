@@ -22,17 +22,24 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
     private int state = 0;
     private Direction searchDirection;
     private Direction turnDirection;
-    private boolean turnLeft;
+    private boolean turnLeft = false;
     // private boolean inOcean; // we scan, if there is land in the biomes array we are not in the ocean
     private boolean foundGround; // if ground is found when we echo
     private int echoRange; // if we echo, the range
+    private int outRange; //if land is not found when echo range
     private boolean boxfound;
+    private boolean setupComplete = false;
 
     // extended from SubObserver class and updates the ground, ocean, and range accordingly
     @Override
-    public void update(String found, int range, JSONArray biomes) {
+    public void update(String found, int range, JSONArray biomes, int batteryLevel, JSONArray siteList, JSONArray creekList) {
         boolean inOcean = true;
         this.foundGround = "GROUND".equals(found);
+        if (foundGround) {
+            this.echoRange = range;
+        } else {
+            this.outRange = range;
+        }
         this.echoRange = range;
         if (biomes != null) {
             for (int i = 0; i < biomes.length(); i++) {
@@ -44,6 +51,28 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
         logger.info(foundGround);
         logger.info(echoRange);
         logger.info(inOcean);
+    }
+
+    @Override
+    public void setup(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter){
+        count++;
+        Direction left = drone.leftOrientation(direction, drone);
+        Direction right = drone.rightOrientation(direction, drone);
+        if (count == 0){
+            limitation.setBound(drone.orientation(direction, drone), 52);
+            decision = action.echo(parameter, left);
+        }
+        if (count == 1){
+            limitation.setBound(left, this.outRange);
+            decision = action.echo(parameter, right);
+        }
+        if (count == 2){
+            limitation.setBound(right, this.outRange);
+            decision = action.fly(drone);
+            setupComplete = true;
+            count = -1;
+        }
+
     }
     // finds the outermost edge of the map
     @Override
@@ -95,27 +124,23 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
                 // echo's all directions
                 case 0:
                     logger.info("case 0");
-                    if (count % 5 == 0) {
+                    if (count % 4 == 0) {
                         decision = action.echo(parameter, drone.orientation(direction, drone));
                     }
 
-                    else if (count % 5 == 1) {
+                    else if (count % 4 == 1) {
                         decision = action.echo(parameter, left);
                         searchDirection = left;
                     }
 
-                    else if (count % 5 == 2) {
+                    else if (count % 4 == 2) {
                         decision = action.echo(parameter, right);
                         searchDirection = right;
 
                     }
 
-                    else if (count % 5 == 3) {
+                    else if (count % 4 == 3) {
                         decision = action.fly(drone);
-                    }
-
-                    else if (count % 5 == 4) {
-                        decision = action.scan();
                     }
                     break;
                 // echo left and right
@@ -312,12 +337,17 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
 
     // changes decision based on conditions if the box is found, dynamic approach
     // and used in the JSONConfiguration class
-    public JSONObject getDecision(Limitations limitation, Drone drone, Direction direction, Actions action,
-            JSONObject parameter) {
-        if (!this.boxfound) {
+    public JSONObject calculateDecision(Limitations limitation, Drone drone, Direction direction, Actions action, JSONObject parameter) {
+        if (!setupComplete){
+            setup(limitation, drone, direction, action, parameter);
+        }
+        else if (!this.boxfound) {
             findMapEdge(limitation, drone, direction, action, parameter);
         } else {
             gridSearch(limitation, drone, direction, action, parameter);
+        }
+        if(limitation.returnHome(action) || limitation.isOutOfBounds() && setupComplete){
+            decision = action.stop();
         }
         return decision;
     }
