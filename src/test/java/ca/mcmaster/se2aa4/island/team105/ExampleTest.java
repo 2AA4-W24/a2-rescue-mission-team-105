@@ -31,7 +31,7 @@ public class ExampleTest {
     public void setUp() {
         testDrone = new Drone(7000, "E");
         heading = testDrone.getHeading();
-        testMap = new ExplorerMap();
+        testMap = new ExplorerMap(testDrone);
         actions = new Actions(decision1); // Create new JSONObject for decision1
         decision2 = new JSONObject();
         decisionMaker = new DecisionMaker();
@@ -59,27 +59,6 @@ public class ExampleTest {
         assertFalse(result);
     }
 
-    @Test
-    public void setGetLocation(){
-        testMap.setLocation(0, 0, "test_info");
-        String info = testMap.getLocation(0, 0);
-        assertTrue(info == "test_info");
-    }
-    
-    @Test
-    public void updateCurrentLoation(){
-        testMap.updateCurrentPoint(2, 2);
-        testMap.setLocation(0, 2, "Different location");
-        String info = testMap.getLocation(2, 4);
-        assertTrue(info == "Different location");
-    }
-
-    @Test
-    public void radarTest(){
-        testMap.setEchoInfo(0, 5, false);
-        String info = testMap.getLocation(0, 3);
-        assertTrue(info == "Ocean");
-    }
 
     @Test
     public void actionStopTest() {

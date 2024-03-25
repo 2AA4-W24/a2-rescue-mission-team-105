@@ -16,19 +16,19 @@ import org.json.JSONObject;
 public class Information extends TranslateSubject {
     // private variables for information storing
     private JSONArray biomes;
-    // private JSONArray creeks;
-    // private JSONArray sites;
-    public int batteryLevel;
+    private JSONArray creeks;
+    private JSONArray sites;
     private String found;
     private int range;
+    private int cost;
     private List<SubObserver> subObservers = new ArrayList<>();
 
     // constructs instances with default values
     public Information() {
-        this.biomes = new JSONArray();
-        // this.creeks = new JSONArray();
-        // this.sites = new JSONArray();
-        this.batteryLevel = 0;
+        this.biomes = null;
+        this.creeks = null; 
+        this.sites = null;
+        this.cost = 0;
         this.found = "";
         this.range = 0;
     }
@@ -43,20 +43,20 @@ public class Information extends TranslateSubject {
     @Override
     public void notifyObservers() {
         for (SubObserver subObserver : subObservers) {
-            subObserver.update(this.found, this.range, this.biomes);
+            subObserver.update(this.found, this.range, this.biomes, this.cost, this.sites, this.creeks);
         }
     }
 
     // updates information based on JSONObject
-    @Override
-    public void update(JSONObject extras) {
+    public void update(JSONObject extras, int cost) {
+        this.cost = cost;
         if (extras.has("found")) {
             this.found = extras.getString("found");
             this.range = extras.getInt("range");
         } else if (extras.has("biomes")) {
             this.biomes = extras.getJSONArray("biomes");
-            // this.creeks = extras.getJSONArray("creeks");
-            // this.sites = extras.getJSONArray("sites");
+            this.creeks = extras.getJSONArray("creeks");
+            this.sites = extras.getJSONArray("sites");
         }
         notifyObservers();
     }

@@ -32,7 +32,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
 
     // extended from SubObserver class and updates the ground, ocean, and range accordingly
     @Override
-    public void update(String found, int range, JSONArray biomes) {
+    public void update(String found, int range, JSONArray biomes, int batteryLevel, JSONArray siteList, JSONArray creekList) {
         boolean inOcean = true;
         this.foundGround = "GROUND".equals(found);
         if (foundGround) {
@@ -344,7 +344,7 @@ public class DecisionMaker extends SubObserver implements SearchMethods {
         } else {
             gridSearch(limitation, drone, direction, action, parameter);
         }
-        if(limitation.returnHome(action) || (limitation.isOutOfBounds() && setupComplete)){
+        if(limitation.returnHome(action) || limitation.isOutOfBounds() && setupComplete){
             decision = action.stop();
         }
         return decision;
