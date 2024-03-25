@@ -108,6 +108,7 @@ public class ExampleTest {
         Direction newHeading = Direction.W;
         assertFalse(newHeading == testDrone.orientation(heading, testDrone));
     }
+    
 
     @Test
     public void map03Test() {
@@ -129,4 +130,5 @@ public class ExampleTest {
             System.exit(1);
         }
     }
+    
 }

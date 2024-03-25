@@ -67,6 +67,7 @@ public class Limitations extends JSONConfiguration {
         return oppositeDirections.get(heading) == desiredDirection;
     }
 
+    // Setup fuctions for boundry limitation takes direction and range
     public void setBound(Direction desiredDirection, int range){
         logger.info(desiredDirection);
 
@@ -87,8 +88,9 @@ public class Limitations extends JSONConfiguration {
             logger.info("Direction not found!");
             break;
         }
-        
     }
+
+    //returns true on out of bounds and false on 
     public boolean isOutOfBounds(){
         if (this.minX > level.getX() || level.getX() > this.maxX ){
             logger.info("out of Bounds");            
