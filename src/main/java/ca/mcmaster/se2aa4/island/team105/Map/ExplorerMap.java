@@ -13,7 +13,7 @@ public class ExplorerMap extends SubObserver {
     //relative position this is starting state
     private Point currentPoint = new Point(0, 0);
 
-    //Creates a 2d array that stores information Objects
+    //Creates a HashMap that stores creek IDs and their coordinates
     private Map<Point, String> mapLayout = new HashMap<>();
     private Drone drone;
 
@@ -24,6 +24,7 @@ public class ExplorerMap extends SubObserver {
         this.drone = drone;
     }
 
+    //updates the hashmap if a new creek is found
     @Override
     public void update(String found, int range, JSONArray biomes, int batteryLevel, JSONArray siteList, JSONArray creekList) {
         if (creekList != null && !creekList.isEmpty()) {
@@ -36,6 +37,7 @@ public class ExplorerMap extends SubObserver {
         }
     }
 
+    //returns a list of creek IDs
     public String getCreeks() {
         return this.mapLayout.values().toString();
     }

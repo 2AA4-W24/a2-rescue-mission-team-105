@@ -109,31 +109,33 @@ class ExplorerMap {
     +getCreeks(): String
 }
 
-DecisionMaker *-up-> SubObserver
-Explorer *-up-> IExplorerRaid
-JSONConfiguration *-up-> IExplorerRaid
-JSONConfiguration *-up-> SearchMethods
+enum Direction
+
+Explorer .up.|> IExplorerRaid
+JSONConfiguration --> Explorer
 Runner --> Explorer
-Translator *-up-> TranslateSubject
-Translator *-up-> SubObserver
-TranslateSubject *-up-> SubObserver
-DecisionMaker *-down-> SearchMethods
+Translator -up-|> TranslateSubject
+Information -up-|> TranslateSubject
+TranslateSubject -up-> SubObserver
+DecisionMaker .down.|> SearchMethods
 DecisionMaker *-up-> Actions
 DecisionMaker *-up-> Drone
 DecisionMaker *-up-> Limitations
 DecisionMaker *-up-> Direction
 DecisionMaker *-up-> JSONConfiguration
-DecisionMaker *-up-> SubObserver
-DecisionMaker *-up-> Translator
 JSONConfiguration *-up-> Actions
 JSONConfiguration *-up-> Drone
 JSONConfiguration *-up-> Limitations
 JSONConfiguration *-up-> Direction
-JSONConfiguration *-up-> SubObserver
 JSONConfiguration *-up-> Translator
 Actions *-up-> Drone
 Actions *-up-> Direction
 Limitations *-up-> Drone
-ExplorerMap *-up-> SubObserver
-
+Information --> DecisionMaker
+Information --> ExplorerMap
+Information --> Drone
+Information <-- Translator
+SubObserver <|-- DecisionMaker
+SubObserver <|-- ExplorerMap
+SubObserver <|-- Drone
 @enduml
