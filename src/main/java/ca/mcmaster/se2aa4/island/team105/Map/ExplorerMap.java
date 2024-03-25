@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.island.team105.map;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 
@@ -13,10 +14,9 @@ public class ExplorerMap extends SubObserver {
     private Point currentPoint = new Point(0, 0);
 
     //Creates a 2d array that stores information Objects
-    private HashMap<Point, String> mapLayout = new HashMap<>();
+    private Map<Point, String> mapLayout = new HashMap<>();
     private Drone drone;
-    private boolean siteFound = false;
-    private Point siteCoordinate;
+
 
     
     public ExplorerMap(Drone drone) {
@@ -26,10 +26,6 @@ public class ExplorerMap extends SubObserver {
 
     @Override
     public void update(String found, int range, JSONArray biomes, int batteryLevel, JSONArray siteList, JSONArray creekList) {
-        if (siteList != null && !siteList.isEmpty()) {
-            siteFound = true;
-            siteCoordinate = new Point(drone.getX(), drone.getY());
-        }
         if (creekList != null && !creekList.isEmpty()) {
             for (int i = 0; i < creekList.length(); i++) {
                 if (!mapLayout.containsValue(creekList.getString(i))) {
@@ -38,7 +34,6 @@ public class ExplorerMap extends SubObserver {
                 }
             }
         }
-
     }
 
     public String getCreeks() {

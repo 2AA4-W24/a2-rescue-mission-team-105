@@ -1,8 +1,5 @@
 package ca.mcmaster.se2aa4.island.team105.map;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONArray;
 
 // responsible for updating exploration data
