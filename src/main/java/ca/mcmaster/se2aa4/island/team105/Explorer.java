@@ -28,7 +28,9 @@ public class Explorer implements IExplorerRaid {
     @Override
     public String deliverFinalReport() {
         String report = initialize.deliverFinalReportWrap();
-        logger.info(report);
+        if (logger.isInfoEnabled()) {
+            logger.info("The creek ID's are: " + report);
+        }
         return report;
     }
 

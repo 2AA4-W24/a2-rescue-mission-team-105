@@ -1,0 +1,139 @@
+@startuml class
+
+interface IExplorerRaid {
+    +initialize(String)
+    +takeDecision(): String
+    +acknowledgeResults(String)
+    +deliverFinalReport(): String
+}
+
+interface SearchMethods {
+    +setup(Limitations, Drone, Direction, Actions, JSONObject)
+    +findMapEdge(Limitations, Drone, Direction, Actions, JSONObject)
+    +gridSearch(Limitations, Drone, Direction, Actions, JSONObject)
+}
+
+class Explorer {
+    +initialize(String)
+    +takeDecision(): String
+    +acknowledgeResults(String)
+    +deliverFinalReport(): String
+}
+
+class DecisionMaker {
+    -JSONObject decision
+    -JSONObject parameter
+    -Drone level
+    -Limitations limitation
+    -Actions action
+    -Direction direction
+    -SubObserver decisionMaker
+    -Translator translate
+    -SubObserver explorer
+    +update(String, int, JSONArray, int, JSONArray, JSONArray)
+    +calculateDecision(Limitations, Drone, Direction, Actions, JSONObject): JSONObject
+}
+
+class JSONConfiguration {
+    -JSONObject decision
+    -JSONObject parameter
+    -Drone level
+    -Limitations limitation
+    -Actions action
+    -Direction direction
+    -SubObserver decisionMaker
+    -Translator translate
+    -SubObserver explorer
+    +initializationWrap(String)
+    +takeDecisionWrap(): String
+    +acknowledgeResultsWrap(String)
+    +deliverFinalReportWrap(): String
+}
+
+class Runner {
+    +main(String[])
+}
+
+class Translator {
+    -int cost
+    -JSONObject extras
+    -Information info
+    +addObserver(SubObserver)
+    +notifyObservers()
+    +setInfo(JSONObject)
+}
+
+class SubObserver {
+    +update(String, int, JSONArray, int, JSONArray, JSONArray)
+}
+
+class Information {
+    +addObserver(SubObserver)
+    +notifyObservers()
+    +update(JSONObject, int)
+}
+
+class TranslateSubject {
+    +addObserver(SubObserver)
+    +notifyObservers()
+}
+
+class Actions {
+    -JSONObject decision
+    +echo(JSONObject, Direction): JSONObject
+    +fly(Drone): JSONObject
+    +heading(JSONObject, Direction, Drone): JSONObject
+    +scan(): JSONObject
+    +stop(): JSONObject
+}
+
+class Limitations {
+    -Drone drone
+    +setBound(Direction, int)
+    +is180DegreeTurn(Direction): boolean
+    +returnHome(Actions): boolean
+    +isOutOfBounds(): boolean
+}
+
+class Drone {
+    -int budget
+    -int x
+    -int y
+    -int batteryLevel
+    +orientation(Direction, Drone): Direction
+    +leftOrientation(Direction, Drone): Direction
+    +rightOrientation(Direction, Drone): Direction
+}
+
+class ExplorerMap {
+    +getCreeks(): String
+}
+
+DecisionMaker *-up-> SubObserver
+Explorer *-up-> IExplorerRaid
+JSONConfiguration *-up-> IExplorerRaid
+JSONConfiguration *-up-> SearchMethods
+Runner --> Explorer
+Translator *-up-> TranslateSubject
+Translator *-up-> SubObserver
+TranslateSubject *-up-> SubObserver
+DecisionMaker *-down-> SearchMethods
+DecisionMaker *-up-> Actions
+DecisionMaker *-up-> Drone
+DecisionMaker *-up-> Limitations
+DecisionMaker *-up-> Direction
+DecisionMaker *-up-> JSONConfiguration
+DecisionMaker *-up-> SubObserver
+DecisionMaker *-up-> Translator
+JSONConfiguration *-up-> Actions
+JSONConfiguration *-up-> Drone
+JSONConfiguration *-up-> Limitations
+JSONConfiguration *-up-> Direction
+JSONConfiguration *-up-> SubObserver
+JSONConfiguration *-up-> Translator
+Actions *-up-> Drone
+Actions *-up-> Direction
+Limitations *-up-> Drone
+ExplorerMap *-up-> SubObserver
+
+@enduml

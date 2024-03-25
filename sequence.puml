@@ -1,0 +1,62 @@
+@startuml 
+
+participant Explorer
+participant JSONConfiguration
+participant IExplorerRaid
+participant Drone
+participant Limitations
+participant Actions
+participant DecisionMaker
+participant TranslateSubject
+participant SubObserver
+participant Translator
+participant SearchMethods
+participant ExplorerMap
+
+Explorer -> JSONConfiguration: initialize(String)
+activate JSONConfiguration
+JSONConfiguration -> TranslateSubject: addObserver(SubObserver)
+activate TranslateSubject
+TranslateSubject -> SubObserver: addObserver(SubObserver)
+activate SubObserver
+SubObserver -> DecisionMaker: update(String, int, JSONArray, int, JSONArray, JSONArray)
+activate DecisionMaker
+DecisionMaker -> DecisionMaker: calculateDecision(Limitations, Drone, Direction, Actions, JSONObject)
+activate Limitations
+Limitations --> Actions: returnHome(Actions)
+Actions --> JSONConfiguration: takeDecisionWrap()
+JSONConfiguration -> IExplorerRaid: takeDecision(): String
+activate IExplorerRaid
+IExplorerRaid --> Explorer: takeDecision(): String
+deactivate IExplorerRaid
+Explorer --> ExplorerMap: deliverFinalReportWrap()
+activate ExplorerMap
+ExplorerMap --> JSONConfiguration: deliverFinalReportWrap()
+JSONConfiguration --> Explorer: deliverFinalReportWrap()
+Explorer -> JSONConfiguration: acknowledgeResults(String)
+JSONConfiguration --> TranslateSubject: setInfo(JSONObject)
+TranslateSubject --> SubObserver: notifyObservers()
+SubObserver --> DecisionMaker: notifyObservers()
+DecisionMaker --> DecisionMaker: calculateDecision(Limitations, Drone, Direction, Actions, JSONObject)
+DecisionMaker --> DecisionMaker: setup(Limitations, Drone, Direction, Actions, JSONObject)
+DecisionMaker --> DecisionMaker: findMapEdge(Limitations, Drone, Direction, Actions, JSONObject)
+DecisionMaker --> DecisionMaker: gridSearch(Limitations, Drone, Direction, Actions, JSONObject)
+DecisionMaker --> Limitations: isOutOfBounds()
+Limitations --> Actions: returnHome(Actions)
+Actions --> JSONConfiguration: takeDecisionWrap()
+JSONConfiguration -> IExplorerRaid: takeDecision(): String
+activate IExplorerRaid
+IExplorerRaid --> Explorer: takeDecision(): String
+deactivate IExplorerRaid
+Explorer -> ExplorerMap: deliverFinalReportWrap()
+ExplorerMap --> JSONConfiguration: deliverFinalReportWrap()
+JSONConfiguration --> Explorer: deliverFinalReportWrap()
+Explorer -> JSONConfiguration: acknowledgeResults(String)
+JSONConfiguration --> TranslateSubject: setInfo(JSONObject)
+TranslateSubject --> SubObserver: notifyObservers()
+SubObserver --> DecisionMaker: notifyObservers()
+DecisionMaker --> DecisionMaker: calculateDecision(Limitations, Drone, Direction, Actions, JSONObject)
+DecisionMaker --> DecisionMaker: setup(Limitations, Drone, Direction, Actions, JSONObject)
+DecisionMaker --> DecisionMaker: findMapEdge(Limitations, Drone, Direction, Actions, JSONObject)
+DecisionMaker --> DecisionMaker: gridSearch(Limitations, Drone, Direction, Actions, JSONObject)
+@enduml
